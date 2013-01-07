@@ -1,6 +1,7 @@
 
 package edu.wpi.first.Rotoraptors;
 
+import edu.wpi.first.Rotoraptors.controls.hids.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 
@@ -9,7 +10,26 @@ import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    //// CREATING BUTTONS
+    // Initialize joysticks
+    XboxController driverXbox = new XboxController(1);
+    XboxController operatorXbox = new XboxController(2);
+//    Attack3 leftJoystick = new Attack3(1);
+//    Attack3 rightJoystick = new Attack3(2);
+//    Attack3 operatorJoystick = new Attack3(3);
+    
+    // Values to send to drivetrain
+    public double throttle;
+    public double turn; 
+    public double leftTank;
+    public double rightTank;
+
+    
+    public OI() {
+        
+    }
+}
+
+//// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
     // number it is.
@@ -40,5 +60,3 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-}
-

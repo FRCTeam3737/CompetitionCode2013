@@ -4,8 +4,6 @@
  */
 package edu.wpi.first.Rotoraptors.commands;
 
-import edu.wpi.first.Rotoraptors.commands.chassis.DriveStraight;
-import edu.wpi.first.Rotoraptors.commands.chassis.TurnLeft;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -34,9 +32,6 @@ public class Auton1 extends CommandGroup {
         
         
         // [parellelism] ( new [command] ( speed , timeout ) )       
-        addSequential(new DriveStraight(.2, 1));
-        addSequential(new TurnLeft(.2, 1));
-        addSequential(new DriveStraight(.2, 1));
-        
+
     }
 }

@@ -7,7 +7,6 @@ package edu.wpi.first.Rotoraptors.subsystems;
 import edu.wpi.first.Rotoraptors.OI;
 import edu.wpi.first.Rotoraptors.RobotMap;
 import edu.wpi.first.Rotoraptors.commands.chassis.TeleopCommandArcade;
-import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -105,18 +104,6 @@ public class Chassis extends Subsystem{
     public void initDefaultCommand() {        
         // Set the default command for a subsystem here.
         setDefaultCommand(new TeleopCommandArcade());
-    }
-       
-    // Procedure to configure a CAN Jaguar for drivetrain
-    private void configCJag(CANJaguar m_jag){        
-        try {        
-          m_jag.changeControlMode(CANJaguar.ControlMode.kSpeed);
-          m_jag.setSpeedReference(CANJaguar.SpeedReference.kEncoder);
-          m_jag.configEncoderCodesPerRev(RobotMap.Encoders.CODES_PER_REV);
-          m_jag.configNeutralMode(CANJaguar.NeutralMode.kJumper);
-       } catch (Exception e) {
-           System.out.println(e);
-       }
     }
     
     // Procedure to configure an encoder for the Drivetrain
