@@ -7,21 +7,23 @@ package edu.wpi.first.Rotoraptors.subsystems;
 import edu.wpi.first.Rotoraptors.OI;
 import edu.wpi.first.Rotoraptors.RobotMap;
 import edu.wpi.first.Rotoraptors.commands.chassis.TeleopCommandArcade;
+import edu.wpi.first.Rotoraptors.utilities.Messager;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import utilities.Messager;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * 
  * @author Daniel
  */
-public class Chassis extends Subsystem{
+public class Chassis extends Subsystem {
     
     OI oi = new OI();
+    SmartDashboard sd = new SmartDashboard();
     Messager msg = new Messager();
     
     // Declare PID Constants

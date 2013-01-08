@@ -15,7 +15,7 @@ public abstract class CommandBase extends Command {
 
     public static OI oi;
     // Create a single static instance of all of your subsystems
-    public static Compressor compressor; 
+    public static AirCompressor compressor; 
     public static Chassis chassis;
 
     public static void init() {
@@ -26,7 +26,7 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
         chassis = new Chassis();
-        compressor = new Compressor();
+        compressor = new AirCompressor();
         
         
         // Show what command your subsystem is running on the SmartDashboard

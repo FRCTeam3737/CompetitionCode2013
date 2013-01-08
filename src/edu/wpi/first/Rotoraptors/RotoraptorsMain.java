@@ -10,6 +10,7 @@ package edu.wpi.first.Rotoraptors;
 
 import edu.wpi.first.Rotoraptors.commands.Auton1;
 import edu.wpi.first.Rotoraptors.commands.CommandBase;
+import edu.wpi.first.Rotoraptors.utilities.Messager;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -24,14 +25,17 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class RotoraptorsMain extends IterativeRobot {
 
-    Command autonomousCommand;
+    Command autonomousCommand, teleopCommand, testCommand;
+    Messager msg;
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-        // instantiate the command used for the autonomous period
+        // Instantiate the messager
+        msg = new Messager();
+        // Instantiate the command used for the autonomous period
         autonomousCommand = new Auton1();
 
         // Initialize all subsystems

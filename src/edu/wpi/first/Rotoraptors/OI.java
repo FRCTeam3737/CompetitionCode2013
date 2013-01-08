@@ -4,18 +4,22 @@ package edu.wpi.first.Rotoraptors;
 import edu.wpi.first.Rotoraptors.controls.hids.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+    
     // Initialize joysticks
     XboxController driverXbox = new XboxController(1);
     XboxController operatorXbox = new XboxController(2);
 //    Attack3 leftJoystick = new Attack3(1);
 //    Attack3 rightJoystick = new Attack3(2);
 //    Attack3 operatorJoystick = new Attack3(3);
+    
+    SmartDashboard smartdashboard = new SmartDashboard();
     
     // Values to send to drivetrain
     public double throttle;
