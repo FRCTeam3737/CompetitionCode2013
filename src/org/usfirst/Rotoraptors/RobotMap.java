@@ -1,5 +1,6 @@
 package org.usfirst.Rotoraptors;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -21,8 +22,11 @@ public class RobotMap {
     public static Talon rearLeftMotor;
     public static Talon frontRightMotor;
     public static Talon rearRightMotor;
+    
+    // Declare compressor
+    public static Compressor compressor;
 
-    // Declare new RobotDrive using our Jaguars
+    // Declare new RobotDrive object
     public static RobotDrive drive;
 
     // Declare Encoders
@@ -39,6 +43,8 @@ public class RobotMap {
         rearLeftMotor = new Talon(2);
         frontRightMotor = new Talon(3);
         rearRightMotor = new Talon(4);
+        
+        compressor = new edu.wpi.first.wpilibj.Compressor(1, 8);
         
         drive = new RobotDrive(frontLeftMotor, rearLeftMotor,
                 frontRightMotor, rearRightMotor);

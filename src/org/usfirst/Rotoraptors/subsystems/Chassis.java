@@ -4,17 +4,16 @@
  */
 package org.usfirst.Rotoraptors.subsystems;
 
-import org.usfirst.Rotoraptors.OI;
-import org.usfirst.Rotoraptors.RobotMap;
-import org.usfirst.Rotoraptors.commands.chassis.TeleopCommandArcade;
-import org.usfirst.Rotoraptors.utilities.Messager;
-import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.Rotoraptors.OI;
+import org.usfirst.Rotoraptors.RobotMap;
+import org.usfirst.Rotoraptors.commands.chassis.TeleopCommandArcade;
+import org.usfirst.Rotoraptors.utilities.Messager;
 
 /**
  * 

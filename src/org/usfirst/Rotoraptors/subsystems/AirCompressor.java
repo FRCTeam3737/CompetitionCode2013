@@ -7,6 +7,7 @@ package org.usfirst.Rotoraptors.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.Rotoraptors.RobotMap;
 
 /**
  *
@@ -21,7 +22,7 @@ public class AirCompressor extends Subsystem {
 
     public AirCompressor() {
         // Initializes the compressor
-        compressor = new edu.wpi.first.wpilibj.Compressor(1, 8);
+        compressor = RobotMap.compressor;
   }
 
     public void start() {
