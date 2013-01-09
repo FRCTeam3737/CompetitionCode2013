@@ -53,26 +53,12 @@ public class Chassis extends Subsystem {
 //    private Talon rearLeftMotor;
 //    private Talon frontRightMotor;
 //    private Talon rearRightMotor;
-//              
-//    // Declare new RobotDrive using our Jaguars
-//    private RobotDrive drive;
-//       
-//    // Declare Encoders
-//    public Encoder leftEncoder;
-//    public Encoder rightEncoder;
-//    
-//    // Declare new PID controllers
-//    public final PIDController leftPID;
-//    public final PIDController rightPID;
     
-        // Declare Talons
-    private Talon frontLeftMotor = RobotMap.frontLeftMotor;
-    private Talon rearLeftMotor = RobotMap.rearLeftMotor; 
-    private Talon frontRightMotor = RobotMap.frontRightMotor;
-    private Talon rearRightMotor = RobotMap.rearRightMotor;
+    private Talon leftTalon;
+    private Talon rightTalon;
               
     // Declare new RobotDrive using our Jaguars
-    private RobotDrive drive = ;
+    private RobotDrive drive;
        
     // Declare Encoders
     public Encoder leftEncoder;
@@ -80,7 +66,7 @@ public class Chassis extends Subsystem {
     
     // Declare new PID controllers
     public final PIDController leftPID;
-    public final PIDController rightPID;
+    public final PIDController rightPID;  
         
     // Distance travelled since reset
     double lDistance = leftEncoder.getDistance();   
@@ -97,23 +83,27 @@ public class Chassis extends Subsystem {
     // Initialize your subsystem here
     public Chassis() {
         
-        drive = new RobotDrive(
-                frontLeftMotor, rearLeftMotor, 
-                frontRightMotor, rearRightMotor);
+//        drive = new RobotDrive(
+//                frontLeftMotor, rearLeftMotor, 
+//                frontRightMotor, rearRightMotor);
         
-        // Initialize Encoders
-        leftEncoder = new Encoder(RobotMap.Encoders.LD_ENC_PORT_A, 
-                RobotMap.Encoders.LD_ENC_PORT_B, false, CounterBase.EncodingType.k4X);
-        rightEncoder = new Encoder(RobotMap.Encoders.RD_ENC_PORT_A, 
-                RobotMap.Encoders.RD_ENC_PORT_B, false, CounterBase.EncodingType.k4X);
+        drive = RobotMap.drive;
+        leftEncoder = RobotMap.leftEncoder;
+        rightEncoder = RobotMap.rightEncoder;
+        
+//        // Initialize Encoders
+//        leftEncoder = new Encoder(RobotMap.Encoders.LD_ENC_PORT_A, 
+//                RobotMap.Encoders.LD_ENC_PORT_B, false, CounterBase.EncodingType.k4X);
+//        rightEncoder = new Encoder(RobotMap.Encoders.RD_ENC_PORT_A, 
+//                RobotMap.Encoders.RD_ENC_PORT_B, false, CounterBase.EncodingType.k4X);
         
         // Configure Encoders
         configEncoder(leftEncoder);
         configEncoder(rightEncoder);
                               
         // Configure PID Controllers
-        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, frontLeftMotor);
-        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, frontRightMotor);
+        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, RobotMap.frontLeftMotor);
+        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, RobotMap.frontRightMotor);
         leftPID.setInputRange(0, 100);
         rightPID.setInputRange(0, 100);
               

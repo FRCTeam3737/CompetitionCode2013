@@ -46,16 +46,18 @@ public class RotoraptorsMain extends IterativeRobot {
         RobotMap.init();
         // Initialize all subsystems
         CommandBase.init();
+        // Populates robot dashboard
+        CommandBase.oi.updateDashboard();
         driverstation = DriverStation.getInstance();  
         msg = new Messager();        
         autoSwitcher = new SendableChooser();
-        CommandBase.oi.updateDashboard();
         // Display scheduler data on SmartDashboard
         SmartDashboard.putData(Scheduler.getInstance());
-        // Initialize camera
+        // Initialize cameras
         cameraFront = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
         cameraFront.writeResolution(AxisCamera.ResolutionT.k320x240);
-        cameraFront.writeMaxFPS(18);
+        cameraFront.writeMaxFPS(15);
+        cameraFront.writeCompression(30);
         // Create a switching autonomous
         autoSwitcher.addDefault("Auto 0", new Auton0());
         autoSwitcher.addObject("Auto 1", new Auton1());
@@ -65,10 +67,10 @@ public class RotoraptorsMain extends IterativeRobot {
     }
 
     public void autonomousInit() {
-         msg.printLn("[mode] Hybrid");     
+         msg.printLn("[mode] Autonomous");     
 
         autonomousCommand = (Command) autoSwitcher.getSelected();        
-        autonomousCommand.start();  
+        if (autonomousCommand != null) autonomousCommand.start();
         msg.printLn("[status] " + autonomousCommand.getName() + " started");
 
     }
@@ -78,6 +80,7 @@ public class RotoraptorsMain extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        CommandBase.oi.updateDashboard();
     }
 
     public void teleopInit() {
@@ -93,6 +96,7 @@ public class RotoraptorsMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        CommandBase.oi.updateDashboard();
     }
     
     public void testInit() {

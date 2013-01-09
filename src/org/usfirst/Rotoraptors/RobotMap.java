@@ -1,9 +1,12 @@
 package org.usfirst.Rotoraptors;
 
+import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -30,6 +33,7 @@ public class RobotMap {
     public static PIDController leftPID;
     public static PIDController rightPID;
     
+    // Create instances of every component on the robot
     public static void init() {
         frontLeftMotor = new Talon(1);
         rearLeftMotor = new Talon(2);
@@ -39,29 +43,21 @@ public class RobotMap {
         drive = new RobotDrive(frontLeftMotor, rearLeftMotor,
                 frontRightMotor, rearRightMotor);
         
-        leftEncoder = new Encoder();
-        rightEncoder = new Encoder();
+        leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
+        rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
         
-        leftPID = new PIDController();
-        leftPID = new PIDController();
+//        leftPID = new PIDController();
+//        rightPID = new PIDController();
         
+        LiveWindow.addActuator("Chassis", "frontLeftWheel", frontLeftMotor);
+        LiveWindow.addActuator("Chassis", "frontRightWheel", frontRightMotor);
+        LiveWindow.addActuator("Chassis", "backLeftWheel", rearLeftMotor);
+        LiveWindow.addActuator("Chassis", "backRightWheel", rearRightMotor);
+ 
+        LiveWindow.addSensor("Chassis", "leftEncoder", leftEncoder);
+        LiveWindow.addSensor("Chassis", "rightEncoder", rightEncoder);
     }
     
-    
-    
-    public static final class Jaguars {
-
-    }
-    
-    public static final class Talons {
-        // PWM slot for Talon Motor Controllers
-        
-    }
-    
-    public static final class Relays {
-        // Relay Channel #s
-        
-    }
 
     public static final class Encoders {
         // Encoder Port #s and values
@@ -73,38 +69,18 @@ public class RobotMap {
         public static final int CODES_PER_REV = 250;      //Pulses per Encoder revolution
         public static final double INCHES_PER_PULSE = 0;  //Distance per Encoder pulse
     }
-    
-    public static final class Pots {
-        // Potentiometers
-        
-    }
-    
-    public static final class Limits {
-        // Limit Switches
-        
-    }
-    
-    // Optical/Ultrasonic
+
     public static final class Cameras {
         public static final String AXISCAM_1 = "10.37.37.11";   //IP address
         public static final String AXISCAM_2 = "10.37.37.12";   //IP address
     }
 
-    /************************    Other Outputs    *******************/
-
-    public static final class Compressor {
-        // Compressor
-    }
-    
-    public static final class Solenoids {
-        // Solenoids
-    }
-       
     // Set up a subclass for universal mathematical constants
     public static final class Constants {      
         
     }
 }
+
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
     // public static final int leftMotor = 1;
