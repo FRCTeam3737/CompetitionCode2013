@@ -31,19 +31,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RotoraptorsMain extends IterativeRobot {
 
-    Messager msg;
+    DriverStation driverstation;  
+    Command autonomousCommand, teleopCommand, testCommand;
     SendableChooser autoSwitcher, testSwitch;
     AxisCamera cameraFront;
-    Command autonomousCommand, teleopCommand, testCommand;
-    DriverStation driverstation;  
-
+    Messager msg;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {        
+    public void robotInit() {
+         // Initializes all controllers
+        RobotMap.init();
+        // Initialize all subsystems
+        CommandBase.init();
         driverstation = DriverStation.getInstance();  
-        msg = new Messager();
+        msg = new Messager();        
         autoSwitcher = new SendableChooser();
         CommandBase.oi.updateDashboard();
         // Display scheduler data on SmartDashboard
@@ -57,10 +61,7 @@ public class RotoraptorsMain extends IterativeRobot {
         autoSwitcher.addObject("Auto 1", new Auton1());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
         
-        msg.printLn("[robotInit] Initialization complete"); 
-
-        // Initialize all subsystems
-        CommandBase.init();
+        msg.printLn("[status] Robot Initialized");       
     }
 
     public void autonomousInit() {

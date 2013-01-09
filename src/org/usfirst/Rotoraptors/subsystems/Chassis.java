@@ -48,14 +48,31 @@ public class Chassis extends Subsystem {
     public double leftMtrOut;
     public double rightMtrOut;
        
-    // Declare Talons
-    private Talon frontLeftMotor;
-    private Talon rearLeftMotor;
-    private Talon frontRightMotor;
-    private Talon rearRightMotor;
+//    // Declare Talons
+//    private Talon frontLeftMotor;
+//    private Talon rearLeftMotor;
+//    private Talon frontRightMotor;
+//    private Talon rearRightMotor;
+//              
+//    // Declare new RobotDrive using our Jaguars
+//    private RobotDrive drive;
+//       
+//    // Declare Encoders
+//    public Encoder leftEncoder;
+//    public Encoder rightEncoder;
+//    
+//    // Declare new PID controllers
+//    public final PIDController leftPID;
+//    public final PIDController rightPID;
+    
+        // Declare Talons
+    private Talon frontLeftMotor = RobotMap.frontLeftMotor;
+    private Talon rearLeftMotor = RobotMap.rearLeftMotor; 
+    private Talon frontRightMotor = RobotMap.frontRightMotor;
+    private Talon rearRightMotor = RobotMap.rearRightMotor;
               
     // Declare new RobotDrive using our Jaguars
-    private RobotDrive drive;
+    private RobotDrive drive = ;
        
     // Declare Encoders
     public Encoder leftEncoder;
