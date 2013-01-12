@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 
@@ -23,19 +24,27 @@ public class RobotMap {
     public static Talon frontRightMotor;
     public static Talon rearRightMotor;
     
-    // Declare compressor
+    // Declare Compressor
     public static Compressor compressor;
 
-    // Declare new RobotDrive object
+    // Declare RobotDrive object
     public static RobotDrive drive;
 
     // Declare Encoders
     public static Encoder leftEncoder;
     public static Encoder rightEncoder;
 
-    // Declare new PID controllers
+    // Declare PID controllers
     public static PIDController leftPID;
     public static PIDController rightPID;
+    
+    // Declare PID Constants
+    public static double Kp = 0.0;
+    public static double Ki = 0.0;
+    public static double Kd = 0.0;    
+        
+    // Declare Cameras
+    public static AxisCamera cameraFront;
     
     // Create instances of every component on the robot
     public static void init() {
@@ -44,7 +53,7 @@ public class RobotMap {
         frontRightMotor = new Talon(3);
         rearRightMotor = new Talon(4);
         
-        compressor = new edu.wpi.first.wpilibj.Compressor(1, 8);
+        compressor = new Compressor(1, 8);
         
         drive = new RobotDrive(frontLeftMotor, rearLeftMotor,
                 frontRightMotor, rearRightMotor);
@@ -52,8 +61,13 @@ public class RobotMap {
         leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
         rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
         
-//        leftPID = new PIDController();
-//        rightPID = new PIDController();
+        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, frontLeftMotor);
+        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, frontRightMotor);
+        
+        cameraFront = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
+        cameraFront.writeResolution(AxisCamera.ResolutionT.k320x240);
+        cameraFront.writeMaxFPS(15);
+        cameraFront.writeCompression(30);
         
         LiveWindow.addActuator("Chassis", "frontLeftWheel", frontLeftMotor);
         LiveWindow.addActuator("Chassis", "frontRightWheel", frontRightMotor);
@@ -63,6 +77,7 @@ public class RobotMap {
         LiveWindow.addSensor("Chassis", "leftEncoder", leftEncoder);
         LiveWindow.addSensor("Chassis", "rightEncoder", rightEncoder);
     }
+    
     
 
     public static final class Encoders {

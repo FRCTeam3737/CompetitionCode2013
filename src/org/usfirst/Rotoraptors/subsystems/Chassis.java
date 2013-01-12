@@ -26,15 +26,12 @@ public class Chassis extends Subsystem {
     Messager msg = new Messager();
     
     // Declare PID Constants
-    private static final double Kp = 0.0;
-    private static final double Ki = 0.0;
-    private static final double Kd = 0.0;    
-    
-    // Declare feed-forward term
-    private static final double Kf = 0.0;
-    
+    private static final double Kp = RobotMap.Kp;
+    private static final double Ki = RobotMap.Ki;
+    private static final double Kd = RobotMap.Kd;    
+        
     // Declare speed limits
-    private double speedLimit = 1.0;
+    private static double speedLimit = 1.0;
 
     // Declare momentum compensation factor
     public static final double turningGain = 0;
@@ -47,54 +44,49 @@ public class Chassis extends Subsystem {
     public double leftMtrOut;
     public double rightMtrOut;
        
-//    // Declare Talons
-//    private Talon frontLeftMotor;
-//    private Talon rearLeftMotor;
-//    private Talon frontRightMotor;
-//    private Talon rearRightMotor;
+    // Declare Talons
+    private Talon frontLeftMotor;
+    private Talon rearLeftMotor;
+    private Talon frontRightMotor;
+    private Talon rearRightMotor;
     
-    private Talon leftTalon;
-    private Talon rightTalon;
-              
     // Declare new RobotDrive using our Jaguars
     private RobotDrive drive;
        
     // Declare Encoders
-    public Encoder leftEncoder;
-    public Encoder rightEncoder;
+    private Encoder leftEncoder;
+    private Encoder rightEncoder;
     
     // Declare new PID controllers
-    public final PIDController leftPID;
-    public final PIDController rightPID;  
+    private final PIDController leftPID;
+    private final PIDController rightPID;  
+    
+    // Declare gear status'
+    private boolean kHIGH;
+    private boolean kLOW;
         
     // Distance travelled since reset
-    double lDistance = leftEncoder.getDistance();   
-    double rDistance = rightEncoder.getDistance();
+    public double lDistance = leftEncoder.getDistance();   
+    public double rDistance = rightEncoder.getDistance();
     
     // Current speed in inches per second
-    double lSpeed = leftEncoder.getRate();
-    double rSpeed = rightEncoder.getRate();
+    public double lSpeed = leftEncoder.getRate();
+    public double rSpeed = rightEncoder.getRate();
        
     // Gets the count
-    int lCount = leftEncoder.get();
-    int rCount = rightEncoder.get();
+    public int lCount = leftEncoder.get();
+    public int rCount = rightEncoder.get();
                   
     // Initialize your subsystem here
-    public Chassis() {
-        
-//        drive = new RobotDrive(
-//                frontLeftMotor, rearLeftMotor, 
-//                frontRightMotor, rearRightMotor);
+    public Chassis() {        
+        frontLeftMotor = RobotMap.frontLeftMotor;
+        rearLeftMotor = RobotMap.rearLeftMotor;
+        frontRightMotor = RobotMap.frontRightMotor;
+        rearRightMotor = RobotMap.rearRightMotor;
         
         drive = RobotMap.drive;
         leftEncoder = RobotMap.leftEncoder;
         rightEncoder = RobotMap.rightEncoder;
-        
-//        // Initialize Encoders
-//        leftEncoder = new Encoder(RobotMap.Encoders.LD_ENC_PORT_A, 
-//                RobotMap.Encoders.LD_ENC_PORT_B, false, CounterBase.EncodingType.k4X);
-//        rightEncoder = new Encoder(RobotMap.Encoders.RD_ENC_PORT_A, 
-//                RobotMap.Encoders.RD_ENC_PORT_B, false, CounterBase.EncodingType.k4X);
         
         // Configure Encoders
         configEncoder(leftEncoder);
@@ -105,9 +97,6 @@ public class Chassis extends Subsystem {
         rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, RobotMap.frontRightMotor);
         leftPID.setInputRange(0, 100);
         rightPID.setInputRange(0, 100);
-              
-        leftMtr = oi.throttle + oi.turn;
-        rightMtr = oi.throttle - oi.turn;
     }
     
     public void initDefaultCommand() {        
@@ -117,20 +106,23 @@ public class Chassis extends Subsystem {
     
     // Procedure to configure an encoder for the Drivetrain
     private void configEncoder(Encoder m_enc) {
-        m_enc.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
-        m_enc.start();
+        m_enc.reset();
         m_enc.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
+        m_enc.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
+        m_enc.start();       
     }
         
     /******************************************************************/
 
     // Retrieve values in Arcade drive configuration, apply algorithms
     public double getArcadeLeftMotor() {
-        return leftMtr + skim(rightMtr);
+        leftMtrOut = leftMtr + skim(rightMtr);
+        return leftMtrOut * speedLimit;
     }
 
     public double getArcadeRightMotor() {
-        return rightMtr + skim(leftMtr);            
+        rightMtrOut = rightMtr + skim(leftMtr); 
+        return rightMtrOut * speedLimit;
     }
     
     // Retrieve values in Tank drive configuration

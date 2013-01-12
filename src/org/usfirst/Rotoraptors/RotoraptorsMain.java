@@ -42,22 +42,20 @@ public class RotoraptorsMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-         // Initializes all controllers
+        // Connects to driverstation
+        driverstation = DriverStation.getInstance();  
+        // Initializes all controllers
         RobotMap.init();
         // Initialize all subsystems
         CommandBase.init();
         // Populates robot dashboard
         CommandBase.oi.updateDashboard();
-        driverstation = DriverStation.getInstance();  
+        // Display scheduler data on SmartDashboard
+        SmartDashboard.putData(Scheduler.getInstance());        
         msg = new Messager();        
         autoSwitcher = new SendableChooser();
-        // Display scheduler data on SmartDashboard
-        SmartDashboard.putData(Scheduler.getInstance());
         // Initialize cameras
-        cameraFront = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
-        cameraFront.writeResolution(AxisCamera.ResolutionT.k320x240);
-        cameraFront.writeMaxFPS(15);
-        cameraFront.writeCompression(30);
+        cameraFront = RobotMap.cameraFront;
         // Create a switching autonomous
         autoSwitcher.addDefault("Auto 0", new Auton0());
         autoSwitcher.addObject("Auto 1", new Auton1());
