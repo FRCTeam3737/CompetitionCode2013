@@ -8,11 +8,6 @@
 package org.usfirst.Rotoraptors;
 
 
-import org.usfirst.Rotoraptors.commands.CommandBase;
-import org.usfirst.Rotoraptors.commands.Auton2;
-import org.usfirst.Rotoraptors.commands.Auton0;
-import org.usfirst.Rotoraptors.commands.Auton1;
-import org.usfirst.Rotoraptors.utilities.Messager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -21,6 +16,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.Rotoraptors.commands.Auton0;
+import org.usfirst.Rotoraptors.commands.Auton1;
+import org.usfirst.Rotoraptors.commands.Auton2;
+import org.usfirst.Rotoraptors.commands.CommandBase;
+import org.usfirst.Rotoraptors.utilities.Messager;
 
 /**
  * The VM is configured to automatically run this class, and to call the
