@@ -16,10 +16,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.Rotoraptors.commands.Auton0;
-import org.usfirst.Rotoraptors.commands.Auton1;
-import org.usfirst.Rotoraptors.commands.Auton2;
-import org.usfirst.Rotoraptors.commands.CommandBase;
+import org.usfirst.Rotoraptors.commands.*;
 import org.usfirst.Rotoraptors.utilities.Messager;
 
 /**
@@ -34,7 +31,7 @@ public class RotoraptorsMain extends IterativeRobot {
     DriverStation driverstation;  
     Command autonomousCommand, teleopCommand, testCommand;
     SendableChooser autoSwitcher, testSwitch;
-    AxisCamera cameraFront;
+    AxisCamera cameraShooter;
     Messager msg;
     
     /**
@@ -55,8 +52,8 @@ public class RotoraptorsMain extends IterativeRobot {
         msg = new Messager();        
         autoSwitcher = new SendableChooser();
         // Initialize cameras
-        cameraFront = RobotMap.cameraFront;
-        // Create a switching autonomous
+        cameraShooter = RobotMap.cameraShooter;
+        // Create a switching autonomous mode
         autoSwitcher.addDefault("Auto 0", new Auton0());
         autoSwitcher.addObject("Auto 1", new Auton1());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
@@ -68,7 +65,10 @@ public class RotoraptorsMain extends IterativeRobot {
          msg.printLn("[mode] Autonomous");     
 
         autonomousCommand = (Command) autoSwitcher.getSelected();        
-        if (autonomousCommand != null) autonomousCommand.start();
+        if (autonomousCommand != null) {
+            autonomousCommand.start();
+        }
+        
         msg.printLn("[status] " + autonomousCommand.getName() + " started");
 
     }

@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * floating around.
  */
 public class RobotMap {
- 
+    
+    /**********************   Chassis    **********************/
+    
     // Declare Motor controllers
     public static Talon frontLeftMotor;
     public static Talon rearLeftMotor;
@@ -42,9 +44,23 @@ public class RobotMap {
     public static double Kp = 0.0;
     public static double Ki = 0.0;
     public static double Kd = 0.0;    
+    
+    /**********************  Shooter  **********************/
+    
+    public static Talon frontShooterWheel;
+    public static Talon rearShooterWheel;
+    
+    
+    /**********************  Climber  **********************/
+    
+    
+    /**********************  Loader   **********************/
+    
+    
+    /**********************   Misc    **********************/
         
     // Declare Cameras
-    public static AxisCamera cameraFront;
+    public static AxisCamera cameraShooter;
     
     // Create instances of every component on the robot
     public static void init() {
@@ -52,8 +68,10 @@ public class RobotMap {
         rearLeftMotor = new Talon(2);
         frontRightMotor = new Talon(3);
         rearRightMotor = new Talon(4);
+        frontShooterWheel = new Talon(5);
+        rearShooterWheel = new Talon (6);
         
-        compressor = new Compressor(1, 8);
+        compressor = new Compressor(1, 9);
         
         drive = new RobotDrive(frontLeftMotor, rearLeftMotor,
                 frontRightMotor, rearRightMotor);
@@ -64,21 +82,22 @@ public class RobotMap {
         leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, frontLeftMotor);
         rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, frontRightMotor);
         
-        cameraFront = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
-        cameraFront.writeResolution(AxisCamera.ResolutionT.k320x240);
-        cameraFront.writeMaxFPS(15);
-        cameraFront.writeCompression(30);
+        cameraShooter = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
+        cameraShooter.writeResolution(AxisCamera.ResolutionT.k320x240);
+        cameraShooter.writeMaxFPS(15);
+        cameraShooter.writeCompression(30);
         
         LiveWindow.addActuator("Chassis", "frontLeftWheel", frontLeftMotor);
         LiveWindow.addActuator("Chassis", "frontRightWheel", frontRightMotor);
         LiveWindow.addActuator("Chassis", "backLeftWheel", rearLeftMotor);
         LiveWindow.addActuator("Chassis", "backRightWheel", rearRightMotor);
- 
+         
         LiveWindow.addSensor("Chassis", "leftEncoder", leftEncoder);
         LiveWindow.addSensor("Chassis", "rightEncoder", rightEncoder);
-    }
-    
-    
+        
+        LiveWindow.addActuator("Shooter", "frontWheel", frontShooterWheel);
+        LiveWindow.addActuator("Shooter", "rearWheel", rearShooterWheel);
+    }   
 
     public static final class Encoders {
         // Encoder Port #s and values

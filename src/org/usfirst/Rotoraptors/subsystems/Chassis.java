@@ -97,8 +97,11 @@ public class Chassis extends Subsystem {
         rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, RobotMap.frontRightMotor);
         leftPID.setInputRange(0, 100);
         rightPID.setInputRange(0, 100);
+        
+        // Disable drive safety
+        drive.setSafetyEnabled(false);
     }
-    
+        
     public void initDefaultCommand() {        
         // Set the default command for a subsystem here.
         setDefaultCommand(new TeleopCommandArcade());
