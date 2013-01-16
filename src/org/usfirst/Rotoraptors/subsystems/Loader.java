@@ -5,6 +5,7 @@
 package org.usfirst.Rotoraptors.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.Rotoraptors.commands.loader.LoadPosition;
 
 /**
  *
@@ -16,6 +17,16 @@ public class Loader extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new LoadPosition());
     }
+    
+    public void pickupPosition() {
+        
+    }
+    
+    public void readyPosition() {
+        
+    }
+    
+    
 }

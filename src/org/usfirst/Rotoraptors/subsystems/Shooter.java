@@ -5,6 +5,7 @@
 package org.usfirst.Rotoraptors.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.Rotoraptors.commands.climber.DoNothing;
 
 /**
  *
@@ -16,6 +17,28 @@ public class Shooter extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new DoNothing());
     }
+    
+    public void take() {
+        
+    }
+    
+    public void spit() {
+        
+    }
+    
+    public void shoot() {
+        
+    }
+    
+    public void shuffleUp() {
+        
+    }
+    
+    public void shuffleDown() {
+        
+    }
+    
+    
 }

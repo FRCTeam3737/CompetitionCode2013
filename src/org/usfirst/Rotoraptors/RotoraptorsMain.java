@@ -62,7 +62,7 @@ public class RotoraptorsMain extends IterativeRobot {
     }
 
     public void autonomousInit() {
-         msg.printLn("[mode] Autonomous");     
+         msg.printLn("[mode]   Autonomous");     
 
         autonomousCommand = (Command) autoSwitcher.getSelected();        
         if (autonomousCommand != null) {
@@ -86,6 +86,7 @@ public class RotoraptorsMain extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        msg.printLn("[mode]   Teleop");
         autonomousCommand.cancel();
     }
 
@@ -98,8 +99,7 @@ public class RotoraptorsMain extends IterativeRobot {
     }
     
     public void testInit() {
-        msg.printLn("[mode] Dev");
-        //CommandBase.oi.initLiveWindow();
+        msg.printLn("[mode]   Dev");
         msg.printLn("[status] LiveWindow initialized");
         
         testSwitch = new SendableChooser();      
