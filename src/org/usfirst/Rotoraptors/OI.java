@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.Rotoraptors.controls.hids.Attack3;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -16,11 +17,9 @@ public class OI {
     // Initialize joysticks
     XboxController driverXbox = new XboxController(1);
     XboxController operatorXbox = new XboxController(2);
-//    Attack3 leftJoystick = new Attack3(1);
-//    Attack3 rightJoystick = new Attack3(2);
-//    Attack3 operatorJoystick = new Attack3(3);
-    
-    SmartDashboard smartdashboard = new SmartDashboard();
+    Attack3 leftJoystick = new Attack3(1);
+    Attack3 rightJoystick = new Attack3(2);
+    Attack3 operatorJoystick = new Attack3(3);
     
     // Values to send to drivetrain
     public double throttle;
@@ -33,11 +32,7 @@ public class OI {
     }
     
     public void updateDashboard(){
-        // Output values to SmartDashboard
-        SmartDashboard.putNumber("Throttle", throttle);
-        SmartDashboard.putNumber("Turn", -(turn));              
-        SmartDashboard.putNumber("Left Motor", leftTank);
-        SmartDashboard.putNumber("Right Motor", rightTank);
+
     }
 }
 

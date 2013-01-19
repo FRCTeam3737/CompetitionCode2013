@@ -74,10 +74,21 @@ public class RobotMap {
         compressor = new Compressor(1, 9);
         
         drive = new RobotDrive(frontLeftMotor, rearLeftMotor,
-                frontRightMotor, rearRightMotor);
+                frontRightMotor, rearRightMotor);    
+        drive.setMaxOutput(1.0);
         
         leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
         rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
+        
+        leftEncoder.reset();
+        leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
+        leftEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
+        leftEncoder.start();      
+        
+        rightEncoder.reset();
+        rightEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
+        rightEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
+        rightEncoder.start();    
         
         leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, frontLeftMotor);
         rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, frontRightMotor);
@@ -87,16 +98,16 @@ public class RobotMap {
         cameraShooter.writeMaxFPS(15);
         cameraShooter.writeCompression(30);
         
-        LiveWindow.addActuator("Chassis", "frontLeftWheel", frontLeftMotor);
-        LiveWindow.addActuator("Chassis", "frontRightWheel", frontRightMotor);
-        LiveWindow.addActuator("Chassis", "backLeftWheel", rearLeftMotor);
-        LiveWindow.addActuator("Chassis", "backRightWheel", rearRightMotor);
+        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Talon) frontLeftMotor);
+        LiveWindow.addActuator("Chassis", "frontRightWheel", (Talon) frontRightMotor);
+        LiveWindow.addActuator("Chassis", "backLeftWheel", (Talon) rearLeftMotor);
+        LiveWindow.addActuator("Chassis", "backRightWheel", (Talon) rearRightMotor);
          
-        LiveWindow.addSensor("Chassis", "leftEncoder", leftEncoder);
-        LiveWindow.addSensor("Chassis", "rightEncoder", rightEncoder);
+        LiveWindow.addSensor("Chassis", "leftEncoder", (Encoder) leftEncoder);
+        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
         
-        LiveWindow.addActuator("Shooter", "frontWheel", frontShooterWheel);
-        LiveWindow.addActuator("Shooter", "rearWheel", rearShooterWheel);
+        LiveWindow.addActuator("Shooter", "frontWheel", (Talon) frontShooterWheel);
+        LiveWindow.addActuator("Shooter", "rearWheel", (Talon) rearShooterWheel);
     }   
 
     public static final class Encoders {

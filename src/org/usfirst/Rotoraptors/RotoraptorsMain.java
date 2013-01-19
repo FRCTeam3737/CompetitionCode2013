@@ -56,6 +56,7 @@ public class RotoraptorsMain extends IterativeRobot {
         // Create a switching autonomous mode
         autoSwitcher.addDefault("Auto 0", new Auton0());
         autoSwitcher.addObject("Auto 1", new Auton1());
+        autoSwitcher.addObject("Auto 2", new Auton2());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
         
         msg.printLn("[status] Robot Initialized");       
@@ -101,18 +102,7 @@ public class RotoraptorsMain extends IterativeRobot {
     public void testInit() {
         msg.printLn("[mode]   Dev");
         msg.printLn("[status] LiveWindow initialized");
-        
-        testSwitch = new SendableChooser();      
-        testSwitch.addDefault("Autonomous 0", new Auton0());
-        testSwitch.addObject("Autonomous 1", new Auton1());
-        testSwitch.addObject("Autonomous 2", new Auton2());
-        //testSwitch.addObject("Joystick Arcade (1)", new JoystickArcade());
-        //testSwitch.addObject("Joystick Arcade (2)", new DualJoystickArcade());
-        //testSwitch.addObject("Joystick Tank", new DualJoystickTank());
-        SmartDashboard.putData("Drive Switch", testSwitch); 
-                
-        testCommand = (Command) testSwitch.getSelected();        
-        testCommand.start();
+        LiveWindow.setEnabled(true);
     }
     
     /**

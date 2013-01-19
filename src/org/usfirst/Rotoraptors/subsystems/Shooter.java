@@ -19,11 +19,7 @@ public class Shooter extends Subsystem {
         // Set the default command for a subsystem here.
         setDefaultCommand(new DoNothing());
     }
-    
-    public void take() {
-        
-    }
-    
+       
     public void spit() {
         
     }
