@@ -9,22 +9,20 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
 public class RobotMap {
     
     /**********************   Chassis    **********************/
     
     // Declare Motor controllers
-    public static Talon frontLeftMotor;
-    public static Talon rearLeftMotor;
-    public static Talon frontRightMotor;
-    public static Talon rearRightMotor;
+    public static Talon leftMotor;
+    public static Talon rightMotor;
     
     // Declare Compressor
     public static Compressor compressor;
@@ -64,17 +62,14 @@ public class RobotMap {
     
     // Create instances of every component on the robot
     public static void init() {
-        frontLeftMotor = new Talon(1);
-        rearLeftMotor = new Talon(2);
-        frontRightMotor = new Talon(3);
-        rearRightMotor = new Talon(4);
-        frontShooterWheel = new Talon(5);
-        rearShooterWheel = new Talon (6);
+        leftMotor = new Talon(1);
+        rightMotor = new Talon(2);
+        frontShooterWheel = new Talon(3);
+        rearShooterWheel = new Talon (4);
         
         compressor = new Compressor(1, 9);
         
-        drive = new RobotDrive(frontLeftMotor, rearLeftMotor,
-                frontRightMotor, rearRightMotor);    
+        drive = new RobotDrive(leftMotor, rightMotor);    
         drive.setMaxOutput(1.0);
         
         leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
@@ -90,18 +85,16 @@ public class RobotMap {
         rightEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
         rightEncoder.start();    
         
-        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, frontLeftMotor);
-        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, frontRightMotor);
+        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, leftMotor);
+        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, rightMotor);
         
         cameraShooter = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
         cameraShooter.writeResolution(AxisCamera.ResolutionT.k320x240);
         cameraShooter.writeMaxFPS(15);
         cameraShooter.writeCompression(30);
         
-        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Talon) frontLeftMotor);
-        LiveWindow.addActuator("Chassis", "frontRightWheel", (Talon) frontRightMotor);
-        LiveWindow.addActuator("Chassis", "backLeftWheel", (Talon) rearLeftMotor);
-        LiveWindow.addActuator("Chassis", "backRightWheel", (Talon) rearRightMotor);
+        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Talon) leftMotor);
+        LiveWindow.addActuator("Chassis", "frontRightWheel", (Talon) rightMotor);
          
         LiveWindow.addSensor("Chassis", "leftEncoder", (Encoder) leftEncoder);
         LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);

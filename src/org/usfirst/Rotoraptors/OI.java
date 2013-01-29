@@ -15,11 +15,9 @@ import org.usfirst.Rotoraptors.controls.hids.Attack3;
 public class OI {
     
     // Initialize joysticks
-    XboxController driverXbox = new XboxController(1);
-    XboxController operatorXbox = new XboxController(2);
     Attack3 leftJoystick = new Attack3(1);
     Attack3 rightJoystick = new Attack3(2);
-    Attack3 operatorJoystick = new Attack3(3);
+    //Attack3 operatorJoystick = new Attack3(3);
     
     // Values to send to drivetrain
     public double throttle;

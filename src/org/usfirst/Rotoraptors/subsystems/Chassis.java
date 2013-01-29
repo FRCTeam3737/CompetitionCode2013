@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.OI;
 import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.chassis.TeleopCommandArcade;
@@ -22,13 +21,12 @@ import org.usfirst.Rotoraptors.utilities.Messager;
 public class Chassis extends Subsystem {
     
     OI oi = new OI();
-    SmartDashboard sd = new SmartDashboard();
     Messager msg = new Messager();
     
     // Declare PID Constants
-    private static final double Kp = RobotMap.Kp;
-    private static final double Ki = RobotMap.Ki;
-    private static final double Kd = RobotMap.Kd;    
+//    private static final double Kp = RobotMap.Kp;
+//    private static final double Ki = RobotMap.Ki;
+//    private static final double Kd = RobotMap.Kd;    
         
     // Declare speed limits
     private static double speedLimit = 1.0;
@@ -45,10 +43,8 @@ public class Chassis extends Subsystem {
     public double rightMtrOut;
        
     // Declare Talons
-    private Talon frontLeftMotor;
-    private Talon rearLeftMotor;
-    private Talon frontRightMotor;
-    private Talon rearRightMotor;
+    private Talon leftMotor;
+    private Talon rightMotor;
     
     // Declare new RobotDrive using our Jaguars
     private RobotDrive drive;
@@ -58,13 +54,9 @@ public class Chassis extends Subsystem {
     private Encoder rightEncoder;
     
     // Declare new PID controllers
-    private final PIDController leftPID;
-    private final PIDController rightPID;  
+//    private final PIDController leftPID;
+//    private final PIDController rightPID;  
     
-    // Declare gear status'
-    private boolean kHIGH;
-    private boolean kLOW;
-        
     // Distance travelled since reset
     public double lDistance = leftEncoder.getDistance();   
     public double rDistance = rightEncoder.getDistance();
@@ -79,11 +71,9 @@ public class Chassis extends Subsystem {
                   
     // Initialize your subsystem here
     public Chassis() {        
-        frontLeftMotor = RobotMap.frontLeftMotor;
-        rearLeftMotor = RobotMap.rearLeftMotor;
-        frontRightMotor = RobotMap.frontRightMotor;
-        rearRightMotor = RobotMap.rearRightMotor;
-        
+        leftMotor = RobotMap.leftMotor;
+        rightMotor = RobotMap.rightMotor;
+
         drive = RobotMap.drive;
         leftEncoder = RobotMap.leftEncoder;
         rightEncoder = RobotMap.rightEncoder;
@@ -93,10 +83,10 @@ public class Chassis extends Subsystem {
         configEncoder(rightEncoder);
                               
         // Configure PID Controllers
-        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, RobotMap.frontLeftMotor);
-        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, RobotMap.frontRightMotor);
-        leftPID.setInputRange(0, 100);
-        rightPID.setInputRange(0, 100);
+//        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, RobotMap.frontLeftMotor);
+//        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, RobotMap.frontRightMotor);
+//        leftPID.setInputRange(0, 100);
+//        rightPID.setInputRange(0, 100);
         
         // Disable drive safety
         drive.setSafetyEnabled(false);
@@ -149,16 +139,6 @@ public class Chassis extends Subsystem {
     // Limit the maximum speed, for precision
     public void limitSpeed(double newLimit) {
         speedLimit = newLimit;
-    }
-    
-    // Shift gear up
-    public void shiftUp() {
-        
-    }
-    
-    // Shift gear down
-    public void shiftDown() {
-        
     }
     
     /******************************************************************/

@@ -7,7 +7,6 @@
 
 package org.usfirst.Rotoraptors;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -17,6 +16,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.commands.*;
+import org.usfirst.Rotoraptors.subsystems.*;
 import org.usfirst.Rotoraptors.utilities.Messager;
 
 /**
@@ -28,11 +28,12 @@ import org.usfirst.Rotoraptors.utilities.Messager;
  */
 public class RotoraptorsMain extends IterativeRobot {
 
-    DriverStation driverstation;  
-    Command autonomousCommand, teleopCommand, testCommand;
-    SendableChooser autoSwitcher, testSwitch;
-    AxisCamera cameraShooter;
-    Messager msg;
+    public static DriverStation driverstation;
+    public static Messager msg;
+    private Command autonomousCommand, teleopCommand, testCommand;
+    private SendableChooser autoSwitcher, testSwitch;
+    private AxisCamera shooterCamera;   
+
     
     /**
      * This function is run when the robot is first started up and should be
@@ -43,8 +44,6 @@ public class RotoraptorsMain extends IterativeRobot {
         driverstation = DriverStation.getInstance();  
         // Initializes all controllers
         RobotMap.init();
-        // Initialize all subsystems
-        CommandBase.init();
         // Populates robot dashboard
         CommandBase.oi.updateDashboard();
         // Display scheduler data on SmartDashboard
@@ -52,13 +51,14 @@ public class RotoraptorsMain extends IterativeRobot {
         msg = new Messager();        
         autoSwitcher = new SendableChooser();
         // Initialize cameras
-        cameraShooter = RobotMap.cameraShooter;
+        shooterCamera = RobotMap.cameraShooter;
         // Create a switching autonomous mode
         autoSwitcher.addDefault("Auto 0", new Auton0());
         autoSwitcher.addObject("Auto 1", new Auton1());
         autoSwitcher.addObject("Auto 2", new Auton2());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
         
+        msg.clearConsole();
         msg.printLn("[status] Robot Initialized");       
     }
 
@@ -71,7 +71,6 @@ public class RotoraptorsMain extends IterativeRobot {
         }
         
         msg.printLn("[status] " + autonomousCommand.getName() + " started");
-
     }
 
     /**
