@@ -3,6 +3,7 @@ package org.usfirst.Rotoraptors;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
@@ -21,11 +22,10 @@ public class RobotMap {
     /**********************   Chassis    **********************/
     
     // Declare Motor controllers
-    public static Talon leftMotor;
-    public static Talon rightMotor;
-    
-    // Declare Compressor
-    public static Compressor compressor;
+//    public static Talon leftMotor;
+//    public static Talon rightMotor;
+    public static Jaguar leftMotor;
+    public static Jaguar rightMotor;
 
     // Declare RobotDrive object
     public static RobotDrive drive;
@@ -62,45 +62,47 @@ public class RobotMap {
     
     // Create instances of every component on the robot
     public static void init() {
-        leftMotor = new Talon(1);
-        rightMotor = new Talon(2);
-        frontShooterWheel = new Talon(3);
-        rearShooterWheel = new Talon (4);
-        
-        compressor = new Compressor(1, 9);
-        
+//        leftMotor = new Talon(1);
+//        rightMotor = new Talon(2);
+        leftMotor = new Jaguar(1);
+        rightMotor = new Jaguar(2);
+//        frontShooterWheel = new Talon(3);
+//        rearShooterWheel = new Talon (4);
+
         drive = new RobotDrive(leftMotor, rightMotor);    
         drive.setMaxOutput(1.0);
+//        
+//        leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
+//        rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
+//        
+//        leftEncoder.reset();
+//        leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
+//        leftEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
+//        leftEncoder.start();      
+//        
+//        rightEncoder.reset();
+//        rightEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
+//        rightEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
+//        rightEncoder.start();    
+//        
+//        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, leftMotor);
+//        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, rightMotor);
+//        
+//        cameraShooter = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
+//        cameraShooter.writeResolution(AxisCamera.ResolutionT.k320x240);
+//        cameraShooter.writeMaxFPS(15);
+//        cameraShooter.writeCompression(30);
         
-        leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
-        rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
-        
-        leftEncoder.reset();
-        leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
-        leftEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
-        leftEncoder.start();      
-        
-        rightEncoder.reset();
-        rightEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
-        rightEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
-        rightEncoder.start();    
-        
-        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, leftMotor);
-        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, rightMotor);
-        
-        cameraShooter = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
-        cameraShooter.writeResolution(AxisCamera.ResolutionT.k320x240);
-        cameraShooter.writeMaxFPS(15);
-        cameraShooter.writeCompression(30);
-        
-        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Talon) leftMotor);
-        LiveWindow.addActuator("Chassis", "frontRightWheel", (Talon) rightMotor);
+//        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Talon) leftMotor);
+//        LiveWindow.addActuator("Chassis", "frontRightWheel", (Talon) rightMotor);
+        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Jaguar) leftMotor);
+        LiveWindow.addActuator("Chassis", "frontRightWheel", (Jaguar) rightMotor);
          
-        LiveWindow.addSensor("Chassis", "leftEncoder", (Encoder) leftEncoder);
-        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
+//        LiveWindow.addSensor("Chassis", "leftEncoder", (Encoder) leftEncoder);
+//        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
         
-        LiveWindow.addActuator("Shooter", "frontWheel", (Talon) frontShooterWheel);
-        LiveWindow.addActuator("Shooter", "rearWheel", (Talon) rearShooterWheel);
+//        LiveWindow.addActuator("Shooter", "frontWheel", (Talon) frontShooterWheel);
+//        LiveWindow.addActuator("Shooter", "rearWheel", (Talon) rearShooterWheel);
     }   
 
     public static final class Encoders {

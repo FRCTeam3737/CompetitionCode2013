@@ -5,6 +5,7 @@
 package org.usfirst.Rotoraptors.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
@@ -24,9 +25,9 @@ public class Chassis extends Subsystem {
     Messager msg = new Messager();
     
     // Declare PID Constants
-//    private static final double Kp = RobotMap.Kp;
-//    private static final double Ki = RobotMap.Ki;
-//    private static final double Kd = RobotMap.Kd;    
+    private static final double Kp = RobotMap.Kp;
+    private static final double Ki = RobotMap.Ki;
+    private static final double Kd = RobotMap.Kd;    
         
     // Declare speed limits
     private static double speedLimit = 1.0;
@@ -43,8 +44,10 @@ public class Chassis extends Subsystem {
     public double rightMtrOut;
        
     // Declare Talons
-    private Talon leftMotor;
-    private Talon rightMotor;
+//    private Talon leftMotor;
+//    private Talon rightMotor;
+    private Jaguar leftMotor;
+    private Jaguar rightMotor;
     
     // Declare new RobotDrive using our Jaguars
     private RobotDrive drive;
@@ -54,8 +57,8 @@ public class Chassis extends Subsystem {
     private Encoder rightEncoder;
     
     // Declare new PID controllers
-//    private final PIDController leftPID;
-//    private final PIDController rightPID;  
+    private final PIDController leftPID;
+    private final PIDController rightPID;  
     
     // Distance travelled since reset
     public double lDistance = leftEncoder.getDistance();   
@@ -75,18 +78,18 @@ public class Chassis extends Subsystem {
         rightMotor = RobotMap.rightMotor;
 
         drive = RobotMap.drive;
-        leftEncoder = RobotMap.leftEncoder;
-        rightEncoder = RobotMap.rightEncoder;
+//        leftEncoder = RobotMap.leftEncoder;
+//        rightEncoder = RobotMap.rightEncoder;
         
         // Configure Encoders
         configEncoder(leftEncoder);
         configEncoder(rightEncoder);
                               
         // Configure PID Controllers
-//        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, RobotMap.frontLeftMotor);
-//        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, RobotMap.frontRightMotor);
-//        leftPID.setInputRange(0, 100);
-//        rightPID.setInputRange(0, 100);
+        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, leftMotor);
+        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, rightMotor);
+        leftPID.setInputRange(0, 100);
+        rightPID.setInputRange(0, 100);
         
         // Disable drive safety
         drive.setSafetyEnabled(false);
