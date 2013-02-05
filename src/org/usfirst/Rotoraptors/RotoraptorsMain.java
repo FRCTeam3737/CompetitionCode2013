@@ -7,18 +7,13 @@
 
 package org.usfirst.Rotoraptors;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Watchdog;
-import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.commands.*;
-import org.usfirst.Rotoraptors.commands.chassis.*;
-import org.usfirst.Rotoraptors.subsystems.*;
 import org.usfirst.Rotoraptors.utilities.Messager;
 
 /**
@@ -30,11 +25,11 @@ import org.usfirst.Rotoraptors.utilities.Messager;
  */
 public class RotoraptorsMain extends IterativeRobot {
 
-    public static DriverStation ds = DriverStation.getInstance();
+    //public static DriverStation ds = DriverStation.getInstance();
     public static Messager msg = new Messager();
-    private Command autonomousCommand, teleopCommand, testCommand;
+    private Command autonomousCommand;
     private SendableChooser autoSwitcher;
-    private AxisCamera shooterCamera;   
+    //private AxisCamera shooterCamera;   
 
     
     /**
@@ -43,10 +38,7 @@ public class RotoraptorsMain extends IterativeRobot {
      */
     public void robotInit() {
         // Initializes all controllers
-        RobotMap.init();
         CommandBase.init();
-        // Display scheduler data on SmartDashboard
-        SmartDashboard.putData(Scheduler.getInstance());        
         msg = new Messager();                
         // Initialize cameras
         //shooterCamera = RobotMap.cameraShooter;
@@ -56,15 +48,16 @@ public class RotoraptorsMain extends IterativeRobot {
         autoSwitcher.addObject("Auto 1", new Auton1());
         autoSwitcher.addObject("Auto 2", new Auton2());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
-
-        msg.printLn("[status] Initialized");       
+        //SmartDashboard.putData(Scheduler.getInstance()); 
+        
+        msg.clearConsole();
+        msg.printLn("Bot Initialized");       
     }
 
     public void autonomousInit() {
-        msg.printLn("[mode]   Auton");     
-
-        autonomousCommand = (Command) autoSwitcher.getSelected();        
+        autonomousCommand = (Command) autoSwitcher.getSelected();    
         autonomousCommand.start();
+        msg.printLn("Auton Started");     
     }
 
     /**
@@ -80,10 +73,11 @@ public class RotoraptorsMain extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        msg.printLn("[mode]   Teleop");
-        teleopCommand = new DriveWithJoysticks();
-        autonomousCommand.cancel();
-        teleopCommand.start();
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
+        }
+        msg.printLn("Teleop Started");
+        
     }
 
     /**
@@ -95,8 +89,7 @@ public class RotoraptorsMain extends IterativeRobot {
     }
     
     public void testInit() {
-        msg.printLn("[mode]   Dev");
-        msg.printLn("[status] LW Init");
+        msg.printLn("LiveWindow Mode");
         LiveWindow.setEnabled(true);
     }
     
@@ -107,24 +100,12 @@ public class RotoraptorsMain extends IterativeRobot {
         LiveWindow.run();
     }
     
-    public void disabledInit() {
-        LiveWindow.setEnabled(false);
-        
-        if (autonomousCommand != null) {
-            autonomousCommand.cancel();
-        }
-        if (teleopCommand != null) {
-            teleopCommand.cancel();
-        }
-        if (testCommand!= null) {
-          testCommand.cancel();  
-        }        
-        
-        msg.printLn("[status] Bot Disabled");
-        
+    public void disabledInit() {     
+        Scheduler.getInstance().removeAll();
+        msg.printLn("Bot Disabled");        
     }
     
     public void disabledPeriodic() {
-        
+        OI.updateDashboard();
     }
 }

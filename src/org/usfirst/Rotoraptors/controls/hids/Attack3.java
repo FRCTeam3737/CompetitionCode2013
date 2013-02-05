@@ -56,7 +56,7 @@ public class Attack3 {
     public boolean getButton(int button) {
         return m_stick.getRawButton(button);
     }
-    
+       
     //Axis Indexes
     public static final int
             X_AXIS = 1,

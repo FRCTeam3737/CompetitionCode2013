@@ -19,19 +19,17 @@ public class OI {
     // Initialize joysticks
     public static Attack3 leftJoystick;
     public static Attack3 rightJoystick;
-    public static boolean accuracyMode;
     
     public OI() {
-        
-    }
-    
-    public void init() {
         leftJoystick = new Attack3(1);
         rightJoystick = new Attack3(2);
     }
     
     public static void updateDashboard(){
- 
+        SmartDashboard.putNumber("LeftY", leftJoystick.getY());
+        SmartDashboard.putNumber("RightY", rightJoystick.getY());
+        SmartDashboard.putNumber("LeftX", leftJoystick.getX());
+        SmartDashboard.putNumber("RightX", rightJoystick.getX());
     }    
 
 }

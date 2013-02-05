@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.chassis.DriveWithJoysticks;
@@ -21,13 +21,11 @@ import org.usfirst.Rotoraptors.commands.chassis.DriveWithJoysticks;
  * @author Daniel
  */
 public class Chassis extends Subsystem {
-    
-    private static Chassis instance;
-    
+      
     // Declare PID Constants
-    private static final double Kp = RobotMap.Kp;
-    private static final double Ki = RobotMap.Ki;
-    private static final double Kd = RobotMap.Kd;    
+    private static final double Kp = 0.0;
+    private static final double Ki = 0.0;
+    private static final double Kd = 0.0;
         
     // Declare momentum compensation factor
     public static final double turningGain = 0;
@@ -62,19 +60,17 @@ public class Chassis extends Subsystem {
 //    public int rCount = rightEncoder.get();
                   
     // Initialize your subsystem here
-    public Chassis() {        
-        initialize();
-        SmartDashboard.putData("Chassis", this);
-    }
-    
-    private void initialize() {
-        leftMotor = RobotMap.leftMotor;
-        rightMotor = RobotMap.rightMotor;
+    public Chassis() {
+        leftMotor = new Jaguar(5);
+        rightMotor = new Jaguar(6);
 
-        drive = RobotMap.drive;
-//        leftEncoder = RobotMap.leftEncoder;
-//        rightEncoder = RobotMap.rightEncoder;
+        drive = new RobotDrive(leftMotor, rightMotor);
+        drive.setMaxOutput(1.0);
+        drive.setSafetyEnabled(false);
         
+//        leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
+//        rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
+                
         // Configure Encoders
         //configEncoder(leftEncoder);
         //configEncoder(rightEncoder);
@@ -84,24 +80,21 @@ public class Chassis extends Subsystem {
         //rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, rightMotor);
         //leftPID.setInputRange(0, 100);
         //rightPID.setInputRange(0, 100);
+        LiveWindow.addActuator("Chassis", "leftMtr", (Jaguar) leftMotor);
+        LiveWindow.addActuator("Chassis", "rightMtr", (Jaguar) rightMotor);
+//        LiveWindow.addActuator("Chassis", "leftWheel", (Talon) leftMotor);
+//        LiveWindow.addActuator("Chassis", "rightWheel", (Talon) rightMotor);
+         
+//        LiveWindow.addSensor("Chassis", "leftEncoder", (Encoder) leftEncoder);
+//        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
         
-        // Disable drive safety
-        drive.setMaxOutput(1.0);
-        drive.setSafetyEnabled(false);
-    }
-    
-    public static Chassis getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new Chassis();
-        }
-        return instance;
+//        LiveWindow.addActuator("Shooter", "frontWheel", (Talon) frontShooterWheel);
+//        LiveWindow.addActuator("Shooter", "rearWheel", (Talon) rearShooterWheel);
     }
         
     public void initDefaultCommand() {        
         // Set the default command for a subsystem here.
-        this.setDefaultCommand(new DriveWithJoysticks());
+        setDefaultCommand(new DriveWithJoysticks());
     }
     
     // Procedure to configure an encoder for the Drivetrain

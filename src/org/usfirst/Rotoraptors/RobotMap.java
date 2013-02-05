@@ -6,12 +6,10 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.ITable;
+
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -21,103 +19,6 @@ import edu.wpi.first.wpilibj.tables.ITable;
  */
 
 public class RobotMap {
-    
-    private static RobotMap instance;
-    
-    /**********************   Chassis    **********************/
-    
-    // Declare Motor controllers
-//    public static Talon leftMotor;
-//    public static Talon rightMotor;
-    public static Jaguar leftMotor;
-    public static Jaguar rightMotor;
-
-    // Declare RobotDrive object
-    public static RobotDrive drive;
-
-    // Declare Encoders
-    public static Encoder leftEncoder;
-    public static Encoder rightEncoder;
-
-    // Declare PID controllers
-    public static PIDController leftPID;
-    public static PIDController rightPID;
-    
-    // Declare PID Constants
-    public static double Kp = 0.0;
-    public static double Ki = 0.0;
-    public static double Kd = 0.0;    
-    
-    /**********************  Shooter  **********************/
-    
-    public static Talon frontShooterWheel;
-    public static Talon rearShooterWheel;
-    
-    
-    /**********************  Climber  **********************/
-    
-    
-    /**********************  Loader   **********************/
-    
-    
-    /**********************   Misc    **********************/
-        
-    // Declare Cameras
-    public static AxisCamera cameraShooter;
-    
-    // Create instances of every component on the robot
-    public static void init() {
-//        leftMotor = new Talon(1);
-//        rightMotor = new Talon(2);
-        leftMotor = new Jaguar(1);
-        rightMotor = new Jaguar(2);
-//        frontShooterWheel = new Talon(3);
-//        rearShooterWheel = new Talon (4);
-
-        drive = new RobotDrive(leftMotor, rightMotor);    
-//        
-//        leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
-//        rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
-//        
-//        leftEncoder.reset();
-//        leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
-//        leftEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
-//        leftEncoder.start();      
-//        
-//        rightEncoder.reset();
-//        rightEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
-//        rightEncoder.setDistancePerPulse(RobotMap.Encoders.INCHES_PER_PULSE);
-//        rightEncoder.start();    
-//        
-//        leftPID = new PIDController(Kp, Ki, Kd, leftEncoder, leftMotor);
-//        rightPID = new PIDController(Kp, Ki, Kd, rightEncoder, rightMotor);
-//        
-//        cameraShooter = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
-//        cameraShooter.writeResolution(AxisCamera.ResolutionT.k320x240);
-//        cameraShooter.writeMaxFPS(15);
-//        cameraShooter.writeCompression(30);
-        
-//        LiveWindow.addActuator("Chassis", "leftWheel", (Talon) leftMotor);
-//        LiveWindow.addActuator("Chassis", "rightWheel", (Talon) rightMotor);
-        LiveWindow.addActuator("Chassis", "leftWheel", (Jaguar) leftMotor);
-        LiveWindow.addActuator("Chassis", "rightWheel", (Jaguar) rightMotor);
-         
-//        LiveWindow.addSensor("Chassis", "leftEncoder", (Encoder) leftEncoder);
-//        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
-        
-//        LiveWindow.addActuator("Shooter", "frontWheel", (Talon) frontShooterWheel);
-//        LiveWindow.addActuator("Shooter", "rearWheel", (Talon) rearShooterWheel);
-    }   
-    
-    public static RobotMap getInstance()
-    {
-        if (instance != null) {
-            return instance;
-        }
-        instance = new RobotMap();
-        return instance;
-    }
-
     public static final class Encoders {
         // Encoder Port #s and values
         public static final int RD_ENC_PORT_A = 1;        //Digital IO

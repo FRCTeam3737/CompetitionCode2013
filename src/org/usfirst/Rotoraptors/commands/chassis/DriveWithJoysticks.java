@@ -6,7 +6,6 @@ package org.usfirst.Rotoraptors.commands.chassis;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.OI;
-import org.usfirst.Rotoraptors.RotoraptorsMain;
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
 /**
@@ -20,14 +19,15 @@ public class DriveWithJoysticks extends CommandBase {
          requires(chassis);
     }
     
-    private String mode = (String) driveSwitcher.getSelected();
+    private String mode;
     private int driveMode;
     private double speedLimit;
     private boolean accuracyMode;
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //chassis.enable();
+                
+        mode = (String) driveSwitcher.getSelected();
         if ("splitDrive".equals(mode)) {
             driveMode = 1;
         } else if ("arcadeDrive".equals(mode)) {
@@ -41,14 +41,14 @@ public class DriveWithJoysticks extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if (!OI.leftJoystick.south.get()) {
+        if (!OI.leftJoystick.getButton(2)) {
             speedLimit = 1.0;
             accuracyMode = false;
         } else {
             speedLimit = .5;
             accuracyMode = true;            
         }
-        
+                
         SmartDashboard.putBoolean("Speed Limit Enabled?", accuracyMode);
             
         switch (driveMode) {
@@ -61,7 +61,6 @@ public class DriveWithJoysticks extends CommandBase {
             default: chassis.joystickDrive(OI.leftJoystick.getY(), OI.rightJoystick.getY(), speedLimit);
                 break;               
         }
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -71,13 +70,12 @@ public class DriveWithJoysticks extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        //chassis.disable();
+       
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        //chassis.disable();
-  
+      
     }
 }
