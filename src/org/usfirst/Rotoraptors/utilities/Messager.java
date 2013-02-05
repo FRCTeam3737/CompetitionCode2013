@@ -90,8 +90,7 @@ public class Messager {
         clearConsole();
         moveUp();
 
-        String time = String.valueOf(Timer.getFPGATimestamp());
-        msg[0] = "[" + time + "]: " + s;
+        msg[0] = s;
 
         write(DriverStationLCD.Line.kUser1, msg[5]);
         write(DriverStationLCD.Line.kUser2, msg[4]);

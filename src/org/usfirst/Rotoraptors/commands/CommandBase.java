@@ -1,8 +1,10 @@
 package org.usfirst.Rotoraptors.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.OI;
+import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.subsystems.*;
 
 /**
@@ -14,10 +16,13 @@ import org.usfirst.Rotoraptors.subsystems.*;
 public abstract class CommandBase extends Command {
 
     public static OI oi;
+    public static RobotMap map;
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
     public static Climber climber;
     public static Shooter shooter;
+        
+    public static SendableChooser driveSwitcher;
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -26,12 +31,21 @@ public abstract class CommandBase extends Command {
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
         oi = new OI();
-        chassis = new Chassis();
-        climber = new Climber();
-        shooter = new Shooter();
+        oi.init();
+        map = RobotMap.getInstance();
+        chassis = Chassis.getInstance();
+        //climber = new Climber();
+        //shooter = new Shooter();
         
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(chassis);
+                        
+        driveSwitcher = new SendableChooser();
+        driveSwitcher.addDefault("Split Arcade", "splitDrive");
+        driveSwitcher.addObject("Arcade Drive", "arcadeDrive");
+        driveSwitcher.addObject("Tank Drive", "tankDrive");
+        SmartDashboard.putData("Drive Scheme", driveSwitcher);
+ 
     }
 
     public CommandBase(String name) {

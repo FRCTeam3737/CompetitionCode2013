@@ -6,9 +6,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -18,6 +21,8 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 
 public class RobotMap {
+    
+    private static RobotMap instance;
     
     /**********************   Chassis    **********************/
     
@@ -70,7 +75,6 @@ public class RobotMap {
 //        rearShooterWheel = new Talon (4);
 
         drive = new RobotDrive(leftMotor, rightMotor);    
-        drive.setMaxOutput(1.0);
 //        
 //        leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
 //        rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
@@ -93,10 +97,10 @@ public class RobotMap {
 //        cameraShooter.writeMaxFPS(15);
 //        cameraShooter.writeCompression(30);
         
-//        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Talon) leftMotor);
-//        LiveWindow.addActuator("Chassis", "frontRightWheel", (Talon) rightMotor);
-        LiveWindow.addActuator("Chassis", "frontLeftWheel", (Jaguar) leftMotor);
-        LiveWindow.addActuator("Chassis", "frontRightWheel", (Jaguar) rightMotor);
+//        LiveWindow.addActuator("Chassis", "leftWheel", (Talon) leftMotor);
+//        LiveWindow.addActuator("Chassis", "rightWheel", (Talon) rightMotor);
+        LiveWindow.addActuator("Chassis", "leftWheel", (Jaguar) leftMotor);
+        LiveWindow.addActuator("Chassis", "rightWheel", (Jaguar) rightMotor);
          
 //        LiveWindow.addSensor("Chassis", "leftEncoder", (Encoder) leftEncoder);
 //        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
@@ -104,6 +108,15 @@ public class RobotMap {
 //        LiveWindow.addActuator("Shooter", "frontWheel", (Talon) frontShooterWheel);
 //        LiveWindow.addActuator("Shooter", "rearWheel", (Talon) rearShooterWheel);
     }   
+    
+    public static RobotMap getInstance()
+    {
+        if (instance != null) {
+            return instance;
+        }
+        instance = new RobotMap();
+        return instance;
+    }
 
     public static final class Encoders {
         // Encoder Port #s and values

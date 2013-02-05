@@ -41,17 +41,17 @@ public class Attack3 {
     }
     
     //Create buttons
-    Button trigger = new JoystickButton(m_stick, TRIGGER);
-    Button north = new JoystickButton(m_stick, BUTTON_NORTH);
-    Button south = new JoystickButton(m_stick, BUTTON_SOUTH);
-    Button east = new JoystickButton(m_stick, BUTTON_EAST);
-    Button west = new JoystickButton(m_stick, BUTTON_WEST);
-    Button base_ene = new JoystickButton(m_stick, BUTTON_BASE_ENE);
-    Button base_ese = new JoystickButton(m_stick, BUTTON_BASE_ESE);
-    Button base_sse = new JoystickButton(m_stick, BUTTON_BASE_SSE);
-    Button base_ssw = new JoystickButton(m_stick, BUTTON_BASE_SSW);
-    Button base_wnw = new JoystickButton(m_stick, BUTTON_BASE_WNW);
-    Button base_wsw = new JoystickButton(m_stick, BUTTON_BASE_WSW);
+    public Button trigger = new JoystickButton(m_stick, TRIGGER);
+    public Button north = new JoystickButton(m_stick, BUTTON_NORTH);
+    public Button south = new JoystickButton(m_stick, BUTTON_SOUTH);
+    public Button east = new JoystickButton(m_stick, BUTTON_EAST);
+    public Button west = new JoystickButton(m_stick, BUTTON_WEST);
+    public Button base_ene = new JoystickButton(m_stick, BUTTON_BASE_ENE);
+    public Button base_ese = new JoystickButton(m_stick, BUTTON_BASE_ESE);
+    public Button base_sse = new JoystickButton(m_stick, BUTTON_BASE_SSE);
+    public Button base_ssw = new JoystickButton(m_stick, BUTTON_BASE_SSW);
+    public Button base_wnw = new JoystickButton(m_stick, BUTTON_BASE_WNW);
+    public Button base_wsw = new JoystickButton(m_stick, BUTTON_BASE_WSW);
     
     public boolean getButton(int button) {
         return m_stick.getRawButton(button);

@@ -14,24 +14,26 @@ import org.usfirst.Rotoraptors.controls.hids.Attack3;
  */
 public class OI {
     
-    // Initialize joysticks
-    Attack3 leftJoystick = new Attack3(1);
-    Attack3 rightJoystick = new Attack3(2);
-    //Attack3 operatorJoystick = new Attack3(3);
+    public static boolean CONSOLE_OUTPUT_ENABLED = true;
     
-    // Values to send to drivetrain
-    public double throttle;
-    public double turn; 
-    public double leftTank;
-    public double rightTank;
-
+    // Initialize joysticks
+    public static Attack3 leftJoystick;
+    public static Attack3 rightJoystick;
+    public static boolean accuracyMode;
+    
     public OI() {
         
     }
     
-    public void updateDashboard(){
-
+    public void init() {
+        leftJoystick = new Attack3(1);
+        rightJoystick = new Attack3(2);
     }
+    
+    public static void updateDashboard(){
+ 
+    }    
+
 }
 
 //// CREATING BUTTONS
