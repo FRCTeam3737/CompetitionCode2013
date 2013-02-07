@@ -17,7 +17,6 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
-    public static Climber climber;
     public static Shooter shooter;
         
     public static SendableChooser driveSwitcher;
@@ -30,7 +29,6 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
         chassis = new Chassis();
-        //climber = new Climber();
         //shooter = new Shooter();
         
         // Show what command your subsystem is running on the SmartDashboard
