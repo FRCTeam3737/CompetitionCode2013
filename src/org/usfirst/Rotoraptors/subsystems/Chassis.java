@@ -40,8 +40,8 @@ public class Chassis extends Subsystem {
     private RobotDrive drive;
        
     // Declare Encoders
-    //private Encoder leftEncoder;
-    //private Encoder rightEncoder;
+    private Encoder leftEncoder;
+    private Encoder rightEncoder;
     
     // Declare new PID controllers
 //    private final PIDController leftPID;
@@ -70,7 +70,7 @@ public class Chassis extends Subsystem {
         
 //        leftEncoder = new Encoder(1, 2, false, CounterBase.EncodingType.k4X);
 //        rightEncoder = new Encoder(3, 4, false, CounterBase.EncodingType.k4X);
-                
+
         // Configure Encoders
         //configEncoder(leftEncoder);
         //configEncoder(rightEncoder);
@@ -121,7 +121,7 @@ public class Chassis extends Subsystem {
         rightMtr = throttleValue + turnValue;
         leftMtrOut = leftMtr + skim(rightMtr);
         rightMtrOut = rightMtr + skim(leftMtr); 
-        drive.tankDrive(leftMtrOut * speedLimit, rightMtrOut * speedLimit);
+        drive.tankDrive(leftMtrOut * speedLimit * -1, rightMtrOut * speedLimit * -1);
     }
 
     /******************************************************************/

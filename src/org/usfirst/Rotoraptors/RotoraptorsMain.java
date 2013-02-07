@@ -39,7 +39,7 @@ public class RotoraptorsMain extends IterativeRobot {
     public void robotInit() {
         // Initializes all controllers
         CommandBase.init();
-        msg = new Messager();                
+        //msg = new Messager();                
         // Initialize cameras
         //shooterCamera = RobotMap.cameraShooter;
         // Create a switching autonomous mode
@@ -50,14 +50,14 @@ public class RotoraptorsMain extends IterativeRobot {
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
         //SmartDashboard.putData(Scheduler.getInstance()); 
         
-        msg.clearConsole();
-        msg.printLn("Bot Initialized");       
+        //msg.clearConsole();
+        //msg.printLn("Bot Initialized");       
     }
 
     public void autonomousInit() {
         autonomousCommand = (Command) autoSwitcher.getSelected();    
         autonomousCommand.start();
-        msg.printLn("Auton Started");     
+        //msg.printLn("Auton Started");     
     }
 
     /**
@@ -76,7 +76,7 @@ public class RotoraptorsMain extends IterativeRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-        msg.printLn("Teleop Started");
+        //msg.printLn("Teleop Started");
         
     }
 
@@ -89,7 +89,7 @@ public class RotoraptorsMain extends IterativeRobot {
     }
     
     public void testInit() {
-        msg.printLn("LiveWindow Mode");
+        //msg.printLn("LiveWindow Mode");
         LiveWindow.setEnabled(true);
     }
     
@@ -102,7 +102,7 @@ public class RotoraptorsMain extends IterativeRobot {
     
     public void disabledInit() {     
         Scheduler.getInstance().removeAll();
-        msg.printLn("Bot Disabled");        
+        //msg.printLn("Bot Disabled");        
     }
     
     public void disabledPeriodic() {
