@@ -48,7 +48,7 @@ public class RotoraptorsMain extends IterativeRobot {
         autoSwitcher.addObject("Auto 1", new Auton1());
         autoSwitcher.addObject("Auto 2", new Auton2());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
-        //SmartDashboard.putData(Scheduler.getInstance()); 
+        SmartDashboard.putData(Scheduler.getInstance()); 
         
         //msg.clearConsole();
         //msg.printLn("Bot Initialized");       

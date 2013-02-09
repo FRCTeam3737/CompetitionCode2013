@@ -21,6 +21,7 @@ public class DriveWithJoysticks extends CommandBase {
     
     private String mode;
     private int driveMode;
+    private int oldMode;
     private double speedLimit;
     private boolean accuracyMode;
 
@@ -34,6 +35,8 @@ public class DriveWithJoysticks extends CommandBase {
             driveMode = 2;
         } else if ("tankDrive".equals(mode)) {
             driveMode = 3;
+//        } else if ("xboxDrive".equals(mode)) {   
+//            driveMode = 4;
         } else {
             System.out.println("driveMode error");
         }
@@ -48,10 +51,11 @@ public class DriveWithJoysticks extends CommandBase {
             speedLimit = .5;
             accuracyMode = true;            
         }
-                
-        SmartDashboard.putBoolean("Speed Limit Enabled?", accuracyMode);
-            
-        switch (driveMode) {
+        
+        if (OI.rightJoystick.getButton(2)) {
+                chassis.arcadeDrive(OI.rightJoystick.getY(), OI.rightJoystick.getX(), speedLimit);
+        } else {
+            switch (driveMode) {
             case 1: chassis.arcadeDrive(OI.leftJoystick.getY(), OI.rightJoystick.getX(), speedLimit);                    
                 break;
             case 2: chassis.arcadeDrive(OI.rightJoystick.getY(), OI.rightJoystick.getX(), speedLimit);
@@ -61,6 +65,10 @@ public class DriveWithJoysticks extends CommandBase {
             default: chassis.joystickDrive(OI.leftJoystick.getY(), OI.rightJoystick.getY(), speedLimit);
                 break;               
         }
+        }
+                
+        SmartDashboard.putBoolean("Speed Limit Enabled?", accuracyMode);
+                    
     }
 
     // Make this return true when this Command no longer needs to run execute()
