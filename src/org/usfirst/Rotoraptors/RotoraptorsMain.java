@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.commands.*;
-import org.usfirst.Rotoraptors.utilities.Messager;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,12 +24,8 @@ import org.usfirst.Rotoraptors.utilities.Messager;
  */
 public class RotoraptorsMain extends IterativeRobot {
 
-    //public static DriverStation ds = DriverStation.getInstance();
-    public static Messager msg = new Messager();
     private Command autonomousCommand;
     private SendableChooser autoSwitcher;
-    //private AxisCamera shooterCamera;   
-
     
     /**
      * This function is run when the robot is first started up and should be
@@ -39,9 +34,6 @@ public class RotoraptorsMain extends IterativeRobot {
     public void robotInit() {
         // Initializes all controllers
         CommandBase.init();
-        //msg = new Messager();                
-        // Initialize cameras
-        //shooterCamera = RobotMap.cameraShooter;
         // Create a switching autonomous mode
         autoSwitcher = new SendableChooser();
         autoSwitcher.addDefault("Auto 0", new Auton0());
@@ -49,15 +41,11 @@ public class RotoraptorsMain extends IterativeRobot {
         autoSwitcher.addObject("Auto 2", new Auton2());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
         SmartDashboard.putData(Scheduler.getInstance()); 
-        
-        //msg.clearConsole();
-        //msg.printLn("Bot Initialized");       
     }
 
     public void autonomousInit() {
         autonomousCommand = (Command) autoSwitcher.getSelected();    
         autonomousCommand.start();
-        //msg.printLn("Auton Started");     
     }
 
     /**
@@ -75,9 +63,7 @@ public class RotoraptorsMain extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
-        }
-        //msg.printLn("Teleop Started");
-        
+        }        
     }
 
     /**
@@ -89,7 +75,6 @@ public class RotoraptorsMain extends IterativeRobot {
     }
     
     public void testInit() {
-        //msg.printLn("LiveWindow Mode");
         LiveWindow.setEnabled(true);
     }
     
@@ -101,8 +86,7 @@ public class RotoraptorsMain extends IterativeRobot {
     }
     
     public void disabledInit() {     
-        Scheduler.getInstance().removeAll();
-        //msg.printLn("Bot Disabled");        
+        Scheduler.getInstance().removeAll();     
     }
     
     public void disabledPeriodic() {

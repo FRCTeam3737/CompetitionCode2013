@@ -18,8 +18,9 @@ public abstract class CommandBase extends Command {
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
     public static Shooter shooter;
-        
-    public static SendableChooser driveSwitcher;
+    public static ScissorLift scissor;
+    public static Indexer indexer;
+    public static Scoop scoop;
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -29,16 +30,14 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
         chassis = new Chassis();
-        //shooter = new Shooter();
+        shooter = new Shooter();
+        scissor = new ScissorLift();
+        indexer = new Indexer();
+        //scoop = new Scoop();
         
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(chassis);
-                        
-        driveSwitcher = new SendableChooser();
-        driveSwitcher.addDefault("Split Arcade", "splitDrive");
-        driveSwitcher.addObject("Arcade Drive", "arcadeDrive");
-        driveSwitcher.addObject("Tank Drive", "tankDrive");
-        SmartDashboard.putData("Drive Scheme", driveSwitcher); 
+
     }
 
     public CommandBase(String name) {

@@ -28,6 +28,7 @@ public class DriveStraight extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         setTimeout(m_timeout);
+        
     }
 
     // Called repeatedly when this Command is scheduled to run

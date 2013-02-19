@@ -17,19 +17,16 @@ public class OI {
     public static boolean CONSOLE_OUTPUT_ENABLED = true;
     
     // Initialize joysticks
-    public static Attack3 leftJoystick;
-    public static Attack3 rightJoystick;
+    public static Attack3 operatorJoystick;
+    public static Attack3 driverJoystick;
     
     public OI() {
-        leftJoystick = new Attack3(1);
-        rightJoystick = new Attack3(2);
+        operatorJoystick = new Attack3(1);
+        driverJoystick = new Attack3(2);
     }
     
     public static void updateDashboard(){
-        SmartDashboard.putNumber("LeftY", leftJoystick.getY());
-        SmartDashboard.putNumber("RightY", rightJoystick.getY());
-        SmartDashboard.putNumber("LeftX", leftJoystick.getX());
-        SmartDashboard.putNumber("RightX", rightJoystick.getX());
+
     }    
 
 }

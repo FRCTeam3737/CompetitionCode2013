@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands.indexer;
+package org.usfirst.Rotoraptors.commands.scoop;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -10,11 +10,11 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class ShiftUp extends CommandBase {
+public class DoNothing extends CommandBase {
     
-    public ShiftUp() {
+    public DoNothing() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(scoop);
     }
 
     // Called just before this Command runs the first time

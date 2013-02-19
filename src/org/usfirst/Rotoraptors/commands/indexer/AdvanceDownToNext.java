@@ -10,11 +10,11 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class ShiftDownToNextFrisbee extends CommandBase {
+public class AdvanceDownToNext extends CommandBase {
     
-    public ShiftDownToNextFrisbee() {
+    public AdvanceDownToNext() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+        requires(indexer);
     }
 
     // Called just before this Command runs the first time
