@@ -53,7 +53,6 @@ public class RotoraptorsMain extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        OI.updateDashboard();
     }
 
     public void teleopInit() {

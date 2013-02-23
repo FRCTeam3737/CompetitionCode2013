@@ -26,36 +26,35 @@ public class Shooter extends Subsystem {
     Indexer indexer = new Indexer();
     
     Jaguar shooterCIM;
-    Relay feeder;
+    Relay injector;
     
-    DigitalInput feederLimit;
+    DigitalInput injectorLimit;
 
-    public Shooter() {
-          
+    public Shooter() {          
         shooterCIM = new Jaguar(RobotMap.PWMControllers.SHOOTER_JAGUAR);
-        feeder = new Relay(RobotMap.Relays.FEEDER_RELAY);
+        shooterCIM.setSafetyEnabled(false);
         
-        feederLimit = new DigitalInput(RobotMap.Sensors.FEEDER_LIMIT) ;    
+        injector = new Relay(RobotMap.Relays.FEEDER_RELAY);
+        
+        injectorLimit = new DigitalInput(RobotMap.Sensors.FEEDER_LIMIT);    
 
         LiveWindow.addActuator("Shooter", "shooter", (Jaguar) shooterCIM);
-        LiveWindow.addActuator("Shooter", "injector", (Relay)feeder);
+        LiveWindow.addActuator("Shooter", "injector", (Relay)injector);
         
-        LiveWindow.addSensor("Shooter", "feederLimit", (DigitalInput) feederLimit);
+        LiveWindow.addSensor("Shooter", "feederLimit", (DigitalInput) injectorLimit);
     }
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new SpinDown());
+        setDefaultCommand(new DoNothing());
     }    
 
     public void injectFrisbee() {
-         feeder.set(Relay.Value.kForward);
+         injector.set(Relay.Value.kForward);
     }
     
     public void retractInjector() {
-        while (!getFeederLim()) {
-             feeder.set(Relay.Value.kReverse);
-         }      
+         injector.set(Relay.Value.kReverse);
     }
     
     public void spinUp() {
@@ -71,7 +70,7 @@ public class Shooter extends Subsystem {
     }       
 
     public boolean shooterIsReady() {
-        if (getFeederLim() && indexer.isFrisbeeInPosition() && isSpunUp()) {
+        if (getFeederLim() && indexer.isFrisbeeInPosition()) {
             return true;
         } else {
             return false;
@@ -86,23 +85,15 @@ public class Shooter extends Subsystem {
     }
     
     public boolean getFeederLim() {
-        return feederLimit.get();
-    }
-    
-    public boolean isSpunUp() {
-        if (shooterCIM.get() > .7) {
-            return true;     
-        } else {
-            return false;
-        }           
+        return injectorLimit.get();
     }
     
     public boolean isInjectorRetracted() {
-        return feederLimit.get();
+        return injectorLimit.get();
     }
     
     public boolean isInjectorExtended() {
-        return !feederLimit.get();
+        return !injectorLimit.get();
     }
     
 }

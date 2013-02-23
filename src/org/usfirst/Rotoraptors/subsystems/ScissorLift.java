@@ -82,8 +82,9 @@ public class ScissorLift extends PIDSubsystem {
         
     }    
     
-    public double getShooterAngle(int count) {
-        return translateCountToAngle();
+    public double getShooterAngle() {
+        int count = scissorEnc.get();        
+        return translateCountToAngle(count);
     }
     
     public boolean getScissorLim() {
@@ -94,10 +95,10 @@ public class ScissorLift extends PIDSubsystem {
         scissorEnc.reset();
     }
     
-    public double translateCountToAngle() {
-        int count;
-        count = scissorEnc.get();
-        return 0;
+    public double translateCountToAngle(int count) {
+        int angle;
+        
+        return (int) 0;//angle;
     }
     
     public double translateAngleToCount(int angle) {

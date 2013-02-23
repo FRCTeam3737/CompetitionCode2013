@@ -46,7 +46,7 @@ public class Indexer extends Subsystem {
     }
     
     public void runUp() {
-        if(!getTopOptical() && !getBottomOptical()) {
+        if(!getTopOptical()) {
             liftRelay.set(Relay.Value.kForward);
         } else {
             deactivate();
@@ -54,7 +54,7 @@ public class Indexer extends Subsystem {
     }
     
     public void runDown() {
-        if(!getTopOptical() && !getBottomOptical()) {
+        if(!getBottomOptical()) {
             liftRelay.set(Relay.Value.kReverse);
         } else {
             deactivate();

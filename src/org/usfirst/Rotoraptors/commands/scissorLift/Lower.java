@@ -10,9 +10,9 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class GoToAngle extends CommandBase {
+public class Lower extends CommandBase {
     
-    public GoToAngle() {
+    public Lower() {
         // Use requires() here to declare subsystem dependencies
         requires(scissor);
     }

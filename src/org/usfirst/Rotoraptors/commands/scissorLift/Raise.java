@@ -10,17 +10,15 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class Gulp extends CommandBase {
+public class Raise extends CommandBase {
     
-    public Gulp() {
+    public Raise() {
         // Use requires() here to declare subsystem dependencies
         requires(scissor);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        int preAngle;
-        preAngle = (int) scissor.getShooterAngle();
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands.shooter;
+package org.usfirst.Rotoraptors.commands.scissorLift;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -11,10 +11,12 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  * @author Daniel
  */
 public class SetAngle extends CommandBase {
+    private final int m_angle;
     
-    public SetAngle() {
+    public SetAngle(int angle) {
         // Use requires() here to declare subsystem dependencies
-        requires(shooter);
+        requires(scissor);
+        m_angle = angle;
     }
 
     // Called just before this Command runs the first time

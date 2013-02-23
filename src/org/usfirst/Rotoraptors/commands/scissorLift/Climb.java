@@ -10,9 +10,9 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class GoToFeedAngle extends CommandBase {
+public class Climb extends CommandBase {
     
-    public GoToFeedAngle() {
+    public Climb() {
         // Use requires() here to declare subsystem dependencies
         requires(scissor);
     }
