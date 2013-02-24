@@ -14,4 +14,8 @@ public class Utils {
     public static double sonicGetDistance(AnalogChannel ai) {
         return ai.getVoltage() * 100;
     }
+    
+    public static double linearizeVictor884() {
+        return 0;
+    }
 }
