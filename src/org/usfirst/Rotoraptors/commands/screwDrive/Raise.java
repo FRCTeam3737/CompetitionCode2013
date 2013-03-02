@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands.scissorLift;
+package org.usfirst.Rotoraptors.commands.screwDrive;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -10,11 +10,11 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class DoNothing extends CommandBase {
+public class Raise extends CommandBase {
     
-    public DoNothing() {
+    public Raise() {
         // Use requires() here to declare subsystem dependencies
-        requires(chassis);
+        requires(screw);
     }
 
     // Called just before this Command runs the first time

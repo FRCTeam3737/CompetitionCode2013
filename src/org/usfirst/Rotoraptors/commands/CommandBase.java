@@ -18,7 +18,8 @@ public abstract class CommandBase extends Command {
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
     public static Shooter shooter;
-    public static ScissorLift scissor;
+    public static FrisbeeInjector injector;
+    public static ScrewDrive screw;
     public static Indexer indexer;
     public static Scoop scoop;
 
@@ -31,10 +32,11 @@ public abstract class CommandBase extends Command {
         oi = new OI();
         chassis = new Chassis();
         shooter = new Shooter();
-        scissor = new ScissorLift();
+        injector = new FrisbeeInjector();
+        screw = new ScrewDrive();
         indexer = new Indexer();
-        //scoop = new Scoop();
-        
+        scoop = new Scoop();
+               
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(chassis);
 

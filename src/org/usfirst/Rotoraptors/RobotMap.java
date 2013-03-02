@@ -15,7 +15,7 @@ public class RobotMap {
         public static final int LRD_JAGUAR = 3;             //PWM
         public static final int RRD_JAGUAR = 4;             //PWM
         public static final int SHOOTER_JAGUAR = 5;         //PWM
-        public static final int SCISSOR_JAGUAR = 6;         //PWM
+        public static final int SCREW_JAGUAR = 6;         //PWM
     }
     
     public static final class CANJaguars {
@@ -34,16 +34,16 @@ public class RobotMap {
         public static final int INDEXER_BOTTOM_OPT = 3;     //Digital IO
         public static final int INDEXER_SHOOTER_OPT = 4;    //Digital IO
         public static final int FEEDER_LIMIT = 5;           //Digital IO
-        public static final int SCISSOR_LIMIT = 6;          //Digital IO
+        public static final int SCREW_LIMIT = 6;          //Digital IO
         public static final int RD_ENC_PORT_A = 7;          //Digital IO
         public static final int RD_ENC_PORT_B = 8;          //Digital IO
 //        public static final int LD_ENC_PORT_A = 3;          //Digital IO
 //        public static final int LD_ENC_PORT_B = 4;          //Digital IO
-        public static final int SCISSOR_ENC_PORT_A = 9;     //Digital IO
-        public static final int SCISSOR_ENC_PORT_B = 10;    //Digital IO
+        public static final int SCREW_ENC_PORT_A = 9;     //Digital IO
+        public static final int SCREW_ENC_PORT_B = 10;    //Digital IO
         
+        public static final int GYRO = 1;                   //Analog IO
         public static final int SONIC = 4;                  //Analog IO
-        public static final int GYRO = 8;                   //Analog IO
     }
     
     public static final class Cameras {
@@ -58,20 +58,34 @@ public class RobotMap {
         public static final int MIN_SHOOTER_ANGLE = 0;
         public static final int MIN_SHOOTER_ANGLE_COUNT = 0;
         
+        // Optimal shooter speeds at distance
+        public static final double CLOSEFIELD_SPEED = 0;
+        public static final double HALFFIELD_SPEED = 0;
+        public static final double LONGFIELD_SPEED = 0;
+        public static final double PYRAMID_SPEED = 0;
+        
         // Angle and count to feed from station
         public static final int ANGLE_TO_FEED = 1;
         public static final int COUNT_TO_FEED = 1;
         
-        // Angle and count to shoot from left or right pyramid corner
-        public static final int ANGLE_POS_1 = 1;
-        public static final int COUNT_POS_1 = 1;
+        // Angle and count to shoot from front of pyramid
+        public static final int ANGLE_FRONT_PYR = 1;
+        public static final int COUNT_FRONT_PYR = 1;
+        
+        // Angle and count to shoot from left or right front pyramid corner
+        public static final int ANGLE_LR_FRONT_PYR_CRNR = 1;
+        public static final int COUNT_LR_FRONT_PYR_CRNR = 1;
+        
+        // Angle and count to shoot from left or right rear pyramid corner
+        public static final int ANGLE_LR_REAR_PYR_CRNR = 1;
+        public static final int COUNT_LR_REAR_PYR_CRNR = 1;
         
         // Angle and count to shoot from behind pyramid
-        public static final int ANGLE_POS_2 = 1;
-        public static final int COUNT_POS_2 = 1;
+        public static final int ANGLE_BEHIND_PYR = 1;
+        public static final int COUNT_BEHIND_PYR = 1;
         
         // Angle and count to shoot from beside pyramid (teleop)
-        public static final int ANGLE_POS_3 = 1;
-        public static final int COUNT_POS_3 = 1;                
+        public static final int ANGLE_BESIDE_PYR = 1;
+        public static final int COUNT_BESIDE_PYR = 1;                
     }
 }

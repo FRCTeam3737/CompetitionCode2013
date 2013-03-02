@@ -1,6 +1,7 @@
 
 package org.usfirst.Rotoraptors;
 
+import org.usfirst.Rotoraptors.commands.screwDrive.*;
 import org.usfirst.Rotoraptors.controls.hids.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
@@ -8,9 +9,9 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.commands.*;
 import org.usfirst.Rotoraptors.commands.indexer.*;
-import org.usfirst.Rotoraptors.commands.scissorLift.*;
 import org.usfirst.Rotoraptors.commands.shooter.*;
 import org.usfirst.Rotoraptors.controls.hids.Attack3;
+import org.usfirst.Rotoraptors.controls.hids.eStopCCI;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -18,33 +19,19 @@ import org.usfirst.Rotoraptors.controls.hids.Attack3;
  */
 public class OI {
     
-    public static boolean CONSOLE_OUTPUT_ENABLED = true;
+    public static boolean DEV_MODE = false;
     
     // Initialize joysticks
-    public static Attack3 operatorJoystick;
     public static Attack3 driverJoystick;
+    public static XboxController operatorJoystick;
+    public static eStopCCI operatorCCI;
     
     public OI() {
-        operatorJoystick = new Attack3(1);
-        driverJoystick = new Attack3(2);
-        
-        operatorJoystick.trigger.whenPressed(new Shoot());        
-        operatorJoystick.north.whileHeld(new SpinUp());
-        operatorJoystick.east.whenPressed(new FeedFrisbee());
-        operatorJoystick.west.whenPressed(new ResetScissorLift());
-        
-        operatorJoystick.base_ene.whileHeld(new RunUp());
-        operatorJoystick.base_ese.whileHeld(new RunDown());
-        operatorJoystick.base_sse.whenPressed(new AdvanceUp());
-        operatorJoystick.base_ssw.whenPressed(new AdvanceDown());
-        operatorJoystick.base_wnw.whileHeld(new Raise());
-        operatorJoystick.base_wsw.whileHeld(new Lower());        
+        driverJoystick = new Attack3(1);
+        operatorJoystick = new XboxController(2);
+        operatorCCI = new eStopCCI(3);
     }
-    
-    public static void updateDashboard() {
         
-    }
-    
 }
 
 //// CREATING BUTTONS

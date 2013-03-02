@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands.shooter;
+package org.usfirst.Rotoraptors.commands.screwDrive;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -10,11 +10,11 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class SpinDown extends CommandBase {
+public class Climb extends CommandBase {
     
-    public SpinDown() {
+    public Climb() {
         // Use requires() here to declare subsystem dependencies
-        requires(shooter);
+        requires(screw);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,6 @@ public class SpinDown extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        shooter.spinDown();
     }
 
     // Make this return true when this Command no longer needs to run execute()

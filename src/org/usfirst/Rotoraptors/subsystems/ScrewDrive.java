@@ -4,47 +4,50 @@
  */
 package org.usfirst.Rotoraptors.subsystems;
 
+import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.Rotoraptors.RobotMap;
-import org.usfirst.Rotoraptors.commands.scissorLift.DoNothing;
+import org.usfirst.Rotoraptors.commands.screwDrive.DoNothing;
 
 /**
  *
  * @author Daniel
  */
-public class ScissorLift extends PIDSubsystem {
+public class ScrewDrive extends PIDSubsystem {
 
     private static final double Kp = 0.0;
     private static final double Ki = 0.0;
     private static final double Kd = 0.0;
     
-    Jaguar scissorCIM;
+    Jaguar screwCIM;
 
-    Encoder scissorEnc;
-    DigitalInput scissorLimit;
+    Encoder screwEnc;
+    DigitalInput screwLimit;
     
     // Initialize your subsystem here
-    public ScissorLift() {
+    public ScrewDrive() {
         super("ScissorLift", Kp, Ki, Kd);
         
-        scissorCIM = new Jaguar(RobotMap.PWMControllers.SCISSOR_JAGUAR);
-        scissorLimit = new DigitalInput(RobotMap.Sensors.SCISSOR_LIMIT);      
+        screwCIM = new Jaguar(RobotMap.PWMControllers.SCREW_JAGUAR);
+        screwLimit = new DigitalInput(RobotMap.Sensors.SCREW_LIMIT);      
         
-        scissorEnc = new Encoder(
-                RobotMap.Sensors.SCISSOR_ENC_PORT_A,
-                RobotMap.Sensors.SCISSOR_ENC_PORT_B);
-        scissorEnc.setDistancePerPulse(.1);
-        scissorEnc.start();
-        scissorEnc.reset();         
+        screwEnc = new Encoder(
+                RobotMap.Sensors.SCREW_ENC_PORT_A,
+                RobotMap.Sensors.SCREW_ENC_PORT_B, 
+                false, EncodingType.k2X);
+        screwEnc.setDistancePerPulse(1);
+        screwEnc.start();
+        screwEnc.reset();         
                 
-        LiveWindow.addActuator("Shooter", "scissorLift", (Jaguar) scissorCIM);
+        LiveWindow.addActuator("Shooter", "scissorLift", (Jaguar) screwCIM);
         
-        LiveWindow.addSensor("Shooter", "scissorEnc", (Encoder) scissorEnc);  
-        LiveWindow.addSensor("Shooter", "scissorEnc", (DigitalInput) scissorLimit);
+        LiveWindow.addSensor("Shooter", "scissorEnc", (Encoder) screwEnc);  
+        LiveWindow.addSensor("Shooter", "scissorEnc", (DigitalInput) screwLimit);
 
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -61,21 +64,21 @@ public class ScissorLift extends PIDSubsystem {
         // Return your input value for the PID loop
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return scissorEnc.get();
+        return screwEnc.get();
     }
     
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
-        scissorCIM.set(output);
+        screwCIM.set(output);
     }
     
                    
     public void raiseShooter() {
-        scissorCIM.set(.1);
+        screwCIM.set(.1);
     }
         
     public void lowerShooter() {
-        scissorCIM.set(-.1);
+        screwCIM.set(-.1);
     }
     
     public void setShooterAngle(double angle) {
@@ -83,16 +86,16 @@ public class ScissorLift extends PIDSubsystem {
     }    
     
     public double getShooterAngle() {
-        int count = scissorEnc.get();        
+        int count = screwEnc.get();        
         return translateCountToAngle(count);
     }
     
-    public boolean getScissorLim() {
-        return scissorLimit.get();
+    public boolean getScrewLim() {
+        return screwLimit.get();
     }
     
     public void resetLift() {
-        scissorEnc.reset();
+        screwEnc.reset();
     }
     
     public double translateCountToAngle(int count) {

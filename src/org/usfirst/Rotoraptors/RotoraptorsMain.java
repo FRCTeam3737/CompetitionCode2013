@@ -8,6 +8,7 @@
 package org.usfirst.Rotoraptors;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -52,6 +53,7 @@ public class RotoraptorsMain extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+        Watchdog.getInstance().feed();
         Scheduler.getInstance().run();
     }
 
@@ -60,6 +62,7 @@ public class RotoraptorsMain extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        Watchdog.getInstance().setEnabled(false);
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }        
@@ -70,11 +73,7 @@ public class RotoraptorsMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        OI.updateDashboard();
-    }
-    
-    public void testInit() {
-        LiveWindow.setEnabled(true);
+        updateDashboard();
     }
     
     /**
@@ -89,6 +88,15 @@ public class RotoraptorsMain extends IterativeRobot {
     }
     
     public void disabledPeriodic() {
-        OI.updateDashboard();
+        updateDashboard();
+    }
+    
+    public void updateDashboard() {
+        
+    }
+    
+    public void log(String out) {
+        if (OI.DEV_MODE)
+            System.out.println("RobotMain: " + out);
     }
 }

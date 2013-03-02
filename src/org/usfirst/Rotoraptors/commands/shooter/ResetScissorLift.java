@@ -5,7 +5,7 @@
 package org.usfirst.Rotoraptors.commands.shooter;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
-import org.usfirst.Rotoraptors.subsystems.ScissorLift;
+import org.usfirst.Rotoraptors.subsystems.ScrewDrive;
 
 /**
  *
@@ -15,7 +15,7 @@ public class ResetScissorLift extends CommandBase {
     
     public ResetScissorLift() {
         // Use requires() here to declare subsystem dependencies
-        requires(scissor);
+        requires(screw);
     }
 
     // Called just before this Command runs the first time
@@ -25,19 +25,19 @@ public class ResetScissorLift extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        while (!scissor.getScissorLim()) {
-            scissor.lowerShooter();
+        while (!screw.getScrewLim()) {
+            screw.lowerShooter();
         }        
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return scissor.getScissorLim();
+        return screw.getScrewLim();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        scissor.resetLift();        
+        screw.resetLift();        
     }
 
     // Called when another command which requires one or more of the same

@@ -79,7 +79,7 @@ public class VisionAuton extends CommandBase {
         requires(chassis);
         requires(shooter);
         requires(indexer);
-        requires(scissor);
+        requires(screw);
     }
 
     // Called just before this Command runs the first time

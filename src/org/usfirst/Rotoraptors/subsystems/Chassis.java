@@ -28,10 +28,20 @@ import org.usfirst.Rotoraptors.utilities.Utils;
  */
 public class Chassis extends Subsystem {
       
-    // Declare PID Constants
-    private static final double Kp = 0.0;
-    private static final double Ki = 0.0;
-    private static final double Kd = 0.0;
+    // Declare PID Constants for Encoders
+    private static final double eKp = 0.0;
+    private static final double eKi = 0.0;
+    private static final double eKd = 0.0;
+    
+    // Declare PID Constants for Ultrasonic sensor
+    private static final double sKp = 0.0;
+    private static final double sKi = 0.0;
+    private static final double sKd = 0.0;
+    
+    // Declare PID Constants for Gyro
+    private static final double gKp = 0.0;
+    private static final double gKi = 0.0;
+    private static final double gKd = 0.0;
 
     // Declare momentum compensation factor
     public static final double turningGain = .3;
@@ -54,13 +64,16 @@ public class Chassis extends Subsystem {
     // Declare Ultrasonic
     private AnalogChannel sonic;
     
-    // Declare PID    private PIDSource pidGyro;
+    // Declare PID 
     public PIDSource pidSourceGyro;
     public PIDSource pidSourceSonic;
+    public PIDSource pidSourceEncoder;
     public PIDOutput pidOutputGyro;
     public PIDOutput pidOutputSonic;
+    public PIDOutput pidOutputEncoder;
     public PIDController pidGyro;
     public PIDController pidSonic;
+    public PIDController pidEncoder;
    
     // Initialize your subsystem here
     public Chassis() {   
@@ -73,18 +86,18 @@ public class Chassis extends Subsystem {
                 leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor);
         drive.setMaxOutput(1.0);
         drive.setSafetyEnabled(false);
-//        
-//        gyro = new Gyro(RobotMap.Sensors.GYRO);
-//        sonic = new AnalogChannel(RobotMap.Sensors.SONIC);
-//        rightEncoder = new Encoder(
-//                RobotMap.Sensors.RD_ENC_PORT_A,
-//                RobotMap.Sensors.RD_ENC_PORT_B,
-//                false, CounterBase.EncodingType.k4X);
         
-        //initPID();
-              
+        gyro = new Gyro(RobotMap.Sensors.GYRO);
+        sonic = new AnalogChannel(RobotMap.Sensors.SONIC);
+        rightEncoder = new Encoder(
+                RobotMap.Sensors.RD_ENC_PORT_A,
+                RobotMap.Sensors.RD_ENC_PORT_B,
+                false, CounterBase.EncodingType.k4X);   
+                      
         // Configure Encoders
-        //configEncoder(rightEncoder);
+        configEncoder(rightEncoder);
+        
+        initPID();
 
         LiveWindow.addActuator("Chassis", "LF_Mtr", (Jaguar) leftFrontMotor);
         LiveWindow.addActuator("Chassis", "RF_Mtr", (Jaguar) rightFrontMotor);
@@ -120,6 +133,11 @@ public class Chassis extends Subsystem {
                 return Utils.sonicGetDistance(sonic);
             }            
         };
+        pidSourceEncoder = new PIDSource() {
+            public double pidGet() {
+                return rightEncoder.get();
+            }
+        };
         pidOutputGyro = new PIDOutput() {
             public void pidWrite(double output) {
                 drive.tankDrive(output, output);
@@ -130,8 +148,14 @@ public class Chassis extends Subsystem {
                 drive.tankDrive(output, output);
             }
         };
-        pidGyro = new PIDController(Kp, Ki, Kd, pidSourceGyro, pidOutputGyro);   
-        pidSonic = new PIDController(Kp, Ki, Kd, pidSourceSonic, pidOutputSonic);
+        pidOutputEncoder = new PIDOutput() {
+            public void pidWrite(double output) {
+                drive.tankDrive(output, output);
+            }
+        };
+        pidGyro = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro);   
+        pidSonic = new PIDController(sKp, sKi, sKd, pidSourceSonic, pidOutputSonic);
+        pidEncoder = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder);
     }
            
     /*****************************************************************/
@@ -176,12 +200,12 @@ public class Chassis extends Subsystem {
     }
     
     // Uses PID to drive distance
-    public void driveDistance() {
+    public void driveToDistance(double setpoint) {
         
     }
     
     // Uses PID to turn to an angle
-    public void turnAngle() {
+    public void turnToAngle(double setpoint) {
         
     }
     
@@ -189,11 +213,7 @@ public class Chassis extends Subsystem {
         return rightEncoder.getDistance();
     }
     
-    public double getSpeed() {
-        return rightEncoder.getRate();
-    }
-    
-    public double getCount() {
+     public double getCount() {
         return rightEncoder.get();
     }
           

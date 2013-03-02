@@ -17,13 +17,13 @@ public class DriveToDistance extends CommandBase {
     public DriveToDistance(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         requires(chassis);
-        //this.setpoint = setpoint;
+        this.setpoint = setpoint;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //chassis.setSetpoint(setpoint);
-        //chassis.enable();
+        chassis.pidEncoder.setSetpoint(setpoint);
+        chassis.pidEncoder.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,18 +32,17 @@ public class DriveToDistance extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        //return Math.abs(chassis.getPosition() - setpoint) < .02;
-        return false;
+        return Math.abs(chassis.pidEncoder.getError() - setpoint) < .02;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        //chassis.disable();
+        chassis.pidEncoder.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        //chassis.disable();
+        chassis.pidEncoder.disable();
     }
 }

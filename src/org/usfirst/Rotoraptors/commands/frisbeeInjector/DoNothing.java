@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands.scissorLift;
+package org.usfirst.Rotoraptors.commands.frisbeeInjector;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -10,17 +10,15 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class Gulp extends CommandBase {
+public class DoNothing extends CommandBase {
     
-    public Gulp() {
+    public DoNothing() {
         // Use requires() here to declare subsystem dependencies
-        requires(scissor);
+        requires(injector);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        int preAngle;
-        preAngle = (int) scissor.getShooterAngle();
     }
 
     // Called repeatedly when this Command is scheduled to run
