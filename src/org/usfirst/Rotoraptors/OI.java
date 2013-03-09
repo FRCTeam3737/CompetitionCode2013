@@ -28,8 +28,7 @@ public class OI {
     public OI() {
         driverJoystick = new Attack3(1);
         operatorJoystick = new XboxController(2);
-        cci = new eStopCCI(3);
-        
+        cci = new eStopCCI(3);        
         
     }
     
