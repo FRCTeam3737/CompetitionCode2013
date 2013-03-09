@@ -46,12 +46,12 @@ public class Shoot extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         startTime = Timer.getFPGATimestamp();
-        shooter.runShooter(shooterSpeed);
+        shooter.setSpeed(shooterSpeed);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        shooter.runShooter(shooterSpeed);
+        shooter.setSpeed(shooterSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

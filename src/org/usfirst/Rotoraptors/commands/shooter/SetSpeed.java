@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands.chassis;
+package org.usfirst.Rotoraptors.commands.shooter;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -10,40 +10,32 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class DriveToDistance extends CommandBase {
+public class SetSpeed extends CommandBase {
     
-    double setpoint;
-    
-    public DriveToDistance(double setpoint) {
+    public SetSpeed() {
         // Use requires() here to declare subsystem dependencies
-        requires(chassis);
-        this.setpoint = setpoint;
+        requires(shooter);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        chassis.pidEncoder.setSetpoint(setpoint);
-        chassis.pidEncoder.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(chassis.pidEncoder.getError() - setpoint) < .02;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        chassis.pidEncoder.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        chassis.pidEncoder.disable();
     }
 }

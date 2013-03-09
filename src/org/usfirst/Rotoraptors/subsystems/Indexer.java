@@ -66,15 +66,11 @@ public class Indexer extends Subsystem {
     }
     
     public void advanceUp() {
-        while(!isSlotAligned()) {
-            runUp();
-        }
+        
     }
     
     public void advanceDown() {
-        while(!isSlotAligned()) {
-            runDown();
-        }
+        
     }
     
     public void advanceUpX(int slots) {
@@ -101,7 +97,7 @@ public class Indexer extends Subsystem {
         return shooterOpt.get();
     }
     
-    public boolean isSlotAligned() {
+    public boolean getProxSensor() {
         return prox.get();
     }  
     

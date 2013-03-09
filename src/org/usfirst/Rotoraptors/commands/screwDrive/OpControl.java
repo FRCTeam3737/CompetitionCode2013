@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands.scoop;
+package org.usfirst.Rotoraptors.commands.screwDrive;
 
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -10,11 +10,11 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class DoNothing extends CommandBase {
+public class OpControl extends CommandBase {
     
-    public DoNothing() {
+    public OpControl() {
         // Use requires() here to declare subsystem dependencies
-        requires(scoop);
+        requires(screw);
     }
 
     // Called just before this Command runs the first time
@@ -23,6 +23,7 @@ public class DoNothing extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        
     }
 
     // Make this return true when this Command no longer needs to run execute()

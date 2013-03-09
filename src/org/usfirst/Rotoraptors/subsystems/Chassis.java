@@ -4,7 +4,6 @@
  */
 package org.usfirst.Rotoraptors.subsystems;
 
-import edu.wpi.first.wpilibj.Accelerometer;
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
@@ -17,10 +16,10 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.chassis.DriveWithJoysticks;
 import org.usfirst.Rotoraptors.utilities.Utils;
-
 
 /**
  * 
@@ -33,18 +32,13 @@ public class Chassis extends Subsystem {
     private static final double eKi = 0.0;
     private static final double eKd = 0.0;
     
-    // Declare PID Constants for Ultrasonic sensor
-    private static final double sKp = 0.0;
-    private static final double sKi = 0.0;
-    private static final double sKd = 0.0;
-    
     // Declare PID Constants for Gyro
-    private static final double gKp = 0.0;
+    private static final double gKp = 0.03;
     private static final double gKi = 0.0;
     private static final double gKd = 0.0;
 
-    // Declare momentum compensation factor
-    public static final double turningGain = .3;
+    // Declare sensitivity
+    public static double tSens = .15;
        
     // Declare PWMControllers
     private Jaguar leftFrontMotor;
@@ -66,13 +60,10 @@ public class Chassis extends Subsystem {
     
     // Declare PID 
     public PIDSource pidSourceGyro;
-    public PIDSource pidSourceSonic;
     public PIDSource pidSourceEncoder;
     public PIDOutput pidOutputGyro;
-    public PIDOutput pidOutputSonic;
     public PIDOutput pidOutputEncoder;
     public PIDController pidGyro;
-    public PIDController pidSonic;
     public PIDController pidEncoder;
    
     // Initialize your subsystem here
@@ -88,7 +79,8 @@ public class Chassis extends Subsystem {
         drive.setSafetyEnabled(false);
         
         gyro = new Gyro(RobotMap.Sensors.GYRO);
-        sonic = new AnalogChannel(RobotMap.Sensors.SONIC);
+        gyro.setSensitivity(Constants.Sensors.GYRO_V_PER_DEG_PER_S);
+               
         rightEncoder = new Encoder(
                 RobotMap.Sensors.RD_ENC_PORT_A,
                 RobotMap.Sensors.RD_ENC_PORT_B,
@@ -97,7 +89,20 @@ public class Chassis extends Subsystem {
         // Configure Encoders
         configEncoder(rightEncoder);
         
-        initPID();
+//        leftFrontController = new PIDController(.0005, 0, 0, 0.0, leftEncoder, frontLeft);
+//        rightFrontController = new PIDController(.0005, 0, 0, 0.0, rightEncoder, frontRight);
+//        leftBackController = new PIDController(.0005, 0, 0, 0.0, leftEncoder, backLeft);
+//        rightBackController = new PIDController(.0005, 0, 0, 0.0, rightEncoder, backRight);
+//        
+//        leftFrontController.setOutputRange(-1,1);
+//        rightFrontController.setOutputRange(-1,1);
+//        leftBackController.setOutputRange(-1,1);
+//        rightBackController.setOutputRange(-1,1);
+//        
+//        leftFrontController.setPercentTolerance(5);
+//        rightFrontController.setPercentTolerance(5);
+//        leftBackController.setPercentTolerance(5);
+//        rightBackController.setPercentTolerance(5);
 
         LiveWindow.addActuator("Chassis", "LF_Mtr", (Jaguar) leftFrontMotor);
         LiveWindow.addActuator("Chassis", "RF_Mtr", (Jaguar) rightFrontMotor);
@@ -106,7 +111,6 @@ public class Chassis extends Subsystem {
          
         LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
         LiveWindow.addSensor("Chassis", "gyro", (Gyro) gyro);
-        LiveWindow.addSensor("Chassis", "ultrasonic", (AnalogChannel) sonic);
     }    
         
     public void initDefaultCommand() {        
@@ -118,7 +122,7 @@ public class Chassis extends Subsystem {
     private void configEncoder(Encoder m_enc) {
         m_enc.reset();
         m_enc.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
-        m_enc.setDistancePerPulse(.1);
+        m_enc.setDistancePerPulse(Constants.Sensors.DRIVE_DIST_PER_PULSE);
         m_enc.start();       
     }
     
@@ -128,11 +132,7 @@ public class Chassis extends Subsystem {
                 return gyro.getAngle();
             }
         };
-        pidSourceSonic = new PIDSource() {
-            public double pidGet() {
-                return Utils.sonicGetDistance(sonic);
-            }            
-        };
+
         pidSourceEncoder = new PIDSource() {
             public double pidGet() {
                 return rightEncoder.get();
@@ -140,22 +140,21 @@ public class Chassis extends Subsystem {
         };
         pidOutputGyro = new PIDOutput() {
             public void pidWrite(double output) {
-                drive.tankDrive(output, output);
+                drive.tankDrive(output, -output);
             }
         };
-        pidOutputSonic = new PIDOutput() {
-            public void pidWrite(double output) {
-                drive.tankDrive(output, output);
-            }
-        };
+
         pidOutputEncoder = new PIDOutput() {
             public void pidWrite(double output) {
                 drive.tankDrive(output, output);
             }
         };
         pidGyro = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro);   
-        pidSonic = new PIDController(sKp, sKi, sKd, pidSourceSonic, pidOutputSonic);
         pidEncoder = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder);
+    }   
+    
+    public void setSensitivity(double sensitivity){
+        tSens = sensitivity;
     }
            
     /*****************************************************************/
@@ -165,17 +164,93 @@ public class Chassis extends Subsystem {
         drive.tankDrive(left * speedLimit, right * speedLimit);
     }
     
-    public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
-        double leftMtrOut;
-        double rightMtrOut;
-        double leftMtr;
-        double rightMtr;
-        leftMtr = throttleValue + turnValue;
-        rightMtr = throttleValue - turnValue;
-        leftMtrOut = leftMtr + skim(rightMtr);
-        rightMtrOut = rightMtr + skim(leftMtr); 
-        drive.tankDrive(leftMtrOut * speedLimit, rightMtrOut * speedLimit);
+    public void cheesyDrive(double throttleValue, double turnValue, boolean quickTurn) {
+        double angular_power = 0.0;
+        double overPower = 0.0;
+        double sensitivity = tSens;
+        double rPower = 0.0;
+        double lPower = 0.0;
+
+        if(quickTurn) {
+            overPower = 1.0;
+            sensitivity = 1.0;
+            angular_power = turnValue;
+        } else {
+            overPower = 0.0;
+            angular_power = Math.abs(throttleValue) * turnValue * sensitivity;
+        }
+
+        rPower = lPower = throttleValue;
+        lPower += angular_power;
+        rPower -= angular_power;
+
+        if(lPower > 1.0) {
+            rPower -= overPower * (lPower - 1.0);
+            lPower = 1.0;
+        }
+        else if(rPower > 1.0) {
+            lPower -= overPower * (rPower - 1.0);
+            rPower = 1.0;
+        }
+        else if(lPower < -1.0) {
+            rPower += overPower * (-1.0 - lPower);
+            lPower = -1.0;
+        }
+        else if(rPower < -1.0) {
+            lPower += overPower * (-1.0 - rPower);
+            rPower = -1.0;
+        }
+
+        drive.setLeftRightMotorOutputs(lPower, rPower);
     }
+    
+    public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
+        // local variables to hold the computed PWM values for the motors
+        double leftMotorSpeed;
+        double rightMotorSpeed;
+
+        if (throttleValue > 1) {
+            throttleValue = 1;
+        }
+        
+        if(turnValue > 1) {
+            turnValue = 1;
+        }
+        
+        if (throttleValue > 0.0) {
+            if (turnValue > 0.0) {
+                leftMotorSpeed = throttleValue - turnValue;
+                rightMotorSpeed = Math.max(throttleValue, turnValue);
+            } else {
+                leftMotorSpeed = Math.max(throttleValue, -turnValue);
+                rightMotorSpeed = throttleValue + turnValue;
+            }
+        } else {
+            if (turnValue > 0.0) {
+                leftMotorSpeed = -Math.max(-throttleValue, turnValue);
+                rightMotorSpeed = throttleValue + turnValue;
+            } else {
+                leftMotorSpeed = throttleValue - turnValue;
+                rightMotorSpeed = -Math.max(-throttleValue, -turnValue);
+            }
+        }
+        
+        drive.setLeftRightMotorOutputs(
+                leftMotorSpeed * speedLimit, rightMotorSpeed * speedLimit);
+    }
+    
+//     public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
+//        double leftMtrOut;
+//        double rightMtrOut;
+//        double leftMtr;
+//        double rightMtr;
+//        leftMtr = throttleValue + turnValue;
+//        rightMtr = throttleValue - turnValue;
+//        leftMtrOut = leftMtr + skim(rightMtr);
+//        rightMtrOut = rightMtr + skim(leftMtr); 
+//        drive.tankDrive(leftMtrOut * speedLimit, rightMtrOut * speedLimit);
+//    }
+    
 
     /******************************************************************/
     
@@ -216,12 +291,5 @@ public class Chassis extends Subsystem {
      public double getCount() {
         return rightEncoder.get();
     }
-          
-    public static double skim(double input) {
-        if (input > 1.0) {
-            return -((input - 1.0) * turningGain);
-        } else if (input < -1.0) {
-            return -((input + 1.0) * turningGain);
-        } return 0; 
-    }
+
 }

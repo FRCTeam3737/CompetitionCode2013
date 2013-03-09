@@ -9,9 +9,11 @@ package org.usfirst.Rotoraptors;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Watchdog;
+import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.commands.*;
@@ -27,6 +29,8 @@ public class RotoraptorsMain extends IterativeRobot {
 
     private Command autonomousCommand;
     private SendableChooser autoSwitcher;
+    public NetworkTable table;
+    public AxisCamera camera;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -36,6 +40,8 @@ public class RotoraptorsMain extends IterativeRobot {
         // Initializes all controllers
         CommandBase.init();
         // Create a switching autonomous mode
+        camera.writeWhiteBalance(AxisCamera.WhiteBalanceT.hold);
+        table = NetworkTable.getTable("datatable");
         autoSwitcher = new SendableChooser();
         autoSwitcher.addDefault("Auto 0", new Auton0());
         autoSwitcher.addObject("Auto 1", new Auton1());

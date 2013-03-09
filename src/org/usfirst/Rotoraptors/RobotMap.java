@@ -41,51 +41,13 @@ public class RobotMap {
 //        public static final int LD_ENC_PORT_B = 4;          //Digital IO
         public static final int SCREW_ENC_PORT_A = 9;     //Digital IO
         public static final int SCREW_ENC_PORT_B = 10;    //Digital IO
+        public static final int TACHOMETER = 11;
         
         public static final int GYRO = 1;                   //Analog IO
-        public static final int SONIC = 4;                  //Analog IO
     }
     
     public static final class Cameras {
         public static final String AXISCAM_1 = "10.37.37.11";   //IP address
         public static final String AXISCAM_2 = "10.37.37.12";   //IP address
-    }
-    
-    public static final class ShooterConstants {
-        // Counts of maximum and minimum allowable angle
-        public static final int MAX_SHOOTER_ANGLE = 1;
-        public static final int MAX_SHOOTER_ANGLE_COUNT = 1;
-        public static final int MIN_SHOOTER_ANGLE = 0;
-        public static final int MIN_SHOOTER_ANGLE_COUNT = 0;
-        
-        // Optimal shooter speeds at distance
-        public static final double CLOSEFIELD_SPEED = 0;
-        public static final double HALFFIELD_SPEED = 0;
-        public static final double LONGFIELD_SPEED = 0;
-        public static final double PYRAMID_SPEED = 0;
-        
-        // Angle and count to feed from station
-        public static final int ANGLE_TO_FEED = 1;
-        public static final int COUNT_TO_FEED = 1;
-        
-        // Angle and count to shoot from front of pyramid
-        public static final int ANGLE_FRONT_PYR = 1;
-        public static final int COUNT_FRONT_PYR = 1;
-        
-        // Angle and count to shoot from left or right front pyramid corner
-        public static final int ANGLE_LR_FRONT_PYR_CRNR = 1;
-        public static final int COUNT_LR_FRONT_PYR_CRNR = 1;
-        
-        // Angle and count to shoot from left or right rear pyramid corner
-        public static final int ANGLE_LR_REAR_PYR_CRNR = 1;
-        public static final int COUNT_LR_REAR_PYR_CRNR = 1;
-        
-        // Angle and count to shoot from behind pyramid
-        public static final int ANGLE_BEHIND_PYR = 1;
-        public static final int COUNT_BEHIND_PYR = 1;
-        
-        // Angle and count to shoot from beside pyramid (teleop)
-        public static final int ANGLE_BESIDE_PYR = 1;
-        public static final int COUNT_BESIDE_PYR = 1;                
     }
 }

@@ -29,7 +29,7 @@ public class InjectFrisbee extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      injector.actuateInjector();
+      injector.activate();
         
     }
 

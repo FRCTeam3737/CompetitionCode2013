@@ -1,7 +1,6 @@
 
 package org.usfirst.Rotoraptors;
 
-import org.usfirst.Rotoraptors.commands.screwDrive.*;
 import org.usfirst.Rotoraptors.controls.hids.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
@@ -24,14 +23,27 @@ public class OI {
     // Initialize joysticks
     public static Attack3 driverJoystick;
     public static XboxController operatorJoystick;
-    public static eStopCCI operatorCCI;
+    public static eStopCCI cci;
     
     public OI() {
         driverJoystick = new Attack3(1);
         operatorJoystick = new XboxController(2);
-        operatorCCI = new eStopCCI(3);
+        cci = new eStopCCI(3);
+        
+        
+    }
+    
+    public Attack3 getDriverJoystick() {
+        return driverJoystick;
     }
         
+    public XboxController getOperatorJoystick() {
+        return operatorJoystick;
+    }
+    
+    public eStopCCI getCCI() {
+        return cci;
+    }
 }
 
 //// CREATING BUTTONS

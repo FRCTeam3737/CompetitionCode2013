@@ -4,15 +4,17 @@
  */
 package org.usfirst.Rotoraptors.subsystems;
 
-import edu.wpi.first.wpilibj.CounterBase;
+import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.screwDrive.DoNothing;
+import org.usfirst.Rotoraptors.commands.screwDrive.OpControl;
 
 /**
  *
@@ -31,8 +33,11 @@ public class ScrewDrive extends PIDSubsystem {
     
     // Initialize your subsystem here
     public ScrewDrive() {
-        super("ScissorLift", Kp, Ki, Kd);
+        super("ScrewDrive", Kp, Ki, Kd);
         
+        setPercentTolerance(2);
+        setInputRange(Constants.Shooter.MAX_SHOOTER_ANGLE_COUNT,
+                Constants.Shooter.MAX_SHOOTER_ANGLE_COUNT);
         screwCIM = new Jaguar(RobotMap.PWMControllers.SCREW_JAGUAR);
         screwLimit = new DigitalInput(RobotMap.Sensors.SCREW_LIMIT);      
         
@@ -40,14 +45,14 @@ public class ScrewDrive extends PIDSubsystem {
                 RobotMap.Sensors.SCREW_ENC_PORT_A,
                 RobotMap.Sensors.SCREW_ENC_PORT_B, 
                 false, EncodingType.k2X);
-        screwEnc.setDistancePerPulse(1);
+        screwEnc.setDistancePerPulse(Constants.Sensors.SCREW_DIST_PER_PULSE);
         screwEnc.start();
         screwEnc.reset();         
                 
-        LiveWindow.addActuator("Shooter", "scissorLift", (Jaguar) screwCIM);
+        LiveWindow.addActuator("Shooter", "screwDrive", (Jaguar) screwCIM);
         
-        LiveWindow.addSensor("Shooter", "scissorEnc", (Encoder) screwEnc);  
-        LiveWindow.addSensor("Shooter", "scissorEnc", (DigitalInput) screwLimit);
+        LiveWindow.addSensor("Shooter", "screwEnc", (Encoder) screwEnc);  
+        LiveWindow.addSensor("Shooter", "screwLim", (DigitalInput) screwLimit);
 
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -57,7 +62,7 @@ public class ScrewDrive extends PIDSubsystem {
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new DoNothing());
+        setDefaultCommand(new OpControl());
     }
     
     protected double returnPIDInput() {
@@ -70,8 +75,7 @@ public class ScrewDrive extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         screwCIM.set(output);
-    }
-    
+    }    
                    
     public void raiseShooter() {
         screwCIM.set(.1);
@@ -81,9 +85,19 @@ public class ScrewDrive extends PIDSubsystem {
         screwCIM.set(-.1);
     }
     
+    public void manualControl(double input) {
+        screwCIM.set(input);
+    }
+       
+    public void setShooterCount(int count) {
+        setSetpoint(count);
+    }
+    
     public void setShooterAngle(double angle) {
-        
-    }    
+        int x = (int) angle;
+        int count = (int) translateAngleToCount(x);
+        setSetpoint(count);
+    }
     
     public double getShooterAngle() {
         int count = screwEnc.get();        
@@ -99,12 +113,16 @@ public class ScrewDrive extends PIDSubsystem {
     }
     
     public double translateCountToAngle(int count) {
-        int angle;
-        
-        return (int) 0;//angle;
+        int x = count;
+        double y = -1;
+        //y = 2*(MathUtils.pow(x, 2));
+        return (int) y;//angle;
     }
     
-    public double translateAngleToCount(int angle) {
-        return 0;
+    public double translateAngleToCount(double angle) {
+        double x = angle;
+        int y = -1;
+        //y = (int) (2*(MathUtils.pow(x, 2)));
+        return (int) y;
     }
 }

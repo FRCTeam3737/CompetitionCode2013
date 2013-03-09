@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.OI;
+import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.subsystems.*;
 
 /**
@@ -17,11 +18,11 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
-    public static Shooter shooter;
-    public static FrisbeeInjector injector;
+    public static Shoot shooter;
+    public static Injector injector;
     public static ScrewDrive screw;
     public static Indexer indexer;
-    public static Scoop scoop;
+    public static Vision vision;
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -31,11 +32,11 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
         chassis = new Chassis();
-        shooter = new Shooter();
-        injector = new FrisbeeInjector();
+        shooter = new Shoot();
+        injector = new Injector();
         screw = new ScrewDrive();
         indexer = new Indexer();
-        scoop = new Scoop();
+        vision = new Vision(RobotMap.Cameras.AXISCAM_1);
                
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(chassis);

@@ -4,15 +4,10 @@
  */
 package org.usfirst.Rotoraptors.subsystems;
 
-import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.shooter.*;
@@ -21,43 +16,52 @@ import org.usfirst.Rotoraptors.commands.shooter.*;
  *
  * @author Daniel
  */
-public class Shooter extends Subsystem {
+public class Shooter extends PIDSubsystem {
 
+    private static final double Kp = 0.0;
+    private static final double Ki = 0.0;
+    private static final double Kd = 0.0;
+    private static final double Kf = 0.0;
+
+    double shooterSpeed;
+    double shooterRunTime;
+    boolean runIndefinitely = false;
+    double startTime;
+    Timer timer;
     Jaguar shooterCIM;
+    DigitalInput tachometer;
     
-    public Shooter() {          
+    // Initialize your subsystem here
+    public Shooter() {
+        super("Shooter", Kp, Ki, Kd, Kf);
+        
         shooterCIM = new Jaguar(RobotMap.PWMControllers.SHOOTER_JAGUAR);
         shooterCIM.setSafetyEnabled(false);
         
+        tachometer = new DigitalInput(RobotMap.Sensors.TACHOMETER);
+        
         LiveWindow.addActuator("Shooter", "shooter", (Jaguar) shooterCIM);
+
+        // Use these to get going:
+        // setSetpoint() -  Sets where the PID controller should move the system
+        //                  to
+        // enable() - Enables the PID controller.
     }
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         setDefaultCommand(new DoNothing());
-    }    
-    
-    public void spinUp() {
-        shooterCIM.set(.8);
     }
     
-    public void spinDown() {
-        shooterCIM.set(.2);
+    protected double returnPIDInput() {
+        // Return your input value for the PID loop
+        // e.g. a sensor, like a potentiometer:
+        // yourPot.getAverageVoltage() / kYourMaxVoltage;
+        return 0.0;
     }
     
-    public void runShooter(double speed) {
-        shooterCIM.set(speed);
+    protected void usePIDOutput(double output) {
+        // Use output to drive your system, like a motor
+        // e.g. yourMotor.set(output);
     }
-    
-    public void doNothing() {        
-        shooterCIM.set(0);
-    }       
-    
-    private void configEncoder(Encoder m_enc) {
-        m_enc.reset();
-        m_enc.setPIDSourceParameter(Encoder.PIDSourceParameter.kDistance);
-        m_enc.setDistancePerPulse(1);
-        m_enc.start();       
-    }
-    
 }

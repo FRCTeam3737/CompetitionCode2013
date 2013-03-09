@@ -5,6 +5,7 @@
 package org.usfirst.Rotoraptors.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Auton0 extends CommandGroup {
     
     public Auton0() {
+
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

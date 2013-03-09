@@ -15,7 +15,7 @@ import org.usfirst.Rotoraptors.commands.indexer.DoNothing;
  *
  * @author Daniel
  */
-public class FrisbeeInjector extends Subsystem {
+public class Injector extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     
@@ -25,7 +25,7 @@ public class FrisbeeInjector extends Subsystem {
     Relay injector;    
     DigitalInput injectorLimit;
     
-    public FrisbeeInjector() {       
+    public Injector() {       
         injector = new Relay(RobotMap.Relays.FEEDER_RELAY);
         
         injectorLimit = new DigitalInput(RobotMap.Sensors.FEEDER_LIMIT);    
@@ -44,11 +44,11 @@ public class FrisbeeInjector extends Subsystem {
         injector.set(Relay.Value.kOff);
     }
     
-     public void actuateInjector() {
+     public void activate() {
          injector.set(Relay.Value.kForward);
     }
     
-    public void retractInjector() {
+    public void retract() {
          injector.set(Relay.Value.kReverse);
     }    
         
