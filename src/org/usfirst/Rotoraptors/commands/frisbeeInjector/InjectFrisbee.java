@@ -4,6 +4,9 @@
  */
 package org.usfirst.Rotoraptors.commands.frisbeeInjector;
 
+import com.sun.squawk.util.MathUtils;
+import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
 /**
@@ -13,29 +16,33 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
 public class InjectFrisbee extends CommandBase {
     
     private boolean ready = false;
-    private double m_timeout = .07;
-    
+    double timeStamp;
+    double timeToRun = MathUtils.pow(Constants.Shooter.INJECTOR_TIME, -6);
+        
     public InjectFrisbee() {
         // Use requires() here to declare subsystem dependencies
         requires(shooter);
-        setTimeout(m_timeout);
         setInterruptible(false);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        
+        timeStamp = Timer.getFPGATimestamp();
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-      injector.activate();
+    protected void execute() {      
+        if(Timer.getFPGATimestamp() - MathUtils.pow(timeStamp, -6)  <= timeToRun) {
+            injector.activate();
+        } else {
+            injector.retract();
+        }
         
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return false;
     }
 
     // Called once after isFinished returns true

@@ -17,6 +17,9 @@ public final class Constants {
         public static final double GYRO_V_PER_DEG_PER_S = .0007;
     }
     public static final class Shooter {
+        // Time to run injector (milliseconds)
+        public static final double INJECTOR_TIME = 70;
+        
         // Counts of maximum and minimum allowable angle
         public static final int MAX_SHOOTER_ANGLE = 1;
         public static final int MAX_SHOOTER_ANGLE_COUNT = 1;
