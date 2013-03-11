@@ -53,25 +53,11 @@ public class Injector extends Subsystem {
          injector.set(Relay.Value.kReverse);
     }    
         
-    public boolean getFeederLim() {
+    public boolean getFeederLimit() {
         return injectorLimit.get();
     }
     
-    public boolean isInjectorRetracted() {
+    public boolean getInjectorLimit() {
         return injectorLimit.get();
     }
-    
-    public boolean isInjectorExtended() {
-        return !injectorLimit.get();
-    }
-    
-    public boolean shooterIsReady() {
-        if (getFeederLim() && indexer.isFrisbeeInPosition()) {
-            return true;
-        } else {
-            return false;
-        }
-    }      
-
- 
 }

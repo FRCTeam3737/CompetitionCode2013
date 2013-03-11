@@ -24,20 +24,24 @@ public class Indexer extends Subsystem {
     DigitalInput topOpt;
     DigitalInput bottomOpt;
     DigitalInput shooterOpt;   
+    DigitalInput feederOpt;
     
     public Indexer() {
         liftRelay = new Relay(RobotMap.Relays.INDEXER_RELAY);
+        
         prox = new DigitalInput(RobotMap.Sensors.INDEXER_PROX);
         topOpt = new DigitalInput(RobotMap.Sensors.INDEXER_TOP_OPT);
         bottomOpt = new DigitalInput(RobotMap.Sensors.INDEXER_BOTTOM_OPT);
         shooterOpt = new DigitalInput(RobotMap.Sensors.INDEXER_SHOOTER_OPT);
+        feederOpt = new DigitalInput(RobotMap.Sensors.INDEXER_FEEDER_OPT);
                 
-        LiveWindow.addActuator("Indexer", "liftRelay", liftRelay);
+        LiveWindow.addActuator("Indexer", "liftRelay", (Relay) liftRelay);
                 
         LiveWindow.addSensor("Indexer", "prox", (DigitalInput) prox);
-        LiveWindow.addSensor("Indexer", "topOpt", topOpt);
-        LiveWindow.addSensor("Indexer", "bottomOpt", bottomOpt);
-        LiveWindow.addSensor("Indexer", "shooterOpt", shooterOpt);
+        LiveWindow.addSensor("Indexer", "topOpt", (DigitalInput) topOpt);
+        LiveWindow.addSensor("Indexer", "bottomOpt", (DigitalInput) bottomOpt);
+        LiveWindow.addSensor("Indexer", "shooterOpt", (DigitalInput) shooterOpt);
+        LiveWindow.addSensor("Indexer", "feederOpt", (DigitalInput) feederOpt);
     }
 
     public void initDefaultCommand() {
@@ -87,15 +91,7 @@ public class Indexer extends Subsystem {
     
     public void advanceDownToNext() {
         
-    }
-       
-    public void goToSlot(int slot) {
-        
-    }
-    
-    public boolean isFrisbeeInPosition() {
-        return shooterOpt.get();
-    }
+    }   
     
     public boolean getProxSensor() {
         return prox.get();
@@ -107,5 +103,13 @@ public class Indexer extends Subsystem {
     
     public boolean getBottomOptical() {
         return bottomOpt.get();
+    }
+    
+    public boolean getShooterOptical() {
+        return shooterOpt.get();
+    }
+    
+    public boolean getFeederOptical() {
+        return feederOpt.get();
     }
 }

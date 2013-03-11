@@ -28,11 +28,15 @@ public class InjectFrisbee extends CommandBase {
     // Called just before this Command runs the first time
     protected void initialize() {
         timeStamp = Timer.getFPGATimestamp();
+        
+        if(indexer.getProxSensor()) {
+            ready = true;
+        }
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {      
-        if(Timer.getFPGATimestamp() - MathUtils.pow(timeStamp, -6)  <= timeToRun) {
+        if(ready && ((Timer.getFPGATimestamp() - MathUtils.pow(timeStamp, -6))  <= timeToRun)) {
             injector.activate();
         } else {
             injector.retract();
@@ -42,7 +46,7 @@ public class InjectFrisbee extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return ((Timer.getFPGATimestamp() >= timeStamp + timeToRun ) && injector.getInjectorLimit());
     }
 
     // Called once after isFinished returns true

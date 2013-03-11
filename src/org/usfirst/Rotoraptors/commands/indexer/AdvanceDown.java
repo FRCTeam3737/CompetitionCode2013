@@ -16,7 +16,7 @@ public class AdvanceDown extends CommandBase {
         // Use requires() here to declare subsystem dependencies
         requires(indexer);
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() {
     }

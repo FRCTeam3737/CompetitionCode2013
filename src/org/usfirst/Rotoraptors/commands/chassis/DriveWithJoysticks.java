@@ -38,10 +38,11 @@ public class DriveWithJoysticks extends CommandBase {
             accuracyMode = true;            
         }
         
-        chassis.arcadeDrive(OI.driverJoystick.getY(), OI.driverJoystick.getX(), speedLimit);;                    
-
-        SmartDashboard.putBoolean("Speed Limit Enabled?", accuracyMode);
-                    
+        if (!OI.driverJoystick.getButton(1)) {
+            chassis.arcadeDrive(OI.driverJoystick.getY(), OI.driverJoystick.getX(), speedLimit);
+        } else {
+            chassis.arcadeDrive(0, OI.driverJoystick.getX(), speedLimit);
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

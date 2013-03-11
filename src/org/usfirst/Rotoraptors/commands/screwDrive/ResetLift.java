@@ -20,28 +20,35 @@ public class ResetLift extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        
+        screw.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        while (!screw.getScrewLim()) {
-            screw.lowerShooter();
-        }        
+        screw.setSetpoint(5);
+        
+        if(screw.onTarget()) {
+            screw.disable();
+            while (!screw.getScrewLimit()) {
+                screw.manualControl(.5);
+            }
+    }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return screw.getScrewLim();
+        return screw.getScrewLimit();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        screw.resetLift();        
+        screw.disable();
+        screw.resetLiftEncoder();        
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        screw.disable();
     }
 }

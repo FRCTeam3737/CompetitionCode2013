@@ -39,6 +39,10 @@ public class Chassis extends Subsystem {
 
     // Declare sensitivity
     public static double tSens = .15;
+    
+    // Declare booleans for PID controllers
+    private boolean turnPIDenabled = false;
+    private boolean drivePIDenabled = false;
        
     // Declare PWMControllers
     private Jaguar leftFrontMotor;
@@ -89,21 +93,6 @@ public class Chassis extends Subsystem {
         // Configure Encoders
         configEncoder(rightEncoder);
         
-//        leftFrontController = new PIDController(.0005, 0, 0, 0.0, leftEncoder, frontLeft);
-//        rightFrontController = new PIDController(.0005, 0, 0, 0.0, rightEncoder, frontRight);
-//        leftBackController = new PIDController(.0005, 0, 0, 0.0, leftEncoder, backLeft);
-//        rightBackController = new PIDController(.0005, 0, 0, 0.0, rightEncoder, backRight);
-//        
-//        leftFrontController.setOutputRange(-1,1);
-//        rightFrontController.setOutputRange(-1,1);
-//        leftBackController.setOutputRange(-1,1);
-//        rightBackController.setOutputRange(-1,1);
-//        
-//        leftFrontController.setPercentTolerance(5);
-//        rightFrontController.setPercentTolerance(5);
-//        leftBackController.setPercentTolerance(5);
-//        rightBackController.setPercentTolerance(5);
-
         LiveWindow.addActuator("Chassis", "LF_Mtr", (Jaguar) leftFrontMotor);
         LiveWindow.addActuator("Chassis", "RF_Mtr", (Jaguar) rightFrontMotor);
         LiveWindow.addActuator("Chassis", "LR_Mtr", (Jaguar) leftRearMotor);
@@ -127,28 +116,6 @@ public class Chassis extends Subsystem {
     }
     
     private void initPID() {
-        pidSourceGyro = new PIDSource() {
-            public double pidGet() {  
-                return gyro.getAngle();
-            }
-        };
-
-        pidSourceEncoder = new PIDSource() {
-            public double pidGet() {
-                return rightEncoder.get();
-            }
-        };
-        pidOutputGyro = new PIDOutput() {
-            public void pidWrite(double output) {
-                drive.tankDrive(output, -output);
-            }
-        };
-
-        pidOutputEncoder = new PIDOutput() {
-            public void pidWrite(double output) {
-                drive.tankDrive(output, output);
-            }
-        };
         pidGyro = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro);   
         pidEncoder = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder);
     }   

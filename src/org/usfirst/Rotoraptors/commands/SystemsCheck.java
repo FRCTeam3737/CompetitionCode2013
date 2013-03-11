@@ -6,6 +6,8 @@ package org.usfirst.Rotoraptors.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import org.usfirst.Rotoraptors.commands.indexer.AdvanceDown;
+import org.usfirst.Rotoraptors.commands.indexer.AdvanceUp;
 
 /**
  *
@@ -13,7 +15,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
  */
 public class SystemsCheck extends CommandGroup {
 
-//    public SystemsCheck() {
+    public SystemsCheck() {
 //        checkAcquirer();
 //        addSequential(new WaitCommand(1));
 //        checkConveyor();
@@ -21,11 +23,11 @@ public class SystemsCheck extends CommandGroup {
 //        checkShooter();
 //        addSequential(new WaitCommand(1));
 //        checkTusks();
-//    }
-//
-//    private void checkAcquirer(){
-//        addSequential(new AcquirerAcquire(1));
-//        addSequential(new AcquirerReverse(1));
+    }
+
+//    private void checkIndexer() {
+//        addSequential(new AdvanceUp());
+//        addSequential(new AdvanceDown());
 //        addSequential(new AcquirerStop());
 //    }
 //

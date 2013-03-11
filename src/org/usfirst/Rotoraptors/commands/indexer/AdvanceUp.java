@@ -35,30 +35,6 @@ public class AdvanceUp extends CommandBase {
     protected void execute() {
         indexer.advanceUp();              
               
-        if(reading1 && reading2) {
-            if(indexer.getProxSensor()) {
-                reading3 = true;
-                done = true;
-                isFinished();
-            } else {
-                reading1 = reading2 = reading3 = false;
-            }
-        }
-        
-        if(reading1) {
-            if(indexer.getProxSensor()) {
-                reading2 = true;
-            } else {
-                reading2 = false;
-                reading1 = false;
-            }
-        }
-        
-        if(indexer.getProxSensor()) {
-            reading1 = true;
-        } else {
-            reading1 = false;
-        }
     }
 
     // Make this return true when this Command no longer needs to run execute()

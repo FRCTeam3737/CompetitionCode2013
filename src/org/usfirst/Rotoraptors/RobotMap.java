@@ -25,7 +25,6 @@ public class RobotMap {
     public static final class Relays {
         public static final int FEEDER_RELAY = 1;           //Relay
         public static final int INDEXER_RELAY = 2;          //Relay
-        public static final int SCOOP_RELAY = 3;            //Relay
     }
     
     public static final class Sensors {
@@ -33,15 +32,16 @@ public class RobotMap {
         public static final int INDEXER_TOP_OPT = 2;        //Digital IO
         public static final int INDEXER_BOTTOM_OPT = 3;     //Digital IO
         public static final int INDEXER_SHOOTER_OPT = 4;    //Digital IO
-        public static final int FEEDER_LIMIT = 5;           //Digital IO
-        public static final int SCREW_LIMIT = 6;          //Digital IO
-        public static final int RD_ENC_PORT_A = 7;          //Digital IO
-        public static final int RD_ENC_PORT_B = 8;          //Digital IO
+        public static final int INDEXER_FEEDER_OPT = 5;     //Digtial IO
+        public static final int FEEDER_LIMIT = 6;           //Digital IO
+        public static final int SCREW_LIMIT = 7;          //Digital IO
+        public static final int RD_ENC_PORT_A = 8;          //Digital IO
+        public static final int RD_ENC_PORT_B = 9;          //Digital IO
 //        public static final int LD_ENC_PORT_A = 3;          //Digital IO
 //        public static final int LD_ENC_PORT_B = 4;          //Digital IO
-        public static final int SCREW_ENC_PORT_A = 9;     //Digital IO
-        public static final int SCREW_ENC_PORT_B = 10;    //Digital IO
-        public static final int TACHOMETER = 11;
+        public static final int SCREW_ENC_PORT_A = 10;     //Digital IO
+        public static final int SCREW_ENC_PORT_B = 11;    //Digital IO
+        public static final int TACHOMETER = 12;
         
         public static final int GYRO = 1;                   //Analog IO
     }

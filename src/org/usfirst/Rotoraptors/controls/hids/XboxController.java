@@ -67,7 +67,7 @@ public class XboxController extends Joystick {
      * @return The value of the axis from -1 to 1.
      */
     public double getLeftX() {
-        return (getRawAxis(LEFT_XAXIS));
+        return applyDeadband(LEFT_XAXIS);
     }
 
     /**
@@ -78,7 +78,7 @@ public class XboxController extends Joystick {
      * @return The value of the axis from -1 to 1.
      */
     public double getLeftY() {
-        return (-1 * getRawAxis(LEFT_YAXIS));
+        return (-1 * applyDeadband(LEFT_YAXIS));
         //Multiply output by -1 because GetAxis() returns the axis backwards.
     }
 
@@ -90,7 +90,7 @@ public class XboxController extends Joystick {
      * @return The value of the axis from -1 to 1.
      */
     public double getRightX() {
-        return (getRawAxis(RIGHT_XAXIS));
+        return (applyDeadband(RIGHT_XAXIS));
     }
 
     /**
@@ -100,7 +100,7 @@ public class XboxController extends Joystick {
      * @return The value of the axis from -1 to 1.
      */
     public double getRightY() {
-        return (-1 * getRawAxis(RIGHT_YAXIS));
+        return (-1 * applyDeadband(RIGHT_YAXIS));
     }
 
     /**

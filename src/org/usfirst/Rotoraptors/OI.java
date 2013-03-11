@@ -30,6 +30,7 @@ public class OI {
         operatorJoystick = new XboxController(2);
         cci = new eStopCCI(3);        
         
+        
     }
     
     public Attack3 getDriverJoystick() {

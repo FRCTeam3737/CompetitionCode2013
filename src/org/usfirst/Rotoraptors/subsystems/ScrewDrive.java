@@ -76,15 +76,7 @@ public class ScrewDrive extends PIDSubsystem {
         // Use output to drive your system, like a motor
         screwCIM.set(output);
     }    
-                   
-    public void raiseShooter() {
-        screwCIM.set(.1);
-    }
-        
-    public void lowerShooter() {
-        screwCIM.set(-.1);
-    }
-    
+                      
     public void manualControl(double input) {
         screwCIM.set(input);
     }
@@ -104,11 +96,11 @@ public class ScrewDrive extends PIDSubsystem {
         return translateCountToAngle(count);
     }
     
-    public boolean getScrewLim() {
+    public boolean getScrewLimit() {
         return screwLimit.get();
     }
     
-    public void resetLift() {
+    public void resetLiftEncoder() {
         screwEnc.reset();
     }
     
