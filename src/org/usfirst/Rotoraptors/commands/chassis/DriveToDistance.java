@@ -22,8 +22,8 @@ public class DriveToDistance extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        chassis.pidEncoder.setSetpoint(setpoint);
-        chassis.pidEncoder.enable();
+        chassis.pidDistance.setSetpoint(setpoint);
+        chassis.pidDistance.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,17 +33,17 @@ public class DriveToDistance extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(chassis.pidEncoder.getError() - setpoint) < .02;
+        return Math.abs(chassis.pidDistance.getError() - setpoint) < .02;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        chassis.pidEncoder.disable();
+        chassis.pidDistance.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        chassis.pidEncoder.disable();
+        chassis.pidDistance.disable();
     }
 }

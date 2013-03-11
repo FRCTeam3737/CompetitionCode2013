@@ -76,22 +76,22 @@ public class Indexer extends Subsystem {
     public void advanceDown() {
         
     }
-    
-    public void advanceUpX(int slots) {
-        
-    }
-    
-    public void advanceDownX(int slots) {
-        
-    }
-    
-    public void advanceUpToNext() {
-        
-    }
-    
-    public void advanceDownToNext() {
-        
-    }   
+//    
+//    public void advanceUpX(int slots) {
+//        
+//    }
+//    
+//    public void advanceDownX(int slots) {
+//        
+//    }
+//    
+//    public void advanceUpToNext() {
+//        
+//    }
+//    
+//    public void advanceDownToNext() {
+//        
+//    }   
     
     public boolean getProxSensor() {
         return prox.get();

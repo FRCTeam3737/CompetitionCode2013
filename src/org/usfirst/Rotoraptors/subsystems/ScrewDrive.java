@@ -35,9 +35,9 @@ public class ScrewDrive extends PIDSubsystem {
     public ScrewDrive() {
         super("ScrewDrive", Kp, Ki, Kd);
         
-        setPercentTolerance(2);
         setInputRange(Constants.Shooter.MAX_SHOOTER_ANGLE_COUNT,
                 Constants.Shooter.MAX_SHOOTER_ANGLE_COUNT);
+        setPercentTolerance(2);
         screwCIM = new Jaguar(RobotMap.PWMControllers.SCREW_JAGUAR);
         screwLimit = new DigitalInput(RobotMap.Sensors.SCREW_LIMIT);      
         
@@ -86,8 +86,7 @@ public class ScrewDrive extends PIDSubsystem {
     }
     
     public void setShooterAngle(double angle) {
-        int x = (int) angle;
-        int count = (int) translateAngleToCount(x);
+        int count = (int) translateAngleToCount(angle);
         setSetpoint(count);
     }
     

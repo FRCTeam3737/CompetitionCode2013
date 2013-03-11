@@ -42,7 +42,7 @@ public class Chassis extends Subsystem {
     
     // Declare booleans for PID controllers
     private boolean turnPIDenabled = false;
-    private boolean drivePIDenabled = false;
+    private boolean distancePIDenabled = false;
        
     // Declare PWMControllers
     private Jaguar leftFrontMotor;
@@ -67,8 +67,8 @@ public class Chassis extends Subsystem {
     public PIDSource pidSourceEncoder;
     public PIDOutput pidOutputGyro;
     public PIDOutput pidOutputEncoder;
-    public PIDController pidGyro;
-    public PIDController pidEncoder;
+    public PIDController pidTurn;
+    public PIDController pidDistance;
    
     // Initialize your subsystem here
     public Chassis() {   
@@ -115,10 +115,26 @@ public class Chassis extends Subsystem {
         m_enc.start();       
     }
     
-    private void initPID() {
-        pidGyro = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro);   
-        pidEncoder = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder);
+    private void initDistancePID() {
+        pidDistance = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder){
+            public void pidWrite(double output) {
+                if(distancePIDenabled) {
+                    drive.tankDrive(output, -output);
+            }
+            }
+        }; 
     }   
+    
+    private void initTurnPID() {
+        pidTurn = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro) {
+            public void pidWrite(double output) {
+                if(turnPIDenabled) {
+                    drive.tankDrive(output, -output);
+            }
+            }
+        }; 
+    }   
+    
     
     public void setSensitivity(double sensitivity){
         tSens = sensitivity;
