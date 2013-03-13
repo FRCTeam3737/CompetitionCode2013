@@ -2,21 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands;
+package org.usfirst.Rotoraptors.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.usfirst.Rotoraptors.Constants;
-import org.usfirst.Rotoraptors.commands.screwDrive.SetAngle;
 
 /**
  *
  * @author Daniel
  */
-public class DeClimb extends CommandGroup {
+public class Auton1 extends CommandGroup {
     
-    public DeClimb() {
-        
-        addSequential(new SetAngle(Constants.Shooter.ANGLE_TO_FEED));
+    public Auton1() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -33,5 +29,9 @@ public class DeClimb extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+        
+        
+        // [parellelism] ( new [command] ( speed , timeout ) )       
+
     }
 }

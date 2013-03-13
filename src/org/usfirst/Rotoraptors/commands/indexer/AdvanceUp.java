@@ -4,6 +4,10 @@
  */
 package org.usfirst.Rotoraptors.commands.indexer;
 
+import com.sun.squawk.util.MathUtils;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
 /**
@@ -12,10 +16,8 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  */
 public class AdvanceUp extends CommandBase {
     
-    boolean reading1;
-    boolean reading2;
-    boolean reading3;
-    boolean done;
+    public double startTime = 0.0;
+    public boolean ignore = false;
     
     public AdvanceUp() {
         // Use requires() here to declare subsystem dependencies
@@ -25,21 +27,25 @@ public class AdvanceUp extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        reading1 = false;
-        reading2 = false;
-        reading3 = false;
-        done = false;
+        ignore = true;
+        startTime = Timer.getFPGATimestamp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        indexer.advanceUp();              
-              
+        indexer.runUp(); 
+        if((Timer.getFPGATimestamp() - startTime) <= Constants.Indexer.INDEXER_IGNORE_TIME) {
+            ignore = false;
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return done;
+        if(!ignore) {
+            return indexer.getProxSensor();
+        } else {
+            return false;
+        }
     }
 
     // Called once after isFinished returns true

@@ -10,9 +10,9 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class AdvanceUpToNext extends CommandBase {
+public class DropFrisbee extends CommandBase {
     
-    public AdvanceUpToNext() {
+    public DropFrisbee() {
         // Use requires() here to declare subsystem dependencies
         requires(indexer);
     }
@@ -23,6 +23,7 @@ public class AdvanceUpToNext extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        indexer.runDown();
     }
 
     // Make this return true when this Command no longer needs to run execute()

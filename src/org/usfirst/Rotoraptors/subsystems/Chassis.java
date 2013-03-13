@@ -15,11 +15,9 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.chassis.DriveWithJoysticks;
-import org.usfirst.Rotoraptors.utilities.Utils;
 
 /**
  * 
@@ -59,9 +57,6 @@ public class Chassis extends Subsystem {
     // Declare Gyroscope
     private Gyro gyro;
     
-    // Declare Ultrasonic
-    private AnalogChannel sonic;
-    
     // Declare PID 
     public PIDSource pidSourceGyro;
     public PIDSource pidSourceEncoder;
@@ -84,7 +79,7 @@ public class Chassis extends Subsystem {
         
         gyro = new Gyro(RobotMap.Sensors.GYRO);
         gyro.setSensitivity(Constants.Sensors.GYRO_V_PER_DEG_PER_S);
-               
+                       
         rightEncoder = new Encoder(
                 RobotMap.Sensors.RD_ENC_PORT_A,
                 RobotMap.Sensors.RD_ENC_PORT_B,
@@ -93,10 +88,15 @@ public class Chassis extends Subsystem {
         // Configure Encoders
         configEncoder(rightEncoder);
         
+        initDistancePID();
+        initTurnPID();
+        
         LiveWindow.addActuator("Chassis", "LF_Mtr", (Jaguar) leftFrontMotor);
         LiveWindow.addActuator("Chassis", "RF_Mtr", (Jaguar) rightFrontMotor);
         LiveWindow.addActuator("Chassis", "LR_Mtr", (Jaguar) leftRearMotor);
         LiveWindow.addActuator("Chassis", "LF_Mtr", (Jaguar) rightRearMotor);
+        LiveWindow.addActuator("Chassis", "PID Distance", pidDistance);
+        LiveWindow.addActuator("Chassis", "PID Turn", pidTurn);
          
         LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
         LiveWindow.addSensor("Chassis", "gyro", (Gyro) gyro);
@@ -123,6 +123,8 @@ public class Chassis extends Subsystem {
             }
             }
         }; 
+        pidDistance.setOutputRange(.7, .7);
+        rightEncoder.reset();
     }   
     
     private void initTurnPID() {
@@ -133,6 +135,12 @@ public class Chassis extends Subsystem {
             }
             }
         }; 
+//        pidDistance.setInputRange(0, 360);
+//        pidDistance.setContinuous();
+        pidTurn.setOutputRange(.7, .7);
+        pidTurn.setPercentTolerance(tSens);
+        gyro.reset();
+        
     }   
     
     
@@ -147,93 +155,90 @@ public class Chassis extends Subsystem {
         drive.tankDrive(left * speedLimit, right * speedLimit);
     }
     
-    public void cheesyDrive(double throttleValue, double turnValue, boolean quickTurn) {
-        double angular_power = 0.0;
-        double overPower = 0.0;
-        double sensitivity = tSens;
-        double rPower = 0.0;
-        double lPower = 0.0;
-
-        if(quickTurn) {
-            overPower = 1.0;
-            sensitivity = 1.0;
-            angular_power = turnValue;
-        } else {
-            overPower = 0.0;
-            angular_power = Math.abs(throttleValue) * turnValue * sensitivity;
-        }
-
-        rPower = lPower = throttleValue;
-        lPower += angular_power;
-        rPower -= angular_power;
-
-        if(lPower > 1.0) {
-            rPower -= overPower * (lPower - 1.0);
-            lPower = 1.0;
-        }
-        else if(rPower > 1.0) {
-            lPower -= overPower * (rPower - 1.0);
-            rPower = 1.0;
-        }
-        else if(lPower < -1.0) {
-            rPower += overPower * (-1.0 - lPower);
-            lPower = -1.0;
-        }
-        else if(rPower < -1.0) {
-            lPower += overPower * (-1.0 - rPower);
-            rPower = -1.0;
-        }
-
-        drive.setLeftRightMotorOutputs(lPower, rPower);
-    }
-    
-    public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
-        // local variables to hold the computed PWM values for the motors
-        double leftMotorSpeed;
-        double rightMotorSpeed;
-
-        if (throttleValue > 1) {
-            throttleValue = 1;
-        }
-        
-        if(turnValue > 1) {
-            turnValue = 1;
-        }
-        
-        if (throttleValue > 0.0) {
-            if (turnValue > 0.0) {
-                leftMotorSpeed = throttleValue - turnValue;
-                rightMotorSpeed = Math.max(throttleValue, turnValue);
-            } else {
-                leftMotorSpeed = Math.max(throttleValue, -turnValue);
-                rightMotorSpeed = throttleValue + turnValue;
-            }
-        } else {
-            if (turnValue > 0.0) {
-                leftMotorSpeed = -Math.max(-throttleValue, turnValue);
-                rightMotorSpeed = throttleValue + turnValue;
-            } else {
-                leftMotorSpeed = throttleValue - turnValue;
-                rightMotorSpeed = -Math.max(-throttleValue, -turnValue);
-            }
-        }
-        
-        drive.setLeftRightMotorOutputs(
-                leftMotorSpeed * speedLimit, rightMotorSpeed * speedLimit);
-    }
-    
-//     public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
-//        double leftMtrOut;
-//        double rightMtrOut;
-//        double leftMtr;
-//        double rightMtr;
-//        leftMtr = throttleValue + turnValue;
-//        rightMtr = throttleValue - turnValue;
-//        leftMtrOut = leftMtr + skim(rightMtr);
-//        rightMtrOut = rightMtr + skim(leftMtr); 
-//        drive.tankDrive(leftMtrOut * speedLimit, rightMtrOut * speedLimit);
+//    public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
+//        double overPower = 0.0;
+//        double sensitivity = tSens;
+//        double rPower = 0.0;
+//        double lPower = 0.0;
+//
+//        rPower = lPower = throttleValue;
+//        lPower -= turnValue;
+//        rPower += turnValue;
+//
+//        if(lPower > 1.0) {
+//            rPower -= overPower * (lPower - 1.0);
+//            lPower = 1.0;
+//        }
+//        else if(rPower > 1.0) {
+//            lPower -= overPower * (rPower - 1.0);
+//            rPower = 1.0;
+//        }
+//        else if(lPower < -1.0) {
+//            rPower += overPower * (-1.0 - lPower);
+//            lPower = -1.0;
+//        }
+//        else if(rPower < -1.0) {
+//            lPower += overPower * (-1.0 - rPower);
+//            rPower = -1.0;
+//        }
+//
+//        drive.setLeftRightMotorOutputs(lPower * speedLimit, rPower * speedLimit);
+//    }
+//    
+//    public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
+//        // local variables to hold the computed PWM values for the motors
+//        double leftMotorSpeed;
+//        double rightMotorSpeed;
+//
+//        if (throttleValue > 1) {
+//            throttleValue = 1;
+//        }
+//        
+//        if(turnValue > 1) {
+//            turnValue = 1;
+//        }
+//        
+//        if (throttleValue > 0.0) {
+//            if (turnValue > 0.0) {
+//                leftMotorSpeed = throttleValue - turnValue;
+//                rightMotorSpeed = Math.max(throttleValue, turnValue);
+//            } else {
+//                leftMotorSpeed = Math.max(throttleValue, -turnValue);
+//                rightMotorSpeed = throttleValue + turnValue;
+//            }
+//        } else {
+//            if (turnValue > 0.0) {
+//                leftMotorSpeed = -Math.max(-throttleValue, turnValue);
+//                rightMotorSpeed = throttleValue + turnValue;
+//            } else {
+//                leftMotorSpeed = throttleValue - turnValue;
+//                rightMotorSpeed = -Math.max(-throttleValue, -turnValue);
+//            }
+//        }
+//        
+//        drive.setLeftRightMotorOutputs(
+//                leftMotorSpeed * speedLimit, rightMotorSpeed * speedLimit);
 //    }
     
+     public void arcadeDrive(double throttleValue, double turnValue, double speedLimit) {
+        double leftMtrOut;
+        double rightMtrOut;
+        double leftMtr;
+        double rightMtr;
+        leftMtr = throttleValue + turnValue;
+        rightMtr = throttleValue - turnValue;
+        leftMtrOut = leftMtr + skim(rightMtr);
+        rightMtrOut = rightMtr + skim(leftMtr); 
+        drive.tankDrive(leftMtrOut * speedLimit, rightMtrOut * speedLimit);
+    }
+     
+     public static double skim(double input) {
+        if (input > 1.0) {
+            return -((input - 1.0) * tSens);
+        } else if (input < -1.0) {
+            return -((input + 1.0) * tSens);
+        } return 0; 
+     }
 
     /******************************************************************/
     
@@ -271,8 +276,12 @@ public class Chassis extends Subsystem {
         return rightEncoder.getDistance();
     }
     
-     public double getCount() {
+    public double getCount() {
         return rightEncoder.get();
+    }
+          
+    public void resetEncoder(Encoder encoder) {
+        encoder.reset();
     }
 
 }

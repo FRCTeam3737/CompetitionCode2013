@@ -7,6 +7,9 @@
 
 package org.usfirst.Rotoraptors;
 
+import org.usfirst.Rotoraptors.commands.autonomous.Auton1;
+import org.usfirst.Rotoraptors.commands.autonomous.Auton0;
+import org.usfirst.Rotoraptors.commands.autonomous.Auton2;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Watchdog;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
@@ -79,7 +82,7 @@ public class RotoraptorsMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        updateDashboard();
+        CommandBase.updateDashboard();
     }
     
     /**
@@ -94,13 +97,9 @@ public class RotoraptorsMain extends IterativeRobot {
     }
     
     public void disabledPeriodic() {
-        updateDashboard();
+        CommandBase.updateDashboard();
     }
-    
-    public void updateDashboard() {
-        
-    }
-    
+       
     public void log(String out) {
         if (OI.DEV_MODE)
             System.out.println("RobotMain: " + out);

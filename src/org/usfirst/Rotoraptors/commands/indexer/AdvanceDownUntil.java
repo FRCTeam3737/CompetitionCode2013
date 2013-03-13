@@ -10,9 +10,9 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class AdvanceDownToNext extends CommandBase {
+public class AdvanceDownUntil extends CommandBase {
     
-    public AdvanceDownToNext() {
+    public AdvanceDownUntil() {
         // Use requires() here to declare subsystem dependencies
         requires(indexer);
     }
@@ -23,19 +23,22 @@ public class AdvanceDownToNext extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        indexer.runDown();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return indexer.getProxSensor();
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        indexer.deactivate();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        indexer.deactivate();
     }
 }

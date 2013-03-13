@@ -18,7 +18,7 @@ public abstract class CommandBase extends Command {
     public static OI oi;
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
-    public static Shoot shooter;
+    public static Shooter shooter;
     public static Injector injector;
     public static ScrewDrive screw;
     public static Indexer indexer;
@@ -32,7 +32,7 @@ public abstract class CommandBase extends Command {
         // news. Don't move it.
         oi = new OI();
         chassis = new Chassis();
-        shooter = new Shoot();
+        shooter = new Shooter();
         injector = new Injector();
         screw = new ScrewDrive();
         indexer = new Indexer();
@@ -41,6 +41,23 @@ public abstract class CommandBase extends Command {
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(chassis);
 
+    }
+    
+      public static void updateDashboard() {
+        
+        SmartDashboard.putNumber("Shooter Angle", screw.getShooterAngle());
+        
+        if (OI.DEV_MODE) {
+            
+        } else {
+            SmartDashboard.putBoolean("Indexer bottomOptical", indexer.getBottomOptical());
+            SmartDashboard.putBoolean("Indexer topOptical", indexer.getTopOptical());
+            SmartDashboard.putBoolean("Indexer feederOptical", indexer.getFeederOptical());
+            SmartDashboard.putBoolean("Indexer shooterOptical", indexer.getShooterOptical());
+            SmartDashboard.putBoolean("Indexer liftProximity", indexer.getProxSensor());
+            
+            //SmartDashboard.putNumber(null, value);
+        }        
     }
 
     public CommandBase(String name) {

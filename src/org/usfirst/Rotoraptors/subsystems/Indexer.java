@@ -6,6 +6,7 @@ package org.usfirst.Rotoraptors.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.Rotoraptors.RobotMap;
@@ -34,7 +35,7 @@ public class Indexer extends Subsystem {
         bottomOpt = new DigitalInput(RobotMap.Sensors.INDEXER_BOTTOM_OPT);
         shooterOpt = new DigitalInput(RobotMap.Sensors.INDEXER_SHOOTER_OPT);
         feederOpt = new DigitalInput(RobotMap.Sensors.INDEXER_FEEDER_OPT);
-                
+        
         LiveWindow.addActuator("Indexer", "liftRelay", (Relay) liftRelay);
                 
         LiveWindow.addSensor("Indexer", "prox", (DigitalInput) prox);
@@ -69,30 +70,6 @@ public class Indexer extends Subsystem {
         liftRelay.set(Relay.Value.kOff);
     }
     
-    public void advanceUp() {
-        
-    }
-    
-    public void advanceDown() {
-        
-    }
-//    
-//    public void advanceUpX(int slots) {
-//        
-//    }
-//    
-//    public void advanceDownX(int slots) {
-//        
-//    }
-//    
-//    public void advanceUpToNext() {
-//        
-//    }
-//    
-//    public void advanceDownToNext() {
-//        
-//    }   
-    
     public boolean getProxSensor() {
         return prox.get();
     }  
@@ -111,5 +88,5 @@ public class Indexer extends Subsystem {
     
     public boolean getFeederOptical() {
         return feederOpt.get();
-    }
+    }   
 }

@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.indexer.DoNothing;
 
@@ -50,8 +49,10 @@ public class Injector extends Subsystem {
     }
     
     public void retract() {
-         injector.set(Relay.Value.kReverse);
+        while(!injectorLimit.get()) {
+            injector.set(Relay.Value.kReverse);
     }    
+    }
         
     public boolean getFeederLimit() {
         return injectorLimit.get();

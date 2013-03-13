@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.usfirst.Rotoraptors.commands;
+package org.usfirst.Rotoraptors.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  * @author Daniel
  */
-public class Auton1 extends CommandGroup {
+public class Auton2 extends CommandGroup {
     
-    public Auton1() {
+        public Auton2() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -29,9 +29,5 @@ public class Auton1 extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-        
-        
-        // [parellelism] ( new [command] ( speed , timeout ) )       
-
     }
 }

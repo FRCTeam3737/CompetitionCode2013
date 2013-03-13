@@ -44,7 +44,7 @@ public class ScrewDrive extends PIDSubsystem {
         screwEnc = new Encoder(
                 RobotMap.Sensors.SCREW_ENC_PORT_A,
                 RobotMap.Sensors.SCREW_ENC_PORT_B, 
-                false, EncodingType.k2X);
+                false, EncodingType.k4X);
         screwEnc.setDistancePerPulse(Constants.Sensors.SCREW_DIST_PER_PULSE);
         screwEnc.start();
         screwEnc.reset();         
@@ -115,5 +115,9 @@ public class ScrewDrive extends PIDSubsystem {
         int y = -1;
         //y = (int) (2*(MathUtils.pow(x, 2)));
         return (int) y;
+    }
+    
+    public void doNothing() {
+        screwCIM.set(0);
     }
 }

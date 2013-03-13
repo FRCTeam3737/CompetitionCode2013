@@ -4,17 +4,23 @@
  */
 package org.usfirst.Rotoraptors.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  * @author Daniel
  */
-public class Auton0 extends CommandGroup {
+public class EmptyAll extends CommandGroup {
     
-    public Auton0() {
-
+    int currentIteration = 0;
+    int iterations = 1;
+    
+    public EmptyAll(int iterations) {
+        
+               
+        
+        
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

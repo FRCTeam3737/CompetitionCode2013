@@ -40,7 +40,12 @@ public class Shooter extends PIDSubsystem {
         
         tachometer = new DigitalInput(RobotMap.Sensors.TACHOMETER);
         
-        LiveWindow.addActuator("Shooter", "shooter", (Jaguar) shooterCIM);
+        setAbsoluteTolerance(25);
+        
+        LiveWindow.addActuator("Shooter", "shooter", (Jaguar) shooterCIM); 
+        LiveWindow.addActuator("Shooter", "PID Control", getPIDController());
+
+        LiveWindow.addSensor("Shooter", "tachometer", tachometer);
 
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -57,11 +62,23 @@ public class Shooter extends PIDSubsystem {
         // Return your input value for the PID loop
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return 0.0;
+        return 0;
     }
     
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
-        // e.g. yourMotor.set(output);
+        shooterCIM.set(output);
+    }
+    
+    public void setSpeed(double speed) {
+        this.setSetpoint(speed);
+    }
+    
+    public void doNothing() {
+        this.disable();
+    }
+    
+    public void spinUp() {
+        
     }
 }
