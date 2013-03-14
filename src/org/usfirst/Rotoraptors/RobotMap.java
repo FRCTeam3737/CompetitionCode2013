@@ -23,7 +23,7 @@ public class RobotMap {
     }
     
     public static final class Relays {
-        public static final int FEEDER_RELAY = 1;           //Relay
+        public static final int INJECTOR_RELAY = 1;           //Relay
         public static final int INDEXER_RELAY = 2;          //Relay
     }
     

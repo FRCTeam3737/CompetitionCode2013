@@ -57,6 +57,7 @@ public class XboxController extends Joystick {
      */
     public XboxController(int port) {
         super(port);
+        m_pad = new Joystick(port);
     }
 
     /**
@@ -449,10 +450,10 @@ public class XboxController extends Joystick {
     }
     
     public double applyDeadband(int axis) {
-        if(Math.abs(m_pad.getRawAxis(axis)) < .1) {
+        if(Math.abs(m_pad.getRawAxis(axis)) < .2) {
             return 0;
         } else {
-            return axis;
+            return m_pad.getRawAxis(axis);
         }
     }          
 }

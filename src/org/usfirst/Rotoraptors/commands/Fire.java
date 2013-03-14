@@ -5,7 +5,7 @@
 package org.usfirst.Rotoraptors.commands;
 
 import org.usfirst.Rotoraptors.Constants;
-import org.usfirst.Rotoraptors.commands.frisbeeInjector.InjectFrisbee;
+import org.usfirst.Rotoraptors.commands.injector.InjectFrisbee;
 import org.usfirst.Rotoraptors.commands.shooter.*;
 import org.usfirst.Rotoraptors.commands.indexer.*;
 

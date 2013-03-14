@@ -115,7 +115,46 @@ public class Chassis extends Subsystem {
         m_enc.start();       
     }
     
+
+        private void initPID() {
+        pidSourceGyro = new PIDSource() {
+            public double pidGet() {  
+                return gyro.getAngle();
+            }
+        };
+
+        pidSourceEncoder = new PIDSource() {
+            public double pidGet() {
+                return rightEncoder.get();
+            }
+        };
+        pidOutputGyro = new PIDOutput() {
+            public void pidWrite(double output) {
+                drive.tankDrive(output, -output);
+            }
+        };
+
+        pidOutputEncoder = new PIDOutput() {
+            public void pidWrite(double output) {
+                drive.tankDrive(output, output);
+            }
+        };
+    }
+    
     private void initDistancePID() {
+        
+        pidSourceEncoder = new PIDSource() {
+            public double pidGet() {
+                return rightEncoder.getDistance();
+            }
+        };
+        
+        pidOutputEncoder = new PIDOutput() {
+            public void pidWrite(double output) {
+                drive.tankDrive(output, output);
+            }
+        };
+        
         pidDistance = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder){
             public void pidWrite(double output) {
                 if(distancePIDenabled) {
@@ -128,6 +167,17 @@ public class Chassis extends Subsystem {
     }   
     
     private void initTurnPID() {
+        pidSourceGyro = new PIDSource() {
+            public double pidGet() {  
+                return gyro.getAngle();
+            }
+        };
+        
+        pidOutputGyro = new PIDOutput() {
+            public void pidWrite(double output) {
+                drive.tankDrive(output, -output);
+            }
+        };
         pidTurn = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro) {
             public void pidWrite(double output) {
                 if(turnPIDenabled) {
@@ -135,8 +185,8 @@ public class Chassis extends Subsystem {
             }
             }
         }; 
-//        pidDistance.setInputRange(0, 360);
-//        pidDistance.setContinuous();
+        pidTurn.setInputRange(0, 360);
+        pidTurn.setContinuous();
         pidTurn.setOutputRange(.7, .7);
         pidTurn.setPercentTolerance(tSens);
         gyro.reset();

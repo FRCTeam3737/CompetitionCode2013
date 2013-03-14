@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.Rotoraptors.RobotMap;
-import org.usfirst.Rotoraptors.commands.indexer.DoNothing;
+import org.usfirst.Rotoraptors.commands.injector.DoNothing;
 
 /**
  *
@@ -20,13 +20,11 @@ public class Injector extends Subsystem {
     // here. Call these from Commands.
     
             
-    Indexer indexer = new Indexer();  
-    
     Relay injector;    
     DigitalInput injectorLimit;
     
     public Injector() {       
-        injector = new Relay(RobotMap.Relays.FEEDER_RELAY);
+        injector = new Relay(RobotMap.Relays.INJECTOR_RELAY);
         
         injectorLimit = new DigitalInput(RobotMap.Sensors.FEEDER_LIMIT);    
         

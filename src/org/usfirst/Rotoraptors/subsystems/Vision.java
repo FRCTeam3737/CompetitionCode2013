@@ -92,7 +92,7 @@ public class Vision extends Subsystem {
     double computeDistance (BinaryImage image, ParticleAnalysisReport report, int particleNumber, boolean outer) throws NIVisionException {
             double rectShort, height;
             int targetHeight;
-            angle = CommandBase.screw.getShooterAngle();
+            angle = CommandBase.screw.getLiftAngle();
 
             rectShort = NIVision.MeasureParticle(image.image, particleNumber, false, MeasurementType.IMAQ_MT_EQUIVALENT_RECT_SHORT_SIDE);
             //using the smaller of the estimated rectangle short side and the bounding rectangle height results in better performance

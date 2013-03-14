@@ -1,7 +1,6 @@
 package org.usfirst.Rotoraptors.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.OI;
 import org.usfirst.Rotoraptors.RobotMap;
@@ -19,9 +18,10 @@ public abstract class CommandBase extends Command {
     // Create a single static instance of all of your subsystems
     public static Chassis chassis;
     public static Shooter shooter;
+    public static Indexer indexer;
     public static Injector injector;
     public static ScrewDrive screw;
-    public static Indexer indexer;
+    
     public static Vision vision;
 
     public static void init() {
@@ -33,9 +33,10 @@ public abstract class CommandBase extends Command {
         oi = new OI();
         chassis = new Chassis();
         shooter = new Shooter();
+        indexer = new Indexer();
         injector = new Injector();
         screw = new ScrewDrive();
-        indexer = new Indexer();
+        
         vision = new Vision(RobotMap.Cameras.AXISCAM_1);
                
         // Show what command your subsystem is running on the SmartDashboard
@@ -45,7 +46,7 @@ public abstract class CommandBase extends Command {
     
       public static void updateDashboard() {
         
-        SmartDashboard.putNumber("Shooter Angle", screw.getShooterAngle());
+        SmartDashboard.putNumber("Shooter Angle", screw.getLiftAngle());
         
         if (OI.DEV_MODE) {
             

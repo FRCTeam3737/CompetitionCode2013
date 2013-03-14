@@ -33,7 +33,6 @@ public class RotoraptorsMain extends IterativeRobot {
     private Command autonomousCommand;
     private SendableChooser autoSwitcher;
     public NetworkTable table;
-    public AxisCamera camera;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -43,14 +42,13 @@ public class RotoraptorsMain extends IterativeRobot {
         // Initializes all controllers
         CommandBase.init();
         // Create a switching autonomous mode
-        camera.writeWhiteBalance(AxisCamera.WhiteBalanceT.hold);
         table = NetworkTable.getTable("datatable");
         autoSwitcher = new SendableChooser();
         autoSwitcher.addDefault("Auto 0", new Auton0());
         autoSwitcher.addObject("Auto 1", new Auton1());
         autoSwitcher.addObject("Auto 2", new Auton2());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
-        SmartDashboard.putData(Scheduler.getInstance()); 
+        //SmartDashboard.putData(Scheduler.getInstance()); 
     }
 
     public void autonomousInit() {

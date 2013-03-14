@@ -90,9 +90,14 @@ public class ScrewDrive extends PIDSubsystem {
         setSetpoint(count);
     }
     
-    public double getShooterAngle() {
+    public double getLiftAngle() {
         int count = screwEnc.get();        
         return translateCountToAngle(count);
+    }
+    
+    public int getLiftCount() {
+        int count = screwEnc.get();
+        return count;
     }
     
     public boolean getScrewLimit() {
