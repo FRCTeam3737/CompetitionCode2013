@@ -57,11 +57,15 @@ public class Indexer extends Subsystem {
         }
     }
     
-    public void runDown() {
+    public void runDown(boolean ignore) {
         if(!getBottomOptical()) {
             liftRelay.set(Relay.Value.kReverse);
         } else {
-            deactivate();
+            if(ignore) {
+                liftRelay.set(Relay.Value.kReverse);
+            } else {
+                deactivate();
+            }            
         }
     }
     

@@ -330,8 +330,12 @@ public class Chassis extends Subsystem {
         return rightEncoder.get();
     }
           
-    public void resetEncoder(Encoder encoder) {
-        encoder.reset();
+    public void resetEncoder() {
+        rightEncoder.reset();
+    }
+    
+    public void resetGyro() {
+        gyro.reset();
     }
 
 }

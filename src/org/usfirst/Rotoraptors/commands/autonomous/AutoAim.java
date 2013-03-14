@@ -4,6 +4,7 @@
  */
 package org.usfirst.Rotoraptors.commands.autonomous;
 
+import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
 /**
@@ -28,18 +29,18 @@ public class AutoAim extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        //shooter.enable();
         screw.enable();
-        //shooter.enable();
+        shooter.enable();
+        chassis.pidTurn.enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        screw.setShooterAngle(0);
+        screw.setShooterAngle(Constants.Shooter.ANGLE_BEHIND_PYR);
         process(vision.analyze());
         
             if((goal == 0.0) || (goal == 1.0) || (goal == 2.0)){
-                //shooter.setSetpoint(30);
+                shooter.setSetpoint(Constants.Shooter.SHOOTER_TYP_SPEED);
                 screw.setShooterAngle(pitch);
                 chassis.turnToAngle(rotation);
             } else{
@@ -55,16 +56,16 @@ public class AutoAim extends CommandBase {
     // Called once after isFinished returns true
     protected void end() {
         screw.disable();
-        //shooter.disable();
-        //chassis.disable();
+        shooter.disable();
+        chassis.pidTurn.disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
         screw.disable();
-        //shooter.disable();
-        //chassis.disable();
+        shooter.disable();
+        chassis.pidTurn.disable();
     }
     
      /**

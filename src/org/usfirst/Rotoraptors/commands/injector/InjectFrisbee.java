@@ -15,8 +15,6 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  */
 public class InjectFrisbee extends CommandBase {
     
-    // State machine variable
-    private int state;    
     // Timestamp of initialization
     private double startTime = 0.0;    
     // Time to run injector in milliseconds

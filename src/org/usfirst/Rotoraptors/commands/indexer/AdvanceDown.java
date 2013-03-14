@@ -31,7 +31,7 @@ public class AdvanceDown extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        indexer.runDown();
+        indexer.runDown(false);
         if((Timer.getFPGATimestamp() - startTime) <= Constants.Indexer.INDEXER_IGNORE_TIME) {
             ignore = false;
         }

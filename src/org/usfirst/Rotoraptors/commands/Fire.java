@@ -4,106 +4,49 @@
  */
 package org.usfirst.Rotoraptors.commands;
 
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.Rotoraptors.Constants;
+import org.usfirst.Rotoraptors.commands.indexer.AdvanceUp;
 import org.usfirst.Rotoraptors.commands.injector.InjectFrisbee;
-import org.usfirst.Rotoraptors.commands.shooter.*;
-import org.usfirst.Rotoraptors.commands.indexer.*;
+import org.usfirst.Rotoraptors.commands.screwDrive.HoldPosition;
+import org.usfirst.Rotoraptors.commands.shooter.Shoot;
 
 /**
  *
  * @author Daniel
  */
-public class Fire extends CommandBase {
+public class Fire extends CommandGroup {
     
-    boolean frisbeeLoaded = false;
-    boolean indexerInPosition = false;
-    boolean injectorClear = false;
-        
-    private int iterations = 1;
-    private int currentIteration = 0;
-    private int state;
-    
-    //static state variables, used in state machine
-    public static final int checking = 0;
-    public static final int preparing = 1;
-    public static final int ready = 2;
-    public static final int injecting = 3;
-    public static final int indexing = 4;
-    public static final int finished = 5;
-                           
     public Fire() {
-        // Use requires() here to declare subsystem dependencies
-        requires(injector);
-        requires(indexer);
+        addSequential(new HoldPosition());
+        addParallel(new Shoot(Constants.Shooter.SHOOTER_TYP_SPEED, 10));
+        addSequential(new InjectFrisbee());
+        addSequential(new AdvanceUp());
     }
     
-    public Fire(int numIterations) {
-        // Use requires() here to declare subsystem dependencies
-        requires(injector);
-        requires(indexer);
-                
-        iterations = numIterations;
-        currentIteration = 0;
-    }
-
-    // Called just before this Command runs the first time
-    protected void initialize() {
-        this.setInterruptible(false);
+    public Fire(int iterations) {
         
-        state = checking;
-    }
-
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-        switch(state) {
-            case checking:
-                if(indexer.getProxSensor() && indexer.getShooterOptical() && injector.getInjectorLimit()) {
-                    state = ready;
-                } else {
-                    if(!indexer.getProxSensor()) {
-                        new AdvanceDownUntil();
-                        state = preparing;
-                    } else if(!indexer.getShooterOptical()) {
-                        new AdvanceUp();
-                        state = preparing;
-                } else if(!injector.getInjectorLimit()) {
-                    injector.retract();
-                    state = preparing;
-                }
-                }
-            case preparing: {
-                if(indexer.getProxSensor() && indexer.getShooterOptical() && injector.getInjectorLimit()) {
-                    state = ready;
-                }
-            }
-            case ready: {
-                new Shoot(Constants.Shooter.SHOOTER_TYP_SPEED);
-                state = injecting;
-            }
-            case injecting: {
-                if(shooter.onTarget()) {
-                    new InjectFrisbee();
-                }
-            }
-            case finished: {
-                currentIteration++;
-                state = checking;
-            }
+        for(int i = 1; i <= iterations; i++) {
+            addSequential(new HoldPosition());
+            addParallel(new Shoot(Constants.Shooter.SHOOTER_TYP_SPEED, 10));
+            addSequential(new InjectFrisbee());
+            addSequential(new AdvanceUp());
         }
-    }
+        // Add Commands here:
+        // e.g. addSequential(new Command1());
+        //      addSequential(new Command2());
+        // these will run in order.
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return (currentIteration >= iterations);
-    }
+        // To run multiple commands at the same time,
+        // use addParallel()
+        // e.g. addParallel(new Command1());
+        //      addSequential(new Command2());
+        // Command1 and Command2 will run in parallel.
 
-    // Called once after isFinished returns true
-    protected void end() {
+        // A command group will require all of the subsystems that each member
+        // would require.
+        // e.g. if Command1 requires chassis, and Command2 requires arm,
+        // a CommandGroup containing them would require both the chassis and the
+        // arm.
     }
-
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
-
 }

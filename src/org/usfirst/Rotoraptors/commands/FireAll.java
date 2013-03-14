@@ -11,15 +11,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  * @author Daniel
  */
-public class EmptyAll extends CommandGroup {
+public class FireAll extends CommandGroup {
     
     int currentIteration = 0;
-    int iterations = 1;
     
-    public EmptyAll(int iterations) {
+    public FireAll() {
         
-               
-        
+        addSequential(new Fire2(4));                     
         
         // Add Commands here:
         // e.g. addSequential(new Command1());

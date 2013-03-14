@@ -25,7 +25,7 @@ public class ResetLift extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        screw.setSetpoint(5);
+        screw.setSetpoint(1);
         
         if(screw.onTarget()) {
             screw.disable();

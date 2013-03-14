@@ -41,6 +41,10 @@ public abstract class CommandBase extends Command {
                
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(chassis);
+        SmartDashboard.putData(screw);
+        SmartDashboard.putData(indexer);
+        SmartDashboard.putData(injector);
+        SmartDashboard.putData(shooter);
 
     }
     
@@ -54,8 +58,14 @@ public abstract class CommandBase extends Command {
             SmartDashboard.putBoolean("Indexer bottomOptical", indexer.getBottomOptical());
             SmartDashboard.putBoolean("Indexer topOptical", indexer.getTopOptical());
             SmartDashboard.putBoolean("Indexer feederOptical", indexer.getFeederOptical());
-            SmartDashboard.putBoolean("Indexer shooterOptical", indexer.getShooterOptical());
+            SmartDashboard.putBoolean("Indexer frisbeeAligned", indexer.getShooterOptical());
             SmartDashboard.putBoolean("Indexer liftProximity", indexer.getProxSensor());
+            
+            SmartDashboard.putNumber("Shooter Dist", screw.getLiftDist());
+            SmartDashboard.putNumber("Shooter Angle", screw.getLiftAngle());
+            
+            SmartDashboard.putNumber("Shooter RPM", shooter.getSpeedRpm());
+            SmartDashboard.putNumber("Shooter Mtr value", shooter.getMotorValRaw());
             
             //SmartDashboard.putNumber(null, value);
         }        

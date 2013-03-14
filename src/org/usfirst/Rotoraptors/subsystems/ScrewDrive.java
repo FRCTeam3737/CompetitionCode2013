@@ -35,8 +35,8 @@ public class ScrewDrive extends PIDSubsystem {
     public ScrewDrive() {
         super("ScrewDrive", Kp, Ki, Kd);
         
-        setInputRange(Constants.Shooter.MAX_SHOOTER_ANGLE_COUNT,
-                Constants.Shooter.MAX_SHOOTER_ANGLE_COUNT);
+        setInputRange(Constants.Shooter.MAX_SHOOTER_DIST,
+                Constants.Shooter.MAX_SHOOTER_DIST);
         setPercentTolerance(2);
         screwCIM = new Jaguar(RobotMap.PWMControllers.SCREW_JAGUAR);
         screwLimit = new DigitalInput(RobotMap.Sensors.SCREW_LIMIT);      
@@ -69,7 +69,7 @@ public class ScrewDrive extends PIDSubsystem {
         // Return your input value for the PID loop
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return screwEnc.get();
+        return screwEnc.getDistance();
     }
     
     protected void usePIDOutput(double output) {
@@ -81,23 +81,23 @@ public class ScrewDrive extends PIDSubsystem {
         screwCIM.set(input);
     }
        
-    public void setShooterCount(int count) {
-        setSetpoint(count);
+    public void setShooterDist(int dist) {
+        setSetpoint(dist);
     }
     
     public void setShooterAngle(double angle) {
-        int count = (int) translateAngleToCount(angle);
-        setSetpoint(count);
+        double dist = (double) translateAngleToDist(angle);
+        setSetpoint(dist);
     }
     
     public double getLiftAngle() {
-        int count = screwEnc.get();        
-        return translateCountToAngle(count);
+        double dist = screwEnc.getDistance();        
+        return translateDistToAngle(dist);
     }
     
-    public int getLiftCount() {
-        int count = screwEnc.get();
-        return count;
+    public double getLiftDist() {
+        double dist = screwEnc.getDistance();
+        return dist;
     }
     
     public boolean getScrewLimit() {
@@ -108,16 +108,16 @@ public class ScrewDrive extends PIDSubsystem {
         screwEnc.reset();
     }
     
-    public double translateCountToAngle(int count) {
-        int x = count;
+    public double translateDistToAngle(double dist) {
+        double x = dist;
         double y = -1;
         //y = 2*(MathUtils.pow(x, 2));
         return (int) y;//angle;
     }
     
-    public double translateAngleToCount(double angle) {
+    public double translateAngleToDist(double angle) {
         double x = angle;
-        int y = -1;
+        double y = -1;
         //y = (int) (2*(MathUtils.pow(x, 2)));
         return (int) y;
     }

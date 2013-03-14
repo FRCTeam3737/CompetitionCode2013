@@ -19,7 +19,7 @@ public class HoldPosition extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        screw.setSetpoint(screw.getLiftCount());
+        screw.setSetpoint(screw.getLiftDist());
         screw.enable();
     }
 

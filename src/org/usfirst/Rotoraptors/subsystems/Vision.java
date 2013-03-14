@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.image.*;
 import edu.wpi.first.wpilibj.image.NIVision.MeasurementType;
 import edu.wpi.first.wpilibj.image.NIVision.Rect;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
 /**
@@ -51,7 +52,7 @@ public class Vision extends Subsystem {
      * @return
      */
     public Vision(String ip) {
-        //camera = AxisCamera.getInstance(ip);
+        camera = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
         collection = new CriteriaCollection();
         collection.addCriteria(MeasurementType.IMAQ_MT_AREA, 500, 65535, false);
     }
