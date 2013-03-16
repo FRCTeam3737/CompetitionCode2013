@@ -4,9 +4,8 @@
  */
 package org.usfirst.Rotoraptors.commands.indexer;
 
-import com.sun.squawk.util.MathUtils;
-import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -14,12 +13,12 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class AdvanceUp extends CommandBase {
+public class IndexUp extends CommandBase {
     
     public double startTime = 0.0;
-    public boolean ignore = false;
+    public boolean finished = false; 
     
-    public AdvanceUp() {
+    public IndexUp() {
         // Use requires() here to declare subsystem dependencies
         requires(indexer);
         setInterruptible(false);        
@@ -27,25 +26,24 @@ public class AdvanceUp extends CommandBase {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        ignore = true;
         startTime = Timer.getFPGATimestamp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        indexer.runUp(); 
         if((Timer.getFPGATimestamp() - startTime) <= Constants.Indexer.INDEXER_IGNORE_TIME) {
-            ignore = false;
+            indexer.runUp();
+        } else {
+            indexer.runUp();
+            if(indexer.getProxSensor() || indexer.getTopOptical());
+            indexer.deactivate();
+            finished = true;
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        if(!ignore) {
-            return indexer.getProxSensor();
-        } else {
-            return false;
-        }
+    protected boolean isFinished() {       
+       return finished;    
     }
 
     // Called once after isFinished returns true

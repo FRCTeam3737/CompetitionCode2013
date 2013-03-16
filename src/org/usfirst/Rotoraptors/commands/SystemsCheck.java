@@ -6,8 +6,8 @@ package org.usfirst.Rotoraptors.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import org.usfirst.Rotoraptors.commands.indexer.AdvanceDown;
-import org.usfirst.Rotoraptors.commands.indexer.AdvanceUp;
+import org.usfirst.Rotoraptors.commands.indexer.IndexDown;
+import org.usfirst.Rotoraptors.commands.indexer.IndexUp;
 
 /**
  *
@@ -26,8 +26,8 @@ public class SystemsCheck extends CommandGroup {
     }
 
 //    private void checkIndexer() {
-//        addSequential(new AdvanceUp());
-//        addSequential(new AdvanceDown());
+//        addSequential(new IndexUp());
+//        addSequential(new IndexDown());
 //        addSequential(new AcquirerStop());
 //    }
 //

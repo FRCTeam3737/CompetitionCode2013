@@ -35,17 +35,18 @@ public class Shoot extends CommandBase {
         shooterSpeed = speed;
     }
     
-    public Shoot(double speed, boolean indefinite) {
-         // Use requires() here to declare subsystem dependencies
-        requires(shooter);
-        
-        runIndefinitely = indefinite;
-        shooterSpeed = speed;
-    }
+//    public Shoot(double speed, boolean indefinite) {
+//         // Use requires() here to declare subsystem dependencies
+//        requires(shooter);
+//        
+//        runIndefinitely = indefinite;
+//        shooterSpeed = speed;
+//    }
     
     // Called just before this Command runs the first time
     protected void initialize() {
-        startTime = Timer.getFPGATimestamp();
+        setTimeout(shooterRunTime);
+        //startTime = Timer.getFPGATimestamp();
         shooter.setSpeed(shooterSpeed);
     }
 
@@ -56,26 +57,29 @@ public class Shoot extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+        return isTimedOut();
         
-        if(!runIndefinitely) {
-            if((Timer.getFPGATimestamp()-startTime) > shooterRunTime) {
-                return true;
-            } else {
-                return false;    
-            }
-        } else {
-            return false;
-        }
+//        if(!runIndefinitely) {
+//            if((Timer.getFPGATimestamp()-startTime) > shooterRunTime) {
+//                return true;
+//            } else {
+//                return false;    
+//            }
+//        } else {
+//            return false;
+//        }
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        shooter.disable();
+        //shooter.disable();
+        shooter.setSpeed(0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        shooter.disable();
+        //shooter.disable();
+        
     }
 }

@@ -5,10 +5,10 @@
 package org.usfirst.Rotoraptors.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.Rotoraptors.Constants;
-import org.usfirst.Rotoraptors.commands.indexer.AdvanceUp;
+import org.usfirst.Rotoraptors.commands.indexer.IndexUp;
 import org.usfirst.Rotoraptors.commands.injector.InjectFrisbee;
-import org.usfirst.Rotoraptors.commands.screwDrive.HoldPosition;
 import org.usfirst.Rotoraptors.commands.shooter.Shoot;
 
 /**
@@ -18,20 +18,19 @@ import org.usfirst.Rotoraptors.commands.shooter.Shoot;
 public class Fire extends CommandGroup {
     
     public Fire() {
-        addSequential(new HoldPosition());
         addParallel(new Shoot(Constants.Shooter.SHOOTER_TYP_SPEED, 10));
+        addSequential(new WaitCommand(2));
         addSequential(new InjectFrisbee());
-        addSequential(new AdvanceUp());
+        addSequential(new IndexUp());
     }
     
-    public Fire(int iterations) {
-        
-        for(int i = 1; i <= iterations; i++) {
-            addSequential(new HoldPosition());
-            addParallel(new Shoot(Constants.Shooter.SHOOTER_TYP_SPEED, 10));
-            addSequential(new InjectFrisbee());
-            addSequential(new AdvanceUp());
-        }
+//    public Fire(int iterations) {
+//        
+//        for(int i = 1; i <= iterations; i++) {
+//            addParallel(new Shoot(Constants.Shooter.SHOOTER_TYP_SPEED, 10));
+//            addSequential(new InjectFrisbee());
+//            addSequential(new IndexUp());
+//        }
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -49,4 +48,4 @@ public class Fire extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     }
-}
+

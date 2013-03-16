@@ -5,18 +5,17 @@
 package org.usfirst.Rotoraptors.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.usfirst.Rotoraptors.Constants;
-import org.usfirst.Rotoraptors.commands.screwDrive.SetAngle;
+import org.usfirst.Rotoraptors.commands.indexer.IndexDown;
 
 /**
  *
  * @author Daniel
  */
-public class DeClimb extends CommandGroup {
+public class FeedSequence extends CommandGroup {
     
-    public DeClimb() {
-        
-        addSequential(new SetAngle(Constants.Shooter.ANGLE_TO_FEED));
+    public FeedSequence() {
+        addSequential(new Feed());
+        addSequential(new IndexDown());
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());

@@ -12,19 +12,20 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  *
  * @author Daniel
  */
-public class Attack3 {
+public class Attack3 extends Joystick {
     
     private Joystick m_stick;
     
-    public Attack3(int port) {
+    public Attack3(int port){
+        super(port);
         m_stick = new Joystick(port);
     }
     
-    public double getX() {
+    public double getXAxis() {
         return m_stick.getRawAxis(X_AXIS);
     }
     
-    public double getY() {
+    public double getYAxis() {
         return m_stick.getRawAxis(Y_AXIS);
     }
     
@@ -36,7 +37,7 @@ public class Attack3 {
         return m_stick.getDirectionDegrees();
     }
     
-    public boolean getTrigger() {
+    public boolean getTriggerBtn() {
         return m_stick.getRawButton(TRIGGER);
     }
     

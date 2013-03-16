@@ -12,12 +12,12 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  *
  * @author Daniel
  */
-public class AdvanceDown extends CommandBase {
+public class IndexDown extends CommandBase {
     
     public double startTime = 0.0;
-    public boolean ignore = false;    
+    public boolean finished = false;  
     
-    public AdvanceDown() {
+    public IndexDown() {
         // Use requires() here to declare subsystem dependencies
         requires(indexer);
         setInterruptible(false);
@@ -25,25 +25,24 @@ public class AdvanceDown extends CommandBase {
     
     // Called just before this Command runs the first time
     protected void initialize() {        
-        ignore = true;
         startTime = Timer.getFPGATimestamp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        indexer.runDown(false);
         if((Timer.getFPGATimestamp() - startTime) <= Constants.Indexer.INDEXER_IGNORE_TIME) {
-            ignore = false;
+            indexer.runDown();
+        } else {
+            indexer.runDown();
+            if(indexer.getProxSensor() || indexer.getBottomOptical());
+            indexer.deactivate();
+            finished = true;
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(!ignore) {
-            return indexer.getProxSensor();
-        } else {
-            return false;
-        }
+       return finished;
     }
 
     // Called once after isFinished returns true

@@ -1,16 +1,18 @@
 
 package org.usfirst.Rotoraptors;
 
-import org.usfirst.Rotoraptors.controls.hids.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.DigitalIOButton;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.Rotoraptors.commands.*;
-import org.usfirst.Rotoraptors.commands.indexer.*;
-import org.usfirst.Rotoraptors.commands.shooter.*;
+import org.usfirst.Rotoraptors.commands.Climb;
+import org.usfirst.Rotoraptors.commands.Feed;
+import org.usfirst.Rotoraptors.commands.FeedSequence;
+import org.usfirst.Rotoraptors.commands.Fire;
+import org.usfirst.Rotoraptors.commands.indexer.IndexDown;
+import org.usfirst.Rotoraptors.commands.indexer.IndexUp;
+import org.usfirst.Rotoraptors.commands.screwDrive.ResetLift;
+import org.usfirst.Rotoraptors.commands.shooter.Shoot;
 import org.usfirst.Rotoraptors.controls.hids.Attack3;
-import org.usfirst.Rotoraptors.controls.hids.eStopCCI;
+import org.usfirst.Rotoraptors.controls.hids.XboxController;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -23,14 +25,47 @@ public class OI {
     // Initialize joysticks
     public static Attack3 driverJoystick;
     public static XboxController operatorJoystick;
-    public static eStopCCI cci;
+    //public static eStopCCI cci;
+    
+    public Button X = new JoystickButton(operatorJoystick, XboxController.X_BUTTON);
+    public Button Y = new JoystickButton(operatorJoystick, XboxController.Y_BUTTON);
+    public Button A = new JoystickButton(operatorJoystick, XboxController.A_BUTTON);
+    public Button B = new JoystickButton(operatorJoystick, XboxController.B_BUTTON);
+    public Button lBumper = new JoystickButton(operatorJoystick, XboxController.LEFT_BUMPER);
+    public Button rBumper = new JoystickButton(operatorJoystick, XboxController.RIGHT_BUMPER);
+    public Button start = new JoystickButton(operatorJoystick, XboxController.START_BUTTON);
+    public Button back = new JoystickButton(operatorJoystick, XboxController.BACK_BUTTON);
+    public Button lStick = new JoystickButton(operatorJoystick, XboxController.LEFT_STICK);
+    public Button rStick = new JoystickButton(operatorJoystick, XboxController.RIGHT_STICK);
+    
+    public Button north = new JoystickButton(driverJoystick, Attack3.BUTTON_NORTH);
+    public Button east = new JoystickButton(driverJoystick, Attack3.BUTTON_EAST);
+    public Button west = new JoystickButton(driverJoystick, Attack3.BUTTON_WEST);
+    public Button base_ene = new JoystickButton(driverJoystick, Attack3.BUTTON_BASE_ENE);
+    public Button base_ese = new JoystickButton(driverJoystick, Attack3.BUTTON_BASE_ESE);
+    public Button base_sse = new JoystickButton(driverJoystick, Attack3.BUTTON_BASE_SSE);
+    public Button base_ssw = new JoystickButton(driverJoystick, Attack3.BUTTON_BASE_SSW);
+    public Button base_wnw = new JoystickButton(driverJoystick, Attack3.BUTTON_BASE_WNW);
+    public Button base_wsw = new JoystickButton(driverJoystick, Attack3.BUTTON_BASE_WSW);
     
     public OI() {
         driverJoystick = new Attack3(1);
         operatorJoystick = new XboxController(2);
-        cci = new eStopCCI(3);        
+           
+        east.whenPressed(new ResetLift());
+        west.whenPressed(new Climb());
+        north.whenPressed(new Fire());
         
+        base_ese.whenPressed(new IndexUp());
+        base_ene.whenPressed(new IndexDown());
+        base_wnw.whenPressed(new FeedSequence());
+        base_ssw.whenPressed(new ResetLift());        
         
+        A.whenPressed(new Fire());
+        B.whenPressed(new FeedSequence());
+        
+        lBumper.whenPressed(new Climb());
+        rBumper.whenPressed(new ResetLift());      
     }
     
     public Attack3 getDriverJoystick() {
@@ -41,9 +76,9 @@ public class OI {
         return operatorJoystick;
     }
     
-    public eStopCCI getCCI() {
-        return cci;
-    }
+//    public eStopCCI getCCI() {
+//        return cci;
+//    }
 }
 
 //// CREATING BUTTONS

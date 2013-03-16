@@ -5,7 +5,6 @@
 package org.usfirst.Rotoraptors.commands.injector;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.commands.CommandBase;
 
@@ -20,15 +19,10 @@ public class InjectFrisbee extends CommandBase {
     // Time to run injector in milliseconds
     private double timeToRun = Constants.Shooter.INJECTOR_TIME;
     // Number of iterations to run for
-    boolean ready = false;
+    private boolean ready = false;
     
-     public InjectFrisbee()
-    {
-        requires((Subsystem) injector);
-    }
-    
-    public InjectFrisbee(int numIterations) {
-        requires((Subsystem) injector);
+     public InjectFrisbee() {
+        requires(injector);
     }
         
 //    public InjectFrisbee() {
@@ -50,11 +44,13 @@ public class InjectFrisbee extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {      
-        if(ready && ((Timer.getFPGATimestamp() - startTime)  <= timeToRun)) {
-            injector.activate();
-        } else {
-            injector.retract();
-        }        
+        if(ready && ((Timer.getFPGATimestamp() - startTime) <= timeToRun)) {
+            injector.activate();        
+        } else {            
+            if(!injector.getInjectorLimit()) {
+                injector.retract();
+            }            
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -64,7 +60,7 @@ public class InjectFrisbee extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        injector.doNothing();
+        injector.deactivate();
     }
 
     // Called when another command which requires one or more of the same

@@ -23,12 +23,14 @@ public class RunUp extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        indexer.runUp();
+        if(!indexer.getTopOptical()) {
+            indexer.runUp();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return indexer.getTopOptical();
     }
 
     // Called once after isFinished returns true
@@ -39,6 +41,6 @@ public class RunUp extends CommandBase {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        indexer.deactivate();
+        
     }
 }

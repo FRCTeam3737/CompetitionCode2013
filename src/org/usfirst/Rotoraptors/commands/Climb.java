@@ -4,11 +4,7 @@
  */
 package org.usfirst.Rotoraptors.commands;
 
-import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import org.usfirst.Rotoraptors.commands.chassis.DriveStraight;
-import org.usfirst.Rotoraptors.commands.chassis.DriveToDistance;
 import org.usfirst.Rotoraptors.commands.screwDrive.SetAngle;
 
 /**
@@ -18,9 +14,7 @@ import org.usfirst.Rotoraptors.commands.screwDrive.SetAngle;
 public class Climb extends CommandGroup {
     
     public Climb() {
-        addSequential(new SetAngle(0));
-        addParallel(new WaitCommand(.2));
-        addParallel(new DriveStraight(.1, .8));
+        addSequential(new SetAngle(20));         
 
         // Add Commands here:
         // e.g. addSequential(new Command1());

@@ -6,6 +6,11 @@ package org.usfirst.Rotoraptors.commands.autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import org.usfirst.Rotoraptors.Constants;
+import org.usfirst.Rotoraptors.commands.Feed;
+import org.usfirst.Rotoraptors.commands.Fire;
+import org.usfirst.Rotoraptors.commands.screwDrive.ResetLift;
+import org.usfirst.Rotoraptors.commands.screwDrive.SetAngle;
 
 /**
  *
@@ -14,6 +19,13 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class Auton0 extends CommandGroup {
     
     public Auton0() {
+        
+        addSequential(new ResetLift());
+        addSequential(new SetAngle(Constants.Shooter.POSITION_1));
+        addSequential(new Fire());
+        addSequential(new Fire());
+        addSequential(new Fire());
+        addSequential(new Feed());
 
         // Add Commands here:
         // e.g. addSequential(new Command1());

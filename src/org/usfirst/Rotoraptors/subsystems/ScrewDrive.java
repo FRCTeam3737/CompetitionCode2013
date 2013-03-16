@@ -4,40 +4,31 @@
  */
 package org.usfirst.Rotoraptors.subsystems;
 
-import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.Rotoraptors.Constants;
 import org.usfirst.Rotoraptors.RobotMap;
-import org.usfirst.Rotoraptors.commands.screwDrive.DoNothing;
 import org.usfirst.Rotoraptors.commands.screwDrive.OpControl;
 
 /**
  *
  * @author Daniel
  */
-public class ScrewDrive extends PIDSubsystem {
+public class ScrewDrive extends Subsystem {
 
-    private static final double Kp = 0.0;
-    private static final double Ki = 0.0;
-    private static final double Kd = 0.0;
-    
     Jaguar screwCIM;
 
     Encoder screwEnc;
     DigitalInput screwLimit;
     
+    double deadband = 2;
+    
     // Initialize your subsystem here
     public ScrewDrive() {
-        super("ScrewDrive", Kp, Ki, Kd);
-        
-        setInputRange(Constants.Shooter.MAX_SHOOTER_DIST,
-                Constants.Shooter.MAX_SHOOTER_DIST);
-        setPercentTolerance(2);
         screwCIM = new Jaguar(RobotMap.PWMControllers.SCREW_JAGUAR);
         screwLimit = new DigitalInput(RobotMap.Sensors.SCREW_LIMIT);      
         
@@ -46,6 +37,7 @@ public class ScrewDrive extends PIDSubsystem {
                 RobotMap.Sensors.SCREW_ENC_PORT_B, 
                 false, EncodingType.k4X);
         screwEnc.setDistancePerPulse(Constants.Sensors.SCREW_DIST_PER_PULSE);
+        screwEnc.setReverseDirection(true);
         screwEnc.start();
         screwEnc.reset();         
                 
@@ -64,44 +56,65 @@ public class ScrewDrive extends PIDSubsystem {
         // Set the default command for a subsystem here.
         setDefaultCommand(new OpControl());
     }
-    
-    protected double returnPIDInput() {
-        // Return your input value for the PID loop
-        // e.g. a sensor, like a potentiometer:
-        // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return screwEnc.getDistance();
-    }
-    
-    protected void usePIDOutput(double output) {
-        // Use output to drive your system, like a motor
-        screwCIM.set(output);
-    }    
-                      
-    public void manualControl(double input) {
-        screwCIM.set(input);
+              
+    public void control(double input) {
+        if((input > 0) && (getShooterDist() > Constants.Shooter.MAX_SHOOTER_DIST)) {
+            screwCIM.set(0);
+        } else if ((getShooterDist() < 1) && (input < 0) && (!getScrewLimit())) {
+            screwCIM.set(input / 2);
+        } if ((input <= 0) && getScrewLimit()) {
+            screwCIM.set(0);
+            screwEnc.reset();
+        } else {
+            screwCIM.set(input);
+        }
     }
        
-    public void setShooterDist(int dist) {
-        setSetpoint(dist);
+    public void setShooterDist(double dist) {
+        if(dist >= screwEnc.getDistance()) {
+            if (Math.abs(dist - screwEnc.getDistance()) > .6) {
+                control(-.8);
+            } else {
+                control(0);
+            }               
+        } else if(dist < screwEnc.getDistance()) {
+            if (Math.abs(dist - screwEnc.getDistance()) > .6) {
+                control(.8);
+            } else {
+                screwCIM.set(0);
+            }
+        }            
     }
     
-    public void setShooterAngle(double angle) {
-        double dist = (double) translateAngleToDist(angle);
-        setSetpoint(dist);
+    public void setShooterAngle(double new_angle) {
+        double dist = translateAngleToDist(new_angle);
+        if(dist >= screwEnc.getDistance()) {
+            if (Math.abs(dist - screwEnc.getDistance()) > .6) {
+                control(-.7);
+            } else {
+                screwCIM.set(0);
+            }               
+        } else if(dist < screwEnc.getDistance()) {
+            if (Math.abs(dist - screwEnc.getDistance()) > .6) {
+                control(.7);
+            } else {
+                screwCIM.set(0);
+            }
+        }                 
     }
     
-    public double getLiftAngle() {
+    public double getShooterAngle() {
         double dist = screwEnc.getDistance();        
         return translateDistToAngle(dist);
     }
     
-    public double getLiftDist() {
+    public double getShooterDist() {
         double dist = screwEnc.getDistance();
         return dist;
     }
     
     public boolean getScrewLimit() {
-        return screwLimit.get();
+        return !screwLimit.get();
     }
     
     public void resetLiftEncoder() {
@@ -110,19 +123,17 @@ public class ScrewDrive extends PIDSubsystem {
     
     public double translateDistToAngle(double dist) {
         double x = dist;
-        double y = -1;
-        //y = 2*(MathUtils.pow(x, 2));
-        return (int) y;//angle;
+        double y = ((x + 2.35) / 6.18);
+        return (double) y;
     }
     
     public double translateAngleToDist(double angle) {
         double x = angle;
-        double y = -1;
-        //y = (int) (2*(MathUtils.pow(x, 2)));
-        return (int) y;
+        double y = ((6.18 * x) - 2.35);
+        return (double) y;
     }
     
-    public void doNothing() {
+    public void deactivate() {
         screwCIM.set(0);
     }
 }

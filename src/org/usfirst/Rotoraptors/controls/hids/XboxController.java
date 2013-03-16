@@ -18,35 +18,35 @@ public class XboxController extends Joystick {
     private Joystick m_pad;
     
      //Axes
-    private static final int LEFT_XAXIS = 1;
-    private static final int LEFT_YAXIS = 2;
-    private static final int RIGHT_XAXIS = 4;
-    private static final int RIGHT_YAXIS = 5;
-    private static final int TRIGGERS = 3;
-    private static final int DPAD_LR = 6;
+    public static final int LEFT_XAXIS = 1;
+    public static final int LEFT_YAXIS = 2;
+    public static final int RIGHT_XAXIS = 4;
+    public static final int RIGHT_YAXIS = 5;
+    public static final int TRIGGERS = 3;
+    public static final int DPAD_LR = 6;
     //Buttons
-    private static final int A_BUTTON = 1;
-    private static final int B_BUTTON = 2;
-    private static final int X_BUTTON = 3;
-    private static final int Y_BUTTON = 4;
-    private static final int LEFT_BUMPER = 5;
-    private static final int RIGHT_BUMPER = 6;
-    private static final int BACK_BUTTON = 7;
-    private static final int START_BUTTON = 8;
-    private static final int LEFT_STICK = 9;
+    public static final int A_BUTTON = 1;
+    public static final int B_BUTTON = 2;
+    public static final int X_BUTTON = 3;
+    public static final int Y_BUTTON = 4;
+    public static final int LEFT_BUMPER = 5;
+    public static final int RIGHT_BUMPER = 6;
+    public static final int BACK_BUTTON = 7;
+    public static final int START_BUTTON = 8;
+    public static final int LEFT_STICK = 9;
     public static final int RIGHT_STICK = 10;
     
     // Creates buttons
-    public Button X = new JoystickButton(m_pad, X_BUTTON);
-    public Button Y = new JoystickButton(m_pad, Y_BUTTON);
-    public Button A = new JoystickButton(m_pad, A_BUTTON);
-    public Button B = new JoystickButton(m_pad, B_BUTTON);
-    public Button lBumper = new JoystickButton(m_pad, LEFT_BUMPER);
-    public Button rBumper = new JoystickButton(m_pad, RIGHT_BUMPER);
-    public Button start = new JoystickButton(m_pad, START_BUTTON);
-    public Button back = new JoystickButton(m_pad, BACK_BUTTON);
-    public Button lStick = new JoystickButton(m_pad, LEFT_STICK);
-    public Button rStick = new JoystickButton(m_pad, RIGHT_STICK);
+//    public Button X = new JoystickButton(m_pad, X_BUTTON);
+//    public Button Y = new JoystickButton(m_pad, Y_BUTTON);
+//    public Button A = new JoystickButton(m_pad, A_BUTTON);
+//    public Button B = new JoystickButton(m_pad, B_BUTTON);
+//    public Button lBumper = new JoystickButton(m_pad, LEFT_BUMPER);
+//    public Button rBumper = new JoystickButton(m_pad, RIGHT_BUMPER);
+//    public Button start = new JoystickButton(m_pad, START_BUTTON);
+//    public Button back = new JoystickButton(m_pad, BACK_BUTTON);
+//    public Button lStick = new JoystickButton(m_pad, LEFT_STICK);
+//    public Button rStick = new JoystickButton(m_pad, RIGHT_STICK);
 
     /**
      * Constructor creates an object to interface with an Xbox 360 controller

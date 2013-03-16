@@ -45,18 +45,18 @@ public class Injector extends Subsystem {
      public void activate() {
          injector.set(Relay.Value.kForward);
     }
+     
+     public void deactivate() {
+         injector.set(Relay.Value.kOff);
+     }
     
     public void retract() {
-        while(!injectorLimit.get()) {
+        if(!getInjectorLimit()) {
             injector.set(Relay.Value.kReverse);
     }    
     }
         
-    public boolean getFeederLimit() {
-        return injectorLimit.get();
-    }
-    
     public boolean getInjectorLimit() {
-        return injectorLimit.get();
+        return !injectorLimit.get();
     }
 }

@@ -27,7 +27,7 @@ public class Indexer extends Subsystem {
     DigitalInput feederOpt;
     
     public Indexer() {
-        liftRelay = new Relay(RobotMap.Relays.INDEXER_RELAY);
+        liftRelay = new Relay(RobotMap.Relays.INDEXER_RELAY, Relay.Direction.kBoth);
         
         prox = new DigitalInput(RobotMap.Sensors.INDEXER_PROX);
         topOpt = new DigitalInput(RobotMap.Sensors.INDEXER_TOP_OPT);
@@ -50,23 +50,11 @@ public class Indexer extends Subsystem {
     }
     
     public void runUp() {
-        if(!getTopOptical()) {
-            liftRelay.set(Relay.Value.kForward);
-        } else {
-            deactivate();
-        }
+        liftRelay.set(Relay.Value.kForward);
     }
     
-    public void runDown(boolean ignore) {
-        if(!getBottomOptical()) {
-            liftRelay.set(Relay.Value.kReverse);
-        } else {
-            if(ignore) {
-                liftRelay.set(Relay.Value.kReverse);
-            } else {
-                deactivate();
-            }            
-        }
+    public void runDown() {
+        liftRelay.set(Relay.Value.kReverse);
     }
     
     public void deactivate() {
@@ -74,22 +62,22 @@ public class Indexer extends Subsystem {
     }
     
     public boolean getProxSensor() {
-        return prox.get();
+        return !prox.get();
     }  
     
     public boolean getTopOptical() {
-        return topOpt.get();
+        return !topOpt.get();
     }
     
     public boolean getBottomOptical() {
-        return bottomOpt.get();
+        return !bottomOpt.get();
     }
     
     public boolean getShooterOptical() {
-        return shooterOpt.get();
+        return !shooterOpt.get();
     }
     
     public boolean getFeederOptical() {
-        return feederOpt.get();
+        return !feederOpt.get();
     }   
 }

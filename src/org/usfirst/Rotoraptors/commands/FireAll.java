@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class FireAll extends CommandGroup {
     
-    int currentIteration = 0;
-    
-    public FireAll() {
-        
-        addSequential(new Fire2(4));                     
+//    int currentIteration = 0;
+//    
+//    public FireAll() {
+//        
+//        addSequential(new Fire(4));                     
         
         // Add Commands here:
         // e.g. addSequential(new Command1());
@@ -36,4 +36,4 @@ public class FireAll extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     }
-}
+

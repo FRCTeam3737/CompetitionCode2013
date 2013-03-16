@@ -14,8 +14,8 @@ import org.usfirst.Rotoraptors.commands.screwDrive.ResetLift;
  */
 public class ResetSystems extends CommandGroup {
     
-    public ResetSystems() {
-        addSequential(new ResetLift());
-        addSequential(new ResetChassis());
-    }
+//    public ResetSystems() {
+//        addSequential(new ResetLift());
+//        addSequential(new ResetChassis());
+//    }
 }

@@ -53,6 +53,9 @@ public class Vision extends Subsystem {
      */
     public Vision(String ip) {
         camera = AxisCamera.getInstance(RobotMap.Cameras.AXISCAM_1);
+        camera.writeWhiteBalance(AxisCamera.WhiteBalanceT.hold);
+        camera.writeMaxFPS(15);
+        camera.writeRotation(AxisCamera.RotationT.k0);
         collection = new CriteriaCollection();
         collection.addCriteria(MeasurementType.IMAQ_MT_AREA, 500, 65535, false);
     }
@@ -93,7 +96,7 @@ public class Vision extends Subsystem {
     double computeDistance (BinaryImage image, ParticleAnalysisReport report, int particleNumber, boolean outer) throws NIVisionException {
             double rectShort, height;
             int targetHeight;
-            angle = CommandBase.screw.getLiftAngle();
+            angle = CommandBase.screw.getShooterAngle();
 
             rectShort = NIVision.MeasureParticle(image.image, particleNumber, false, MeasurementType.IMAQ_MT_EQUIVALENT_RECT_SHORT_SIDE);
             //using the smaller of the estimated rectangle short side and the bounding rectangle height results in better performance

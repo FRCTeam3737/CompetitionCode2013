@@ -11,37 +11,41 @@ import org.usfirst.Rotoraptors.commands.CommandBase;
  * @author Daniel
  */
 public class SetAngle extends CommandBase {
-    private final int m_angle;
+    private double m_angle;
     
-    public SetAngle(int angle) {
+    public SetAngle(double angle) {
         // Use requires() here to declare subsystem dependencies
         requires(screw);
         m_angle = angle;
     }
-
+   
     // Called just before this Command runs the first time
-    protected void initialize() {
-        screw.setShooterAngle(m_angle);
-        screw.enable();
+    protected void initialize() {      
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        screw.setShooterAngle(m_angle);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+//        return screw.onTarget();
+        if(Math.abs(screw.getShooterAngle() - m_angle) < 4) {
+            return true;
+        } else {
+            return false;
+        }            
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        screw.disable();
+        screw.deactivate();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        screw.disable();
+        
     }
 }

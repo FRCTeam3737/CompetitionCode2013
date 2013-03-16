@@ -23,12 +23,14 @@ public class RunDown extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        indexer.runDown(false);
+        if(!indexer.getBottomOptical()) {
+            indexer.runDown();
+        }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return indexer.getBottomOptical();
     }
 
     // Called once after isFinished returns true

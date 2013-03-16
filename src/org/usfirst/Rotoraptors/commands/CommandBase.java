@@ -3,7 +3,6 @@ package org.usfirst.Rotoraptors.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.OI;
-import org.usfirst.Rotoraptors.RobotMap;
 import org.usfirst.Rotoraptors.subsystems.*;
 
 /**
@@ -22,7 +21,7 @@ public abstract class CommandBase extends Command {
     public static Injector injector;
     public static ScrewDrive screw;
     
-    public static Vision vision;
+    //public static Vision vision;
 
     public static void init() {
         // This MUST be here. If the OI creates Commands (which it very likely
@@ -30,14 +29,15 @@ public abstract class CommandBase extends Command {
         // which commands extend), subsystems are not guaranteed to be
         // yet. Thus, their requires() statements may grab null pointers. Bad
         // news. Don't move it.
-        oi = new OI();
-        chassis = new Chassis();
-        shooter = new Shooter();
-        indexer = new Indexer();
-        injector = new Injector();
-        screw = new ScrewDrive();
         
-        vision = new Vision(RobotMap.Cameras.AXISCAM_1);
+        chassis = new Chassis();
+        screw = new ScrewDrive();
+        shooter = new Shooter();        
+        indexer = new Indexer();
+        injector = new Injector();        
+        oi = new OI();
+        
+        //vision = new Vision(RobotMap.Cameras.AXISCAM_1);
                
         // Show what command your subsystem is running on the SmartDashboard
         SmartDashboard.putData(chassis);
@@ -50,25 +50,26 @@ public abstract class CommandBase extends Command {
     
       public static void updateDashboard() {
         
-        SmartDashboard.putNumber("Shooter Angle", screw.getLiftAngle());
+        SmartDashboard.putNumber("Shooter Angle", screw.getShooterAngle());
         
-        if (OI.DEV_MODE) {
-            
-        } else {
+//        if (OI.DEV_MODE) {
+//            
+//        } else {
             SmartDashboard.putBoolean("Indexer bottomOptical", indexer.getBottomOptical());
             SmartDashboard.putBoolean("Indexer topOptical", indexer.getTopOptical());
             SmartDashboard.putBoolean("Indexer feederOptical", indexer.getFeederOptical());
             SmartDashboard.putBoolean("Indexer frisbeeAligned", indexer.getShooterOptical());
             SmartDashboard.putBoolean("Indexer liftProximity", indexer.getProxSensor());
+            SmartDashboard.putBoolean("Injector injectorLimit", injector.getInjectorLimit());
+//            
+            SmartDashboard.putNumber("Shooter Dist", screw.getShooterDist());
+            SmartDashboard.putNumber("Shooter Angle", screw.getShooterAngle());            
+            SmartDashboard.putNumber("Shooter Mtr value", shooter.getSpeed());
             
-            SmartDashboard.putNumber("Shooter Dist", screw.getLiftDist());
-            SmartDashboard.putNumber("Shooter Angle", screw.getLiftAngle());
-            
-            SmartDashboard.putNumber("Shooter RPM", shooter.getSpeedRpm());
-            SmartDashboard.putNumber("Shooter Mtr value", shooter.getMotorValRaw());
-            
-            //SmartDashboard.putNumber(null, value);
-        }        
+            SmartDashboard.putNumber("Lift", screw.getShooterAngle());
+            SmartDashboard.putNumber("Lift", screw.getShooterDist());
+            SmartDashboard.putBoolean("Lift", screw.getScrewLimit());
+        //}        
     }
 
     public CommandBase(String name) {

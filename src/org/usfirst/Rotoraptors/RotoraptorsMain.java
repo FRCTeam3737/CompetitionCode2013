@@ -7,12 +7,8 @@
 
 package org.usfirst.Rotoraptors;
 
-import org.usfirst.Rotoraptors.commands.autonomous.Auton1;
-import org.usfirst.Rotoraptors.commands.autonomous.Auton0;
-import org.usfirst.Rotoraptors.commands.autonomous.Auton2;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Watchdog;
-import edu.wpi.first.wpilibj.camera.AxisCamera;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -20,6 +16,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.Rotoraptors.commands.*;
+import org.usfirst.Rotoraptors.commands.autonomous.Auton0;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -44,9 +41,10 @@ public class RotoraptorsMain extends IterativeRobot {
         // Create a switching autonomous mode
         table = NetworkTable.getTable("datatable");
         autoSwitcher = new SendableChooser();
-        autoSwitcher.addDefault("Auto 0", new Auton0());
-        autoSwitcher.addObject("Auto 1", new Auton1());
-        autoSwitcher.addObject("Auto 2", new Auton2());
+        autoSwitcher.addDefault("None", null);
+        autoSwitcher.addObject("Auto 0", new Auton0());
+//        autoSwitcher.addObject("Auto 1", new Auton1());
+//        autoSwitcher.addObject("Auto 2", new Auton2());
         SmartDashboard.putData("Auto Switcher", autoSwitcher);
         //SmartDashboard.putData(Scheduler.getInstance()); 
     }

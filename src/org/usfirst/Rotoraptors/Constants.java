@@ -18,17 +18,20 @@ public final class Constants {
     }
     
     public static final class Shooter {
+        public static final double POSITION_1 = 35;
+        
         // Time to run injector (seconds)
         public static final double INJECTOR_TIME = .07;
         
         // Speed to run shooter in normal conditions
         public static final double SHOOTER_TYP_SPEED = .6;
+        public static double SHOOTER_IDLE = .1;
         
         // Counts of maximum and minimum allowable angle
-        public static final int MAX_SHOOTER_ANGLE = 1;
-        public static final int MAX_SHOOTER_DIST = 1;
+        public static final int MAX_SHOOTER_ANGLE = 55;
+        public static final double MAX_SHOOTER_DIST = 8.7;
         public static final int MIN_SHOOTER_ANGLE = 0;
-        public static final int MIN_SHOOTER_DIST = 0;
+        public static final double MIN_SHOOTER_DIST = .1;
 
         // Angle and count to feed from station
         public static final int ANGLE_TO_FEED = 1;

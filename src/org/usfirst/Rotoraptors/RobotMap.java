@@ -11,9 +11,9 @@ public class RobotMap {
 
     public static final class PWMControllers {
         public static final int LFD_JAGUAR = 1;             //PWM
-        public static final int RFD_JAGUAR = 2;             //PWM
+        public static final int RFD_JAGUAR = 4;             //PWM
         public static final int LRD_JAGUAR = 3;             //PWM
-        public static final int RRD_JAGUAR = 4;             //PWM
+        public static final int RRD_JAGUAR = 2;             //PWM
         public static final int SHOOTER_JAGUAR = 5;         //PWM
         public static final int SCREW_JAGUAR = 6;         //PWM
     }
@@ -23,8 +23,8 @@ public class RobotMap {
     }
     
     public static final class Relays {
-        public static final int INJECTOR_RELAY = 1;           //Relay
-        public static final int INDEXER_RELAY = 2;          //Relay
+        public static final int INDEXER_RELAY = 1;          //Relay
+        public static final int INJECTOR_RELAY = 2;           //Relay
     }
     
     public static final class Sensors {

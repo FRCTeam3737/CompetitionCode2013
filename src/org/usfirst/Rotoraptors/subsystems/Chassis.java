@@ -4,7 +4,6 @@
  */
 package org.usfirst.Rotoraptors.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -25,23 +24,23 @@ import org.usfirst.Rotoraptors.commands.chassis.DriveWithJoysticks;
  */
 public class Chassis extends Subsystem {
       
-    // Declare PID Constants for Encoders
-    private static final double eKp = 0.0;
-    private static final double eKi = 0.0;
-    private static final double eKd = 0.0;
-    
-    // Declare PID Constants for Gyro
-    private static final double gKp = 0.03;
-    private static final double gKi = 0.0;
-    private static final double gKd = 0.0;
-
-    // Declare sensitivity
+//    // Declare PID Constants for Encoders
+//    private static final double eKp = 0.0;
+//    private static final double eKi = 0.0;
+//    private static final double eKd = 0.0;
+//    
+//    // Declare PID Constants for Gyro
+//    private static final double gKp = 0.03;
+//    private static final double gKi = 0.0;
+//    private static final double gKd = 0.0;
+//
+//    // Declare sensitivity
     public static double tSens = .15;
-    
-    // Declare booleans for PID controllers
-    private boolean turnPIDenabled = false;
-    private boolean distancePIDenabled = false;
-       
+//    
+//    // Declare booleans for PID controllers
+//    private boolean turnPIDenabled = false;
+//    private boolean distancePIDenabled = false;
+//       
     // Declare PWMControllers
     private Jaguar leftFrontMotor;
     private Jaguar rightFrontMotor;
@@ -51,19 +50,19 @@ public class Chassis extends Subsystem {
     // Declare new RobotDrive using our PWMControllers
     private RobotDrive drive;
        
-    // Declare Encoders
-    private Encoder rightEncoder;
-    
-    // Declare Gyroscope
-    private Gyro gyro;
-    
-    // Declare PID 
-    public PIDSource pidSourceGyro;
-    public PIDSource pidSourceEncoder;
-    public PIDOutput pidOutputGyro;
-    public PIDOutput pidOutputEncoder;
-    public PIDController pidTurn;
-    public PIDController pidDistance;
+//    // Declare Encoders
+//    private Encoder rightEncoder;
+//    
+//    // Declare Gyroscope
+//    private Gyro gyro;
+//    
+//    // Declare PID 
+//    public PIDSource pidSourceGyro;
+//    public PIDSource pidSourceEncoder;
+//    public PIDOutput pidOutputGyro;
+//    public PIDOutput pidOutputEncoder;
+//    public PIDController pidTurn;
+//    public PIDController pidDistance;
    
     // Initialize your subsystem here
     public Chassis() {   
@@ -77,29 +76,29 @@ public class Chassis extends Subsystem {
         drive.setMaxOutput(1.0);
         drive.setSafetyEnabled(false);
         
-        gyro = new Gyro(RobotMap.Sensors.GYRO);
-        gyro.setSensitivity(Constants.Sensors.GYRO_V_PER_DEG_PER_S);
-                       
-        rightEncoder = new Encoder(
-                RobotMap.Sensors.RD_ENC_PORT_A,
-                RobotMap.Sensors.RD_ENC_PORT_B,
-                false, CounterBase.EncodingType.k4X);   
-                      
-        // Configure Encoders
-        configEncoder(rightEncoder);
-        
-        initDistancePID();
-        initTurnPID();
+//        gyro = new Gyro(RobotMap.Sensors.GYRO);
+//        gyro.setSensitivity(Constants.Sensors.GYRO_V_PER_DEG_PER_S);
+//                       
+//        rightEncoder = new Encoder(
+//                RobotMap.Sensors.RD_ENC_PORT_A,
+//                RobotMap.Sensors.RD_ENC_PORT_B,
+//                false, CounterBase.EncodingType.k4X);   
+//                      
+//        // Configure Encoders
+//        configEncoder(rightEncoder);
+//        
+//        initDistancePID();
+//        initTurnPID();
         
         LiveWindow.addActuator("Chassis", "LF_Mtr", (Jaguar) leftFrontMotor);
         LiveWindow.addActuator("Chassis", "RF_Mtr", (Jaguar) rightFrontMotor);
         LiveWindow.addActuator("Chassis", "LR_Mtr", (Jaguar) leftRearMotor);
         LiveWindow.addActuator("Chassis", "LF_Mtr", (Jaguar) rightRearMotor);
-        LiveWindow.addActuator("Chassis", "PID Distance", pidDistance);
-        LiveWindow.addActuator("Chassis", "PID Turn", pidTurn);
-         
-        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
-        LiveWindow.addSensor("Chassis", "gyro", (Gyro) gyro);
+//        LiveWindow.addActuator("Chassis", "PID Distance", pidDistance);
+//        LiveWindow.addActuator("Chassis", "PID Turn", pidTurn);
+//         
+//        LiveWindow.addSensor("Chassis", "rightEncoder", (Encoder) rightEncoder);
+//        LiveWindow.addSensor("Chassis", "gyro", (Gyro) gyro);
     }    
         
     public void initDefaultCommand() {        
@@ -116,87 +115,86 @@ public class Chassis extends Subsystem {
     }
     
 
-        private void initPID() {
-        pidSourceGyro = new PIDSource() {
-            public double pidGet() {  
-                return gyro.getAngle();
-            }
-        };
-
-        pidSourceEncoder = new PIDSource() {
-            public double pidGet() {
-                return rightEncoder.get();
-            }
-        };
-        pidOutputGyro = new PIDOutput() {
-            public void pidWrite(double output) {
-                drive.tankDrive(output, -output);
-            }
-        };
-
-        pidOutputEncoder = new PIDOutput() {
-            public void pidWrite(double output) {
-                drive.tankDrive(output, output);
-            }
-        };
-    }
-    
-    private void initDistancePID() {
-        
-        pidSourceEncoder = new PIDSource() {
-            public double pidGet() {
-                return rightEncoder.getDistance();
-            }
-        };
-        
-        pidOutputEncoder = new PIDOutput() {
-            public void pidWrite(double output) {
-                drive.tankDrive(output, output);
-            }
-        };
-        
-        pidDistance = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder){
-            public void pidWrite(double output) {
-                if(distancePIDenabled) {
-                    drive.tankDrive(output, -output);
-            }
-            }
-        }; 
-        pidDistance.setOutputRange(.7, .7);
-        rightEncoder.reset();
-    }   
-    
-    private void initTurnPID() {
-        pidSourceGyro = new PIDSource() {
-            public double pidGet() {  
-                return gyro.getAngle();
-            }
-        };
-        
-        pidOutputGyro = new PIDOutput() {
-            public void pidWrite(double output) {
-                drive.tankDrive(output, -output);
-            }
-        };
-        pidTurn = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro) {
-            public void pidWrite(double output) {
-                if(turnPIDenabled) {
-                    drive.tankDrive(output, -output);
-            }
-            }
-        }; 
-        pidTurn.setInputRange(0, 360);
-        pidTurn.setContinuous();
-        pidTurn.setOutputRange(.7, .7);
-        pidTurn.setPercentTolerance(tSens);
-        gyro.reset();
-        
-    }   
-    
-    
-    public void setSensitivity(double sensitivity){
-        tSens = sensitivity;
-    }
+//        private void initPID() {
+//        pidSourceGyro = new PIDSource() {
+//            public double pidGet() {  
+//                return gyroAngle();
+//            }
+//        };
+//
+//        pidSourceEncoder = new PIDSource() {
+//            public double pidGet() {
+//                return rightEncoder.get();
+//            }
+//        };
+//        pidOutputGyro = new PIDOutput() {
+//            public void pidWrite(double output) {
+//                drive.tankDrive(output, -output);
+//            }
+//        };
+//
+//        pidOutputEncoder = new PIDOutput() {
+//            public void pidWrite(double output) {
+//                drive.tankDrive(output, output);
+//            }
+//        };
+//    }
+//    
+//    private void initDistancePID() {
+//        
+//        pidSourceEncoder = new PIDSource() {
+//            public double pidGet() {
+//                return rightEncoder.getDistance();
+//            }
+//        };
+//        
+//        pidOutputEncoder = new PIDOutput() {
+//            public void pidWrite(double output) {
+//                drive.tankDrive(output, output);
+//            }
+//        };
+//        
+//        pidDistance = new PIDController(eKp, eKi, eKd, pidSourceEncoder, pidOutputEncoder){
+//            public void pidWrite(double output) {
+//                if(distancePIDenabled) {
+//                    drive.tankDrive(output, -output);
+//            }
+//            }
+//        }; 
+//        pidDistance.setOutputRange(.7, .7);
+//        rightEncoder.reset();
+//    }   
+//    
+//    private void initTurnPID() {
+//        pidSourceGyro = new PIDSource() {
+//            public double pidGet() {  
+//                return gyro.getAngle();
+//            }
+//        };
+//        
+//        pidOutputGyro = new PIDOutput() {
+//            public void pidWrite(double output) {
+//                drive.tankDrive(output, -output);
+//            }
+//        };
+//        pidTurn = new PIDController(gKp, gKi, gKd, pidSourceGyro, pidOutputGyro) {
+//            public void pidWrite(double output) {
+//                if(turnPIDenabled) {
+//                    drive.tankDrive(output, -output);
+//            }
+//            }
+//        }; 
+//        
+//        pidTurn.setInputRange(0, 360);
+//        pidTurn.setContinuous();
+//        pidTurn.setOutputRange(.7, .7);
+//        pidTurn.setPercentTolerance(5);
+//        gyro.reset();        
+//    }   
+//        
+//    public void setSensitivity(double sensitivity){
+//        tSens = sensitivity;
+//    }
            
     /*****************************************************************/
         
@@ -312,30 +310,38 @@ public class Chassis extends Subsystem {
         drive.tankDrive(0.0, 0.0);
     }
     
-    // Uses PID to drive distance
-    public void driveToDistance(double setpoint) {
-        
-    }
-    
-    // Uses PID to turn to an angle
-    public void turnToAngle(double setpoint) {
-        
-    }
-    
-    public double getDistance() {
-        return rightEncoder.getDistance();
-    }
-    
-    public double getCount() {
-        return rightEncoder.get();
-    }
-          
-    public void resetEncoder() {
-        rightEncoder.reset();
-    }
-    
-    public void resetGyro() {
-        gyro.reset();
-    }
+//    // Uses PID to drive distance
+//    public void driveToDistance(double setpoint) {
+//        pidDistance.setSetpoint(setpoint);
+//    }
+//    
+//    // Uses PID to turn to an angle
+//    public void turnToAngle(double setpoint) {
+//        pidTurn.setSetpoint(setpoint);
+//    }
+//    
+//    public double getDistance() {
+//        return rightEncoder.getDistance();
+//    }
+//    
+//    public double getCount() {
+//        return rightEncoder.get();
+//    }
+//          
+//    public void resetEncoder() {
+//        rightEncoder.reset();
+//    }
+//    
+//    public void resetGyro() {
+//        gyro.reset();
+//    }
+//    
+//    public double gyroAngle() {
+//        if(gyro.getAngle() > 360 || gyro.getAngle() < 360) {
+//           return gyro.getAngle() % 360;
+//        } else {
+//            return gyro.getAngle();
+//        }
+//    }
 
 }
